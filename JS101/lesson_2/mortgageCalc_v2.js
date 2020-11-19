@@ -1,8 +1,3 @@
-// prompt to enter an amount greater than zero for both loan amount and years
-// - use zeroError message in JSON
-// try the break satement again. this time put it outside the nested while loop, (like below it) 
-// or try variable && break  - alter the variable to a truthy
-
 let readline = require('readline-sync');
 
 
@@ -130,7 +125,10 @@ while (true) {
 
   let totalDuration = (Number(loanYears) * 12) + Number(loanMonths);
 
-  let monthlyPaymnt = Number(loanAmount) * (monthlyInterest / (1 - Math.pow((1 + monthlyInterest), (- totalDuration))));
+  let monthlyPaymnt = Number(loanAmount) *
+                     (monthlyInterest /
+                     (1 - Math.pow((1 + monthlyInterest), (-totalDuration))));
+
 
   prompt(messages('mnthTotal', language) + monthlyPaymnt.toFixed(2));
 
