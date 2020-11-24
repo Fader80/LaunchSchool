@@ -8,7 +8,6 @@ let readline = require('readline-sync');
 
 const MESSAGES = require('./calculator_messages.json');
 
-const LANGUAGE = 'en';
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -22,34 +21,49 @@ function messages(message, lang = 'en') {
   return MESSAGES[lang][message];
 }
 
-prompt(messages('msg1', LANGUAGE));
+
+prompt(messages('langSel'));
+let language = readline.question();
+
+while (!['1', '2'].includes(language)) {
+  prompt(messages('langErr'));
+  language = readline.question();
+}
+
+if (language === '1') {
+  language = 'en';
+} else {
+  language = 'es';
+}
+
+prompt(messages('welcm', language));
 
 
 while (true) {
 
-  prompt(messages('msg2', LANGUAGE));
+  prompt(messages('firstNum', language));
   let number1 = readline.question();
 
   while (invalidNumber(number1)) {
-    prompt(messages('msg3', LANGUAGE));
+    prompt(messages('numErr', language));
     number1 = readline.question();
   }
 
-  prompt(messages('msg6', LANGUAGE));
+  prompt(messages('secNum', language));
   let number2 = readline.question();
 
   while (invalidNumber(number2)) {
-    prompt(messages('msg3', LANGUAGE));
+    prompt(messages('numErr', language));
     number2 = readline.question();
   }
 
   prompt(`${number1} ${number2}`);
 
-  prompt(messages('msg4', LANGUAGE));
+  prompt(messages('chooseOp', language));
   let operation = readline.question();
 
   while (!['1', '2', '3', '4'].includes(operation)) {
-    prompt(messages('msg5', LANGUAGE));
+    prompt(messages('opErr', language));
     operation = readline.question();
   }
 
@@ -72,14 +86,24 @@ while (true) {
 
   prompt(`The result is ${output}`);
 
-  prompt(messages('msg7', LANGUAGE));
+  prompt(messages('anotherCal', language));
   let runAgain = readline.question();
 
-
-  if (runAgain[0].toLowerCase() !== 'y') {
-    break;
+  while (runAgain === '') {
+    prompt(messages('anothCalErr', language));
+    runAgain = readline.question();
   }
 
+  if (language === 'en') {
+    if (runAgain[0].toLowerCase() !== 'y') {
+      break;
+    }
+  } else if (language === 'es') {
+    if (runAgain[0].toLowerCase() !== 's') {
+      break;
+    }
+  }
+
+  console.clear();
+
 }
-
-
