@@ -1,3 +1,4 @@
+
 let readline = require('readline-sync');
 
 
@@ -17,29 +18,38 @@ function messages(message, language = 'en') {
 }
 
 
-let language;
-
 prompt(messages('langSel'));
-let langSelection = readline.question();
 
-switch (Number(langSelection)) {
-  case 1 : {
+let language = readline.question();
+
+// I know the conditional for the below while loop is not as elegant as the
+//[arr].includes(answer) option, but I wanted to leave in as it's my own variant
+
+while (!(language === '1' || language === '2' || language === '3' || language === '4')) {
+  prompt(messages('langErr'));
+  language = readline.question();
+}
+
+
+switch (language) {
+  case '1' : {
     language = 'en';
     break;
   }
-  case 2 : {
+  case '2' : {
     language = 'es';
     break;
   }
-  case 3 : {
+  case '3' : {
     language = 'de';
     break;
   }
-  case 4: {
+  case '4': {
     language = 'fr';
     break;
   }
 }
+
 
 prompt(messages('welcome', language));
 
@@ -132,8 +142,13 @@ while (true) {
 
   prompt(messages('mnthTotal', language) + monthlyPaymnt.toFixed(2));
 
-  prompt(messages('AnotherCalc', language));
+  prompt(messages('anotherCalc', language));
   let continueIt = readline.question();
+
+  while (continueIt === '') {
+    prompt(messages('anothCalcErr', language));
+    continueIt = readline.question();
+  }
 
   if (language === 'en') {
     if (continueIt[0].toLowerCase() !== 'y') {
@@ -152,5 +167,7 @@ while (true) {
       break;
     }
   }
+
+  console.clear();
 
 }

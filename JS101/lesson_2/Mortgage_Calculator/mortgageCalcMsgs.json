@@ -1,7 +1,8 @@
 {
 "en": {
-  "langSel": "Please select your language /seleccione el idioma /Sprache auswählen  /Choisir la langue :  \n 1) English  2) Español  3) Deutsche  4) Français",
-  "welcome": "Welcome to Mortgage Calculator!",
+  "langSel": "Please select your language /Seleccione el idioma /Sprache auswählen  /Choisir la langue :  \n 1) English  2) Español  3) Deutsche  4) Français",
+  "langErr" : "Choose 1, 2, 3 or 4 /Escoger 1, 2, 3 o 4 /Wählen Sie 1, 2, 3 oder 4 /Choisissez 1, 2, 3 ou 4",
+  "welcome": "***Welcome to Mortgage Calculator!***",
   "loanAmt" : "What is the loan amount in dollars?",
   "numError"   : "Hmm, that doesn't look like a number, please try again",
   "zeroError": "Please enter a number greater than zero",
@@ -10,10 +11,11 @@
   "loanYr"  : "What is the loan duration in years?(Please enter whole year/s only)",
   "loanMnth": "How many, if any, extra months are there in the loan duration in addition to the years just entered?",
   "mnthTotal": "Your monthly instalment to pay is $",
-  "AnotherCalc": "Would you like to perform another mortgage payment calculation?"
+  "anotherCalc": "Would you like to perform another mortgage payment calculation? Enter 'yes' to continue, any other key to quit",
+  "anothCalcErr": "Must enter something - either 'yes' to continue or any other key to quit"
  },
 "es": {
-  "welcome": "¡Bienvenido a Calculadora de hipotecas!",
+  "welcome": "***¡Bienvenido a Calculadora de hipotecas!***",
   "loanAmt": "¿Cuál es el monto del préstamo en dólares?",
   "numError"  : " Mmm, eso no parece un número. Vuelve a intentarlo",
   "zeroError": "Ingrese un número mayor que cero",
@@ -22,10 +24,11 @@
   "loanYr" : "¿Cuál es la duración del préstamo en años? (Por favor ingrese solo año/s completos)",
   "loanMnth": "¿Cuántos meses adicionales, si es que hay alguno, hay en la duración del préstamo además de los años recién ingresados?",
   "mnthTotal": "Su cuota mensual a pagar es $", 
-  "AnotherCalc" : "¿Le gustaría realizar otro cálculo de pag o?"
+  "anotherCalc" : "¿Le gustaría realizar otro cálculo de pag o? Ingrese 'sí' para continuar, cualquier otra tecla para salir",
+  "anothCalcErr": "Debe ingresar algo, ya sea 'sí' para continuar o cualquier otra tecla para salir"
  },
 "de": {
-  "welcome":"Willkommen beim Hypothekenrechner!", 
+  "welcome":"***Willkommen beim Hypothekenrechner!***", 
   "loanAmt":"Wie hoch ist der Kreditbetrag in Dollar?",
   "numError": " Hmm, das sieht nicht nach einer Zahl aus, bitte versuchen Sie es erneut",
   "zeroError": "Bitte geben Sie eine Zahl größer als Null ein",
@@ -34,10 +37,11 @@
   "loanYr": "Wie lange dauert das Darlehen in Jahren? (Bitte nur ganze Jahr (e) eingeben.)",
   "loanMnth":"Wie viele, wenn überhaupt, zusätzliche Monate in der Darlehenslaufzeit gibt es zusätzlich zu den gerade eingegebenen Jahren?",
   "mnthTotal": " Ihre monatliche Rate beträgt $",
-  "AnotherCalc": "Möchten Sie eine weitere Zahlungsberechnung durchführen?" 
+  "anotherCalc": "Möchten Sie eine weitere Zahlungsberechnung durchführen? Geben Sie 'Ja' ein, um fortzufahren, und jede andere Taste, um das Programm zu beenden",
+  "anothCalcErr": "Muss etwas eingeben - entweder 'Ja', um fortzufahren, oder eine andere Taste, um zu beenden"  
  },
 "fr": {
- "welcome": "Bienvenue dans la calculatrice hypothécaire!",
+ "welcome": "***Bienvenue dans la calculatrice hypothécaire!***",
  "loanAmt": "Quel est le montant du prêt en dollars?",
  "numError": "Hmm, cela ne ressemble pas à un nombre, veuillez réessayer",
  "zeroError": "Veuillez saisir un nombre supérieur à zéro",
@@ -46,7 +50,8 @@
  "loanYr": "Quelle est la durée du prêt en années? (Veuillez saisir une ou plusieurs années uniquement)",
  "loanMnth": "Combien de mois supplémentaires, le cas échéant, y a-t-il dans la durée du prêt en plus des années qui viennent d'être saisies?",
  "mnthTotal": "Votre mensualité à payer est de $",
- "AnotherCalc": "Souhaitez-vous effectuer un autre calcul de paiement hypothécaire?" 
+ "anotherCalc": "Souhaitez-vous effectuer un autre calcul de paiement hypothécaire? Entrez «oui» pour continuer, toute autre touche pour quitter",
+ "anothCalcErr": "Doit entrer quelque chose - soit «oui» pour continuer, soit toute autre touche pour quitter" 
  }
 
 }  
