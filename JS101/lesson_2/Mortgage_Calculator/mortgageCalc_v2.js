@@ -63,13 +63,13 @@ while (true) {
   while (validateNum(loanAmount)) {
     prompt(messages('numError', language));
     loanAmount = readline.question();
-    while (Number(loanAmount) === 0) {
+    while (Number(loanAmount) < 1) {
       prompt(messages('zeroError', language));
       loanAmount = readline.question();
     }
   }
 
-  while (Number(loanAmount) === 0) {
+  while (Number(loanAmount) < 1) {
     prompt(messages('zeroError', language));
     loanAmount = readline.question();
     while (validateNum(loanAmount)) {
@@ -85,13 +85,13 @@ while (true) {
   while (validateNum(APR)) {
     prompt(messages('numError', language));
     APR = readline.question();
-    while (Number(APR) === 0) {
+    while (Number(APR) < 1) {
       prompt(messages('zeroAPR', language));
       APR = readline.question();
     }
   }
 
-  while (Number(APR) === 0) {
+  while (Number(APR) < 1) {
     prompt(messages('zeroAPR', language));
     APR = readline.question();
     while (validateNum(APR)) {
@@ -107,13 +107,13 @@ while (true) {
   while (validateNum(loanYears)) {
     prompt(messages('numError', language));
     loanYears = readline.question();
-    while (Number(loanYears) === 0) {
+    while (Number(loanYears) < 1) {
       prompt(messages('zeroError', language));
       loanYears = readline.question();
     }
   }
 
-  while (Number(loanYears) === 0) {
+  while (Number(loanYears) < 1) {
     prompt(messages('zeroError', language));
     loanYears = readline.question();
     while (validateNum(loanYears)) {
@@ -128,6 +128,19 @@ while (true) {
   while (validateNum(loanMonths)) {
     prompt(messages('numError', language));
     loanMonths = readline.question();
+    while (Number(loanMonths) < 1) {
+      prompt(messages('zeroError', language));
+      loanMonths = readline.question();
+    }
+  }
+
+  while (Number(loanMonths) < 1) {
+    prompt(messages('zeroError', language));
+    loanMonths = readline.question();
+    while (validateNum(loanMonths)) {
+      prompt(messages('numError', language));
+      loanMonths = readline.question();
+    }
   }
 
 
@@ -150,23 +163,12 @@ while (true) {
     continueIt = readline.question();
   }
 
-  if (language === 'en') {
-    if (continueIt[0].toLowerCase() !== 'y') {
-      break;
-    }
-  } else if (language === 'es') {
-    if (continueIt[0].toLowerCase() !== 's') {
-      break;
-    }
-  } else if (language === 'de') {
-    if (continueIt[0].toLowerCase() !== 'j') {
-      break;
-    }
-  } else if (language === 'fr') {
-    if (continueIt[0].toLowerCase() !== 'o') {
-      break;
-    }
+  //re-vamped continueIt processing -
+  //streamlined, as suggested by Elizabeth Tackett
+  if (continueIt[0].toLowerCase() !== JSON_MSGS[language]['affirmative'][0]) {
+    break;
   }
+
 
   console.clear();
 

@@ -12,7 +12,8 @@
   "loanMnth": "How many, if any, extra months are there in the loan duration in addition to the years just entered?",
   "mnthTotal": "Your monthly instalment to pay is $",
   "anotherCalc": "Would you like to perform another mortgage payment calculation? Enter 'yes' to continue, any other key to quit",
-  "anothCalcErr": "Must enter something - either 'yes' to continue or any other key to quit"
+  "anothCalcErr": "Must enter something - either 'yes' to continue or any other key to quit",
+  "affirmative": "yes"
  },
 "es": {
   "welcome": "***¡Bienvenido a Calculadora de hipotecas!***",
@@ -25,7 +26,8 @@
   "loanMnth": "¿Cuántos meses adicionales, si es que hay alguno, hay en la duración del préstamo además de los años recién ingresados?",
   "mnthTotal": "Su cuota mensual a pagar es $", 
   "anotherCalc" : "¿Le gustaría realizar otro cálculo de pag o? Ingrese 'sí' para continuar, cualquier otra tecla para salir",
-  "anothCalcErr": "Debe ingresar algo, ya sea 'sí' para continuar o cualquier otra tecla para salir"
+  "anothCalcErr": "Debe ingresar algo, ya sea 'sí' para continuar o cualquier otra tecla para salir",
+  "affirmative": "si"
  },
 "de": {
   "welcome":"***Willkommen beim Hypothekenrechner!***", 
@@ -38,7 +40,8 @@
   "loanMnth":"Wie viele, wenn überhaupt, zusätzliche Monate in der Darlehenslaufzeit gibt es zusätzlich zu den gerade eingegebenen Jahren?",
   "mnthTotal": " Ihre monatliche Rate beträgt $",
   "anotherCalc": "Möchten Sie eine weitere Zahlungsberechnung durchführen? Geben Sie 'Ja' ein, um fortzufahren, und jede andere Taste, um das Programm zu beenden",
-  "anothCalcErr": "Muss etwas eingeben - entweder 'Ja', um fortzufahren, oder eine andere Taste, um zu beenden"  
+  "anothCalcErr": "Muss etwas eingeben - entweder 'Ja', um fortzufahren, oder eine andere Taste, um zu beenden",
+  "affirmative": "ja"  
  },
 "fr": {
  "welcome": "***Bienvenue dans la calculatrice hypothécaire!***",
@@ -51,7 +54,8 @@
  "loanMnth": "Combien de mois supplémentaires, le cas échéant, y a-t-il dans la durée du prêt en plus des années qui viennent d'être saisies?",
  "mnthTotal": "Votre mensualité à payer est de $",
  "anotherCalc": "Souhaitez-vous effectuer un autre calcul de paiement hypothécaire? Entrez «oui» pour continuer, toute autre touche pour quitter",
- "anothCalcErr": "Doit entrer quelque chose - soit «oui» pour continuer, soit toute autre touche pour quitter" 
+ "anothCalcErr": "Doit entrer quelque chose - soit «oui» pour continuer, soit toute autre touche pour quitter",
+ "affirmative": "oui" 
  }
 
 }  
