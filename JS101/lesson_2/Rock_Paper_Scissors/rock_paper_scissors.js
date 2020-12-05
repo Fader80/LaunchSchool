@@ -23,8 +23,11 @@ function displayOutcome(userChoice, programChoice) {
   }
 }
 
+//the below loop is the version from 4. of 'Things to consider'
+//my solution to remove the break statement was to set this to a falsy value
+let loopVariable = 'something';
 
-while (true) {
+while (loopVariable) {
   prompt(`choose one: ${VALID_CHOICES.join(', ')}`);
   let choice = readline.question();
 
@@ -46,6 +49,6 @@ while (true) {
     answer = readline.question().toLowerCase();
   }
 
-  if (answer[0] !== 'y') break;
+  if (answer[0] !== 'y') loopVariable = '';
 
 }
