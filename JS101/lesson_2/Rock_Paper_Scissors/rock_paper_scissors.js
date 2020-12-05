@@ -1,3 +1,4 @@
+const { clear } = require('console');
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors'];
 
@@ -50,5 +51,7 @@ while (loopVariable) {
   }
 
   if (answer[0] !== 'y') loopVariable = '';
+
+  clear();
 
 }
