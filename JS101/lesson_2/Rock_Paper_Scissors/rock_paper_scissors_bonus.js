@@ -1,6 +1,6 @@
 const { clear } = require('console');
 const readline = require('readline-sync');
-const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'Spock'];
 
 
 function prompt(message) {
@@ -10,18 +10,18 @@ function prompt(message) {
 function displayOutcome(userChoice, programChoice) {
   prompt(`You chose ${userChoice}, computer chose ${programChoice}`);
 
-  if (userChoice === programChoice) {
+  if (userChoice[0] === programChoice[0]) {
     prompt("it's a tie!");
-  } else if ((userChoice === 'rock' &&
-  (programChoice === 'scissors' || programChoice === 'lizard')) ||
-  (userChoice === 'paper' &&
-  (programChoice === 'rock' || programChoice === 'lizard')) ||
-  (userChoice === 'scissors' &&
-  (programChoice === 'paper' || programChoice === 'lizard' )) ||
-  (userChoice === 'lizard' &&
-  (programChoice === 'paper' || programChoice === 'spock')) ||
-  (userChoice === 'spock' &&
-  (programChoice === 'scissors' || programChoice === 'rock'))) {
+  } else if ((userChoice[0] === 'rock' &&
+  (programChoice[0] === 'scissors' || programChoice[0] === 'lizard')) ||
+  (userChoice[0] === 'paper' &&
+  (programChoice[0] === 'rock' || programChoice[0] === 'lizard')) ||
+  (userChoice[0] === 'scissors' &&
+  (programChoice[0] === 'paper' || programChoice[0] === 'lizard' )) ||
+  (userChoice[0] === 'lizard' &&
+  (programChoice[0] === 'paper' || programChoice[0] === 'spock')) ||
+  (userChoice[0] === 'spock' &&
+  (programChoice[0] === 'scissors' || programChoice[0] === 'rock'))) {
     prompt('You win!');
   } else {
     prompt('computer wins!');
@@ -29,36 +29,12 @@ function displayOutcome(userChoice, programChoice) {
 }
 
 
-//below is original attempt at main function, started to run into too many lines
-/*function displayOutcome(userChoice, programChoice) {
-  prompt(`You chose ${userChoice}, computer chose ${programChoice}`);
-
-  if ((userChoice === 'rock' && programChoice === 'scissors') ||
-      (userChoice === 'rock' && programChoice === 'lizard') ||
-      (userChoice === 'paper' && programChoice === 'rock') ||
-      (userChoice === 'paper' && programChoice === 'spock')
-      (userChoice === 'scissors' && programChoice === 'paper') ||
-      (userChoice === 'scissors' && programChoice === 'lizard') ||
-      (userChoice === 'lizard' && programChoice === 'paper') ||
-      (userChoice === 'lizard' && programChoice === 'spock') ||
-      (userChoice === 'spock' && programChoice === 'scissors') ||
-      (userChoice === 'spock' && programChoice === 'rock')) {
-    prompt('You win!');
-  } else if ((userChoice === 'rock' && programChoice === 'paper') ||
-             (userChoice === 'paper' && programChoice === 'scissors') ||
-             (userChoice === 'scissors' && programChoice === 'rock')) {
-    prompt('Computer wins!');
-  } else {
-    prompt("it's a tie!");
-  }
-} */
-
-//the below loop is the version from 4. of 'Things to consider'
-//my solution to remove the break statement was to set this to a falsy value
+//the below loop is the version from 4. of 'Things to consider' - my solution
+//to remove the break statement was to set this loopVariable to a falsy value
 let loopVariable = 'something';
 
 while (loopVariable) {
-  prompt(`choose one: ${VALID_CHOICES.join(', ')}`);
+  prompt(`choose one - if you want, you can type just the first letter: ${VALID_CHOICES.join(', ')}`);
   let choice = readline.question();
 
   while (!VALID_CHOICES.includes(choice)) {
