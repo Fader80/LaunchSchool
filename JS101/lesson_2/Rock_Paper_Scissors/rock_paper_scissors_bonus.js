@@ -2,16 +2,16 @@ const { clear } = require('console');
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'Spock'];
 
+let playerScore = 0;
+let computerScore = 0;
 
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function displayOutcome(userChoice, programChoice) {
-  prompt(`You chose ${userChoice}, computer chose ${programChoice}`);
-
+function calculateScores(userChoice, programChoice) {
   if (userChoice[0] === programChoice[0]) {
-    prompt("it's a tie!");
+    return;
   } else if ((userChoice[0] === 'r' &&
   (programChoice[0] === 's' || programChoice[0] === 'l')) ||
   (userChoice[0] === 'p' &&
@@ -22,9 +22,48 @@ function displayOutcome(userChoice, programChoice) {
   (programChoice[0] === 'p' || programChoice[0] === 'S')) ||
   (userChoice[0] === 'S' &&
   (programChoice[0] === 's' || programChoice[0] === 'r'))) {
-    prompt('You win!');
+    playerScore += 1;
   } else {
-    prompt('computer wins!');
+    computerScore += 1;
+  }
+}
+
+
+function displayResults() {
+  prompt(`>> Your Score: ${playerScore}   Computer's Score: ${computerScore} <<\n`);
+}
+
+
+function displayOutcome(userChoice, programChoice) {
+  prompt(`You chose ${userChoice}, computer chose ${programChoice}`);
+
+  if (userChoice[0] === programChoice[0]) {
+    prompt("round is a tie");
+  } else if ((userChoice[0] === 'r' &&
+  (programChoice[0] === 's' || programChoice[0] === 'l')) ||
+  (userChoice[0] === 'p' &&
+  (programChoice[0] === 'r' || programChoice[0] === 'l')) ||
+  (userChoice[0] === 's' &&
+  (programChoice[0] === 'p' || programChoice[0] === 'l' )) ||
+  (userChoice[0] === 'l' &&
+  (programChoice[0] === 'p' || programChoice[0] === 'S')) ||
+  (userChoice[0] === 'S' &&
+  (programChoice[0] === 's' || programChoice[0] === 'r'))) {
+    prompt('You win the round!');
+  } else {
+    prompt('computer wins the round!');
+  }
+}
+
+function grandWinner() {
+  if (playerScore === 5) {
+    prompt('Congratulations - you are the Grand Winner! \n');
+    playerScore = 0;
+    computerScore = 0;
+  } else if (computerScore === 5) {
+    prompt('Commiserations - computer is the Grand Winner!\n');
+    playerScore = 0;
+    computerScore = 0;
   }
 }
 
@@ -36,7 +75,10 @@ prompt('***Welcome to rock paper scissors lizard Spock!***\n');
 let loopVariable = 'something';
 
 while (loopVariable) {
-  prompt(`choose one - you can type just the first letter if you want:\n${VALID_CHOICES.join(', ')}`);
+
+  displayResults();
+
+  prompt(`Choose one of the following - you may type just the first letter:\n${VALID_CHOICES.join(', ')}`);
   let choice = readline.question();
 
 
@@ -66,10 +108,15 @@ while (loopVariable) {
   let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
   let computerChoice = VALID_CHOICES[randomIndex];
 
-
   displayOutcome(choice, computerChoice);
 
-  prompt('Do you want to play again (y/n)?');
+  calculateScores(choice,computerChoice);
+
+  displayResults();
+
+  grandWinner();
+
+  prompt('Do you want to play another round? (y/n)');
   let answer = readline.question().toLowerCase();
   while (answer[0] !== 'n' && answer[0] !== 'y') {
     prompt('please enter "yes" or "no".');
@@ -82,3 +129,5 @@ while (loopVariable) {
 
 }
 
+//once one player reaches 5 wins, they become grand winner -  auto break? ASCII art?;
+//implementation ideas: 
