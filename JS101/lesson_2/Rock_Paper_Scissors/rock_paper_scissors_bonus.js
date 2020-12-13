@@ -72,7 +72,7 @@ function resetScoreGrandWin() {
 }
 
 
-prompt('***Welcome to rock paper scissors lizard Spock!***\n');
+prompt('***Welcome to rock paper scissors lizard Spock!***\n              > First player to 5 wins <\n');
 
 
 //the below loop is the version from 4. of 'Things to consider' - my solution
