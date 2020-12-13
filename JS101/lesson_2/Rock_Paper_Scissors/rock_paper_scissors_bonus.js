@@ -9,7 +9,7 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function calculateScores(userChoice, programChoice) {
+function calculateScore(userChoice, programChoice) {
   if (userChoice[0] === programChoice[0]) {
     return;
   } else if ((userChoice[0] === 'r' &&
@@ -29,12 +29,12 @@ function calculateScores(userChoice, programChoice) {
 }
 
 
-function displayResults() {
+function displayScore() {
   prompt(`>> Your Score: ${playerScore}   Computer's Score: ${computerScore} <<\n`);
 }
 
 
-function displayOutcome(userChoice, programChoice) {
+function displayRoundOutcome(userChoice, programChoice) {
   prompt(`You chose ${userChoice}, computer chose ${programChoice}`);
 
   if (userChoice[0] === programChoice[0]) {
@@ -64,7 +64,7 @@ function displayGrandWinner() {
   }
 }
 
-function resetScores() {
+function resetScoreGrandWin() {
   if (playerScore === 5 || computerScore === 5) {
     playerScore = 0;
     computerScore = 0;
@@ -81,7 +81,7 @@ let loopVariable = 'something';
 
 while (loopVariable) {
 
-  displayResults();
+  displayScore();
 
   prompt(`Choose one of the following - you may type just the first letter:\n${VALID_CHOICES.join(', ')}`);
   let choice = readline.question();
@@ -113,15 +113,15 @@ while (loopVariable) {
   let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
   let computerChoice = VALID_CHOICES[randomIndex];
 
-  displayOutcome(choice, computerChoice);
+  displayRoundOutcome(choice, computerChoice);
 
-  calculateScores(choice,computerChoice);
+  calculateScore(choice,computerChoice);
 
-  displayResults();
+  displayScore();
 
   displayGrandWinner();
 
-  resetScores();
+  resetScoreGrandWin();
 
 
   prompt('Do you want to play another round? (y/n)');
@@ -136,6 +136,3 @@ while (loopVariable) {
   clear();
 
 }
-
-//find alternative for the return statement in calculate scores
-// outsource the messages into a JSON file
