@@ -55,17 +55,22 @@ function displayOutcome(userChoice, programChoice) {
   }
 }
 
-function grandWinner() {
+
+function displayGrandWinner() {
   if (playerScore === 5) {
-    prompt('Congratulations - you are the Grand Winner! \n');
-    playerScore = 0;
-    computerScore = 0;
+    prompt('^*^*CONGRATULATIONS - you are the Grand Winner!^*^*\n');
   } else if (computerScore === 5) {
-    prompt('Commiserations - computer is the Grand Winner!\n');
+    prompt('COMMISERATIONS - computer is the Grand Winner!\n');
+  }
+}
+
+function resetScores() {
+  if (playerScore === 5 || computerScore === 5) {
     playerScore = 0;
     computerScore = 0;
   }
 }
+
 
 prompt('***Welcome to rock paper scissors lizard Spock!***\n');
 
@@ -114,7 +119,10 @@ while (loopVariable) {
 
   displayResults();
 
-  grandWinner();
+  displayGrandWinner();
+
+  resetScores();
+
 
   prompt('Do you want to play another round? (y/n)');
   let answer = readline.question().toLowerCase();
@@ -129,5 +137,5 @@ while (loopVariable) {
 
 }
 
-//once one player reaches 5 wins, they become grand winner -  auto break? ASCII art?;
-//implementation ideas: 
+//find alternative for the return statement in calculate scores
+// outsource the messages into a JSON file
