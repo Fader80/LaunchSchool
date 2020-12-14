@@ -1,29 +1,32 @@
 const { clear } = require('console');
+
 const readline = require('readline-sync');
+
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'Spock'];
+
+const WINNING_COMBOS = {
+  rock: ['scissors', 'lizard'],
+  paper: ['rock', 'Spock'],
+  scissors: ['paper', 'lizard'],
+  lizard: ['Spock', 'paper'],
+  Spock: ['rock', 'scissors']
+};
 
 let playerScore = 0;
 let computerScore = 0;
+
 
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
 function playerWins(userChoice, programChoice) {
-  return (userChoice[0] === 'r' &&
-  (programChoice[0] === 's' || programChoice[0] === 'l')) ||
-  (userChoice[0] === 'p' &&
-  (programChoice[0] === 'r' || programChoice[0] === 'l')) ||
-  (userChoice[0] === 's' &&
-  (programChoice[0] === 'p' || programChoice[0] === 'l' )) ||
-  (userChoice[0] === 'l' &&
-  (programChoice[0] === 'p' || programChoice[0] === 'S')) ||
-  (userChoice[0] === 'S' &&
-  (programChoice[0] === 's' || programChoice[0] === 'r'));
+  return WINNING_COMBOS[userChoice].includes(programChoice);
 }
 
+
 function calculateScore(userChoice, programChoice) {
-  if (userChoice[0] === programChoice[0]) {
+  if (userChoice === programChoice) {
     return;
   } else if (playerWins(userChoice, programChoice)) {
     playerScore += 1;
@@ -36,7 +39,7 @@ function calculateScore(userChoice, programChoice) {
 function displayRoundOutcome(userChoice, programChoice) {
   prompt(`You chose ${userChoice}, computer chose ${programChoice}`);
 
-  if (userChoice[0] === programChoice[0]) {
+  if (userChoice === programChoice) {
     prompt("round is a tie");
   } else if (playerWins(userChoice, programChoice)) {
     prompt('You win the round!');
