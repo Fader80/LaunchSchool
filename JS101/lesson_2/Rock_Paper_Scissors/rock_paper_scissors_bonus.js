@@ -9,10 +9,8 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function calculateScore(userChoice, programChoice) {
-  if (userChoice[0] === programChoice[0]) {
-    return;
-  } else if ((userChoice[0] === 'r' &&
+function playerWins(userChoice, programChoice) {
+  return (userChoice[0] === 'r' &&
   (programChoice[0] === 's' || programChoice[0] === 'l')) ||
   (userChoice[0] === 'p' &&
   (programChoice[0] === 'r' || programChoice[0] === 'l')) ||
@@ -21,16 +19,17 @@ function calculateScore(userChoice, programChoice) {
   (userChoice[0] === 'l' &&
   (programChoice[0] === 'p' || programChoice[0] === 'S')) ||
   (userChoice[0] === 'S' &&
-  (programChoice[0] === 's' || programChoice[0] === 'r'))) {
+  (programChoice[0] === 's' || programChoice[0] === 'r'));
+}
+
+function calculateScore(userChoice, programChoice) {
+  if (userChoice[0] === programChoice[0]) {
+    return;
+  } else if (playerWins(userChoice, programChoice)) {
     playerScore += 1;
   } else {
     computerScore += 1;
   }
-}
-
-
-function displayScore() {
-  prompt(`>> Your Score: ${playerScore}   Computer's Score: ${computerScore} <<\n`);
 }
 
 
@@ -39,20 +38,15 @@ function displayRoundOutcome(userChoice, programChoice) {
 
   if (userChoice[0] === programChoice[0]) {
     prompt("round is a tie");
-  } else if ((userChoice[0] === 'r' &&
-  (programChoice[0] === 's' || programChoice[0] === 'l')) ||
-  (userChoice[0] === 'p' &&
-  (programChoice[0] === 'r' || programChoice[0] === 'l')) ||
-  (userChoice[0] === 's' &&
-  (programChoice[0] === 'p' || programChoice[0] === 'l' )) ||
-  (userChoice[0] === 'l' &&
-  (programChoice[0] === 'p' || programChoice[0] === 'S')) ||
-  (userChoice[0] === 'S' &&
-  (programChoice[0] === 's' || programChoice[0] === 'r'))) {
+  } else if (playerWins(userChoice, programChoice)) {
     prompt('You win the round!');
   } else {
     prompt('computer wins the round!');
   }
+}
+
+function displayScore() {
+  prompt(`>> Your Score: ${playerScore}   Computer's Score: ${computerScore} <<\n`);
 }
 
 
@@ -60,9 +54,10 @@ function displayGrandWinner() {
   if (playerScore === 5) {
     prompt('^*^*CONGRATULATIONS - you are the Grand Winner!^*^*\n');
   } else if (computerScore === 5) {
-    prompt('COMMISERATIONS - computer is the Grand Winner!\n');
+    prompt('COMMISERATIONS - computer is the Grand Winner :-(\n');
   }
 }
+
 
 function resetScoreGrandWin() {
   if (playerScore === 5 || computerScore === 5) {
