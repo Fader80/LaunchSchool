@@ -146,6 +146,3 @@ while (playGame) {
   clear();
 
 }
-
-
-//also complete ET's suggestion for case insensitivity
