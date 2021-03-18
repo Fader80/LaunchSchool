@@ -1,9 +1,10 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-{\colortbl ;\red192\green80\blue77;}
+{\colortbl ;\red192\green80\blue77;\red155\green0\blue211;\red51\green51\blue51;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\f0\fs22 Aim:   \par
 The time of day can be represented as the number of minutes before or after midnight. If the number of minutes is positive, the time is after midnight. If the number of minutes is negative, the time is before midnight.\par
 Write a function that takes a time using this minute-based format and returns the time of day in 24 hour format (hh:mm). Your method should work with any integer input.\par
-You may not use javascript's Date class methods.\par
+\ul Further Exploration\par
+\ulnone How would you approach this problem if you were allowed to use JavaScript's Date class? Suppose you also needed to consider the day of week? (Assume that deltaMinutes is the number of minutes before or after midnight between Saturday and Sunday; in such a method, a deltaMinutes value of -4231 would need to produce a return value of Thursday 01:29.)\par
 \par
 \par
 \ul my workings:\par
@@ -15,20 +16,8 @@ You may not use javascript's Date class methods.\par
 \b\i0 implicit requirements:\b0    output should be string \b\par
 \par
 mental model:\b0    \par
-//hours on the left of the colon, minutes on the right \par
-//hours are 0 -24, and minutes are 0 - 60 \par
-\ul counter resetting method with loop: \b\par
-\ulnone\b0 //for positive numbers:\line   - if the number of minutes goes over 60, reset the minutes and add 1 to the hours \line   - if the number of hours goes over 24, reset the hours.  ////what's the mechanism for resetting? \line\tab - external variable modified by a loop?  - loop contains conditional to reset to 0 if \tab number threshold is reached \line\tab\tab // - if, after converting to hours, there is a decimal, multiply by 60 to get the minutes\line\par
-// for negative numbers :\line flags start at 59 for minutes, 23 for hours \par
-  - if the number of minutes goes under 0, reset the minutes and subtract 1 from the hours \line   - if the number of hours goes under 0, reset the hours.\b\par
-\b0\par
-\ul remainder method: \par
-\ulnone\par
-1. remainder the number from 1440 \line - if the number was negative - this is remainderVal  - go to step 2\par
-if the number was positive, this is totalMinutes - go to step 3 \par
-2. subtract the remainderVal from 1440 - to get totalMinutes -  you have to construct the time passed from midnight with this number\par
-3. remainder totalMinutes by  60 to get the minutePortion\par
-4. subtract minutePortion from  totalMinutes,  divided by 60, to get the hourPortion. \par
+Further exploration\par
+//set new Date to midnight between Sat and Sun \line //find out if you can subtract or add to the date (in milliseconds?)  - you can \line // the output should be day, then the time e.g. \b Thursday 01:29\line\b0 //\par
 \par
 \par
 \par
@@ -6272,12 +6261,18 @@ The tests above should log true.\par
 \b edge cases:\b0    \b\par
 data structure:\b0    numbers, strings \par
 \par
-\b algorithm for remainder method:\par
-\b0 1. Set  a variable \cf1 absInteger\cf0  equal to the absolute value of \cf1 argInteger\cf0  (the argument passed in)  \par
-3. If  \cf1 argInteger \cf0  is less than 0:\line\tab I)set a variable \cf1 totalMins\cf0  equal to subtracting from 1440 the remainder value of \tab\cf1 absInteger \cf0 by 1440\line\tab II) else \cf1 totalMins\cf0  is equal to the remainder value of \cf1 absInteger\cf0  by 1440\par
-3. set a variable \cf1 minPortion\cf0  equal to remainder of value of  \cf1 totalMins \cf0 by 60 \par
-4. set a variable \cf1 hourPortion \cf0 equal to subtracting \cf1 minPortion\cf0  from \cf1 totalMins\cf0 , divided by 60\par
-5. return the time in the string format specified, using \cf1 hourPortion\cf0  and \cf1 minPortion\cf0 . Remember to append an extra '0' if the length of either \cf1 hourPortion\cf0  or \cf1 minPortion\cf0  are only one digit long. Do this by testing their length after converting to string\par
+\b algorithm for Date (further exploration) method:\par
+\b0 1. create a helper function \cf1 timeString \cf0 with the parameters \cf2 day\cf0 ,\cf2  hours \cf0 and \cf2 mins\cf0 . It tests to see if hours and mins are one or two digits, and if they are one digit it will prepend them with a zero, and then return the string in the format \b Thursday 01:29\b0\par
+2. set a variable \cf1 date1\cf0  equal to a new Date of  'March 14, 2021 00:00:00'\par
+3. set a constant variable \cf1 MS_PER_MINUTE\cf0  to 60000\par
+4. set a variable \cf1 daysArr \cf0 equal to an array containing the days of the week, starting from Sunday and ending at Saturday\par
+5. set a variable \cf1 date2\cf0  equal to a Number forced \cf1 date1\cf0   added to the product of the \cf1 argInteger\cf0  (the argument passed in) times \cf1 MS_PER_MINUTE\cf0\par
+6. set a variable \cf1 dayIndex\cf0  equal to getting the day from \cf1 date2\cf0\b\par
+\b0 7. Set a variable \cf1 day \cf0 equal to the element of \cf1 daysArr \cf0 at \cf1 dayIndex\par
+\cf3 8.Set a variable \cf1 hours\cf3  equal to the hours obtained from  \cf1 date2\cf3\par
+9. set a variable \cf1 mins \cf3 equal to the minutes obtained from \cf1 date2\par
+\cf0 10. return the required string by putting  \cf1 day\cf0 , \cf1 hours \cf0 and \cf1 mins \cf0 to the \cf1 timeString\cf0  function. \b\par
+\b0\par
 \par
 \par
 \b manually test a couple of cases:\b0  \par
