@@ -16,9 +16,9 @@ function timeString(day, hours, mins) {
 }
 
 function timeOfDay_FE(argInteger) {
-  let defaultDate = new Date('March 14, 2021 00:00:00');
+  let midnightSunday = new Date('March 14, 2021 00:00:00');
 
-  let resultDate = Number(defaultDate) + (argInteger * MS_PER_MINUTE);
+  let resultDate = Number(midnightSunday) + (argInteger * MS_PER_MINUTE);
 
   resultDate = new Date(resultDate);
 
