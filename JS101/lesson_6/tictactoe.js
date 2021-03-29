@@ -7,6 +7,7 @@ function prompt(message) {
 const INITIAL_MARKER = ' ';
 const HUMAN_MARKER = 'X';
 const COMPUTER_MARKER = 'O';
+const NUM_GAMES_TO_WIN = 5;
 
 function displayBoard(board) {
   console.clear();
@@ -133,10 +134,32 @@ function someoneWon(board) {
   return !!detectWinner(board);
 }
 
+function displayScores(playerScore, compScore) {
+  prompt(`Your score: ${playerScore}   Computer's score: ${compScore}`);
+}
+
+function detectMatchWon(playerScore, compScore) {
+  return playerScore === NUM_GAMES_TO_WIN || compScore === NUM_GAMES_TO_WIN;
+}
+
+
+function displayMatchWinner(playerScore) {
+   if (playerScore === NUM_GAMES_TO_WIN) {
+     prompt('***Player won the match!***');
+   } else {
+     prompt('***Computer won the match***');
+   }
+}
+
 while (true) {
   let board = initializeBoard();
+  let playerScore = 0;
+  let compScore = 0;
 
-  while (true) {
+  while (true) { // start of additional inner loop
+    let board = initializeBoard();
+
+  while (true) { // start of game loop
     displayBoard(board);
 
     playerChoosesSquare(board);
@@ -144,19 +167,38 @@ while (true) {
 
     computerChoosesSquare(board);
     if (someoneWon(board) || boardFull(board)) break;
-  }
+  } // end of game loop
 
   displayBoard(board);
 
-  if (someoneWon(board)) {
-    prompt(`${detectWinner(board)} won!`);
+  if (someoneWon(board)) { //added score incrementing in this conditional
+    prompt(`${detectWinner(board)} won the round!`);
+    detectWinner(board) === 'Player'? playerScore++ : compScore++;
   } else {
     prompt("It's a tie!");
   }
 
-  prompt('Play again? y or n');
+  displayScores(playerScore, compScore);
+
+  if (detectMatchWon(playerScore, compScore)) {
+    displayMatchWinner(playerScore, compScore);
+    break; // THIS ISN'T WORKING  - ONLY BREAKS OUT OF THE IF STATEMENT
+
+  }
+
+  
+  prompt('Play another round? y or n');
+  let answer = readline.question().toLowerCase()[0];
+  if (answer !== 'y') break;
+} // end of additional inner loop
+
+
+  prompt('Play another match? y or n');
   let answer = readline.question().toLowerCase()[0];
   if (answer !== 'y') break;
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
+
+
+//BREAK ISN'T WORKING AFTER DISPLAYING MATCH WINNER

@@ -1,6 +1,7 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\f0\fs22 Aim:   \par
-Write a function that takes a string, doubles every consonant character in the string, and returns the result as a new string. The function should not double vowels ('a','e','i','o','u'), digits, punctuation, or whitespace.\par
+{\colortbl ;\red192\green80\blue77;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
+\b0 Write a function that takes a string, doubles every consonant character in the string, and returns the result as a new string. The function should not double vowels ('a','e','i','o','u'), digits, punctuation, or whitespace.\par
 \par
 \ul my workings:\par
 \par
@@ -11,7 +12,7 @@ Write a function that takes a string, doubles every consonant character in the s
 \b\i0 implicit requirements:\b0    \b\par
 \par
 mental model:\b0    \par
-// use regex?  - yes, as it features in the intro to programming book\line //iterate through the string. If the current character features in the regex, double it and add to the result string. Otherwise, just add it to the result string without doubling\par
+// use regex?  - yes, as it features in the intro to programming book\line //use two regex  - one to check for word chars and second to exclude vowels. \line //iterate through the string. Use conditional with both regexes to test if it's word character and not a vowel. If the current character satisties the check, double it and add to the result string. Otherwise, just add it to the result string without doubling\par
 \b\par
 \b0\par
 \par
@@ -5493,10 +5494,15 @@ b04d49454d49454d49454d49454d49452eca7236e2a64d8b844d49454d49454d49454d49454d49
 \par
 \par
 \b edge cases:\b0    empty string (dealt with above), string with no consonant characters \b\par
-data structure:\b0    \par
+data structure:\b0    string, loop \par
 \par
 \b algorithm:\b0    \par
-\par
+1. assign  a variable \cf1 resultStr\cf0  to an empty string\par
+2. assign a variable \cf1 regexWord \cf0 to a regex that finds only word characters\par
+3. assign a variable \cf1 regexVowel \cf0 to a regex that finds only characters that are not vowels \par
+4. iterate through \cf1 argString \cf0 (the argument passed in): \line\tab I) set \cf1 idx\cf0  to 0\line\tab II) set \cf1 currElem \cf0 to the character of \cf1 argString\cf0  at \cf1 idx\cf0\line\tab II) while \cf1 idx\cf0  is less than the length of \cf1 argString:\line\tab\tab\cf0 a) test to see if \cf1 currElem\cf0  is true for both \cf1 regexWord\cf0  and \cf1 regexVowel:\line\tab\tab\tab\cf0 - if it is, add two instances of \cf1 currElem\cf0  to \cf1 resultStr\cf0\line\tab\tab\tab - if it isn't, add a single instance of \cf1 currElem\cf0  to \cf1 resultStr\line\tab\tab\cf0 b) increment \cf1 idx\cf0  by 1\par
+5. return \cf1 resultStr\par
+\cf0\par
 \b manually test a couple of cases:\b0  \par
 \par
 \b\par

@@ -4,7 +4,8 @@
 As seen in the previous exercise, the time of day can be represented as the number of minutes before or after midnight. If the number of minutes is positive, the time is after midnight. If the number of minutes is negative, the time is before midnight.\par
 Write two functions that each take a time of day in 24 hour format, and return the number of minutes before and after midnight, respectively. Both functions should return a value in the range 0..1439.\par
 \par
-You may not use javascript's Date class methods.\par
+\ul\b Further Exploration\par
+\ulnone\b0 How would these methods change if you were allowed to use the Date class?\par
 \par
 \par
 \ul my workings:\par
@@ -16,9 +17,8 @@ You may not use javascript's Date class methods.\par
 \b\i0 implicit requirements:\b0    \b\par
 \par
 mental model:\b0    \par
-//1440 minutes in a day \line //return value should be between 0 and 1439\line //use string split by colon to convert string either side of colon to a number \par
-\line //if it's after midnight, display number \line\tab //also, if the number is 1440, return 0 \par
-\line //if it's before midnight, display 1440  - number \b\par
+//set new Date  using the argString?  - use interpolation? \line\par
+\b\par
 \b0\par
 \par
 \b examples:\b0    \par
@@ -11425,26 +11425,10 @@ f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f70000030000000000
 data structure:\b0    strings, numbers \par
 \par
 \b algorithm:\b0    \par
-1. set a variable \cf1 MINUTES_PER_HOUR\cf0   equal to 60\par
-2. set a variable \cf1 MINUTES_PER_DAY \cf0 equal to 1440\par
-\par
-\ul hourMinhelper:\par
-\ulnone 1. set a variable \cf1 timeArr\cf0   equal to splitting the \cf1 argTime\cf0  (the argument passed in) separated by colon character.\par
-2. Create a variable \cf1 hours\cf0  and set it equal to the first item in \cf1 timeArr\cf0\par
-3. Set a variable \cf1 mins \cf0 equal to the second item in \cf1 timeArr\par
-\cf0 4. return \cf1 hours \cf0 and \cf1 mins\cf0\par
-\par
-\par
-\ul afterMidnight: \par
-\ulnone 1. set variables \cf1 hours\cf0  and \cf1 mins \cf0 using \cf1 hourMinHelper\cf0 , passing in \cf1 argTime \cf0 as the argument \par
-2.  set a variable  \cf1 totalMins \cf0 equal to of multiplying \cf1 hours\cf0  by \cf1 MINUTES_PER_HOUR\cf0  and adding to number-convertred  \cf1 mins\par
-\cf0 3. if \cf1 totalMins \cf0 is the same as  \cf1 MINUTES_PER_DAY\cf0 , set it to 0\par
-4. return \cf1 totalMins\par
-\par
-\cf0\ul beforeMidnight:\par
-\ulnone 1. set variables \cf1 hours\cf0  and \cf1 mins \cf0 using \cf1 hourMinHelper, \cf0 passing in \cf1 argTime \cf0 as the argument \cf1\par
-\cf0 2. set a variable  \cf1 totalMins \cf0 equal to of multiplying \cf1 hours\cf0  by \cf1 MINUTES_PER_HOUR\cf0  and adding to number-convertred \cf1 mins\par
-\cf0 3. return \cf1 MINUTES_PER_DAY \cf0 minus\cf1  totalMins\cf0\par
+//main difference is in the helper function \par
+1. assign a variable \cf1 myDate \cf0 to a  new Date, with the \cf1 argTime \cf0 interpolated where the hours and the minutes of the string argument passed into the Date constructor go\par
+2. extract the hours and mins using \cf1 myDate\cf0  and return them as before \par
+3. the difference in the rest of the function is that \cf1 mins\cf0  no longer needs converting to a number \par
 \par
 \b manually test a couple of cases:\b0  \par
 \par
