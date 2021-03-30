@@ -1,4 +1,5 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red192\green80\blue77;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
 \b0 Write a function that takes a non-empty string argument, and returns the middle character(s) of the string. If the string has an odd length, you should return exactly one character. If the string has an even length, you should return exactly two characters.\par
 \par
@@ -12,7 +13,8 @@
 \b\i0 implicit requirements:\b0    \b\par
 \par
 mental model:\b0    \par
-Find out if the string is even or odd. \line\b\par
+Find out if the string is even or odd. \line if it's odd, subtract one from the length, and divide that by two  - this is the index \line return the character at the index of the above number \par
+If it's even in length, subract two from the length, and divide by two to get the index\line return the two characters starting with the character at the above index \b\par
 \b0\par
 \par
 \b examples:\b0    \par
@@ -4763,10 +4765,16 @@ a64d495d4d49454d49454d49454d49458f4445f2ecc6b4dcf84d49454d49454d49454d49454d49
 \pard\sa200\sl276\slmult1\par
 \par
 \par
-\b edge cases:\b0    \b\par
-data structure:\b0    \par
+\b edge cases:\b0    single character string (dealt with above), empty string \b\par
+data structure:\b0    string\par
 \par
 \b algorithm:\b0    \par
+1. delcare a variable \cf1 extractIndex\cf0\par
+1. determine whether the \cf1 argString \cf0 (the argument passed in) is even or odd, by testing to see if there is any remainder when divided by two. \par
+2.  if \cf1 argString\cf0  turns out to be odd  - \line\tab I)then assign \cf1 extractIndex\cf0  to the result of subtracting 1 from \cf1 argString'\cf0 s length and \tab dividing by two \line\tab II) return the character of  \cf1 argString\cf0   at \cf1 extractIndex\par
+\cf0  If argString turns out to be even - \line\tab I) assign \cf1 extractIndex\cf0  to the result of subtracting two from \cf1 argString\cf0 's length and \tab dividing by two \line\tab II)  return the two characters of \cf1 argString\cf0  starting at \cf1 extractIndex\cf0\par
+\par
+\par
 \par
 \b manually test a couple of cases:\b0  \par
 \par

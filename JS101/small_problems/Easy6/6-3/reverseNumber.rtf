@@ -4684,14 +4684,14 @@ bd59bfe64d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49
 note that leading zeros get dropped \par
 \par
 \pard\sa200\sl276\slmult1\par
-\par
-\par
 \b edge cases:\b0    if a single digit or 0 is entered (dealt with above)\b\par
 data structure:\b0    array \par
 \par
 \b algorithm:\b0    \par
 1. assign \cf1 reverseArr\cf0  to an empty array \par
-2. \par
+2. assign \cf1 numStr \cf0 to \cf1 argNum \cf0 (the argument passed in) converted to a string \par
+3. iterate through \cf1 numStr\cf0 : \line\tab I)set the \cf1 idx \cf0 to the length of \cf1 numStr\cf0  minus 1. \line\tab II) set \cf1 currElem\cf0  equal to the character of \cf1 numStr\cf0  at \cf1 idx\cf0\line\tab III) While \cf1 idx\cf0  is more than or equal to zero: \line\tab\tab a)add \cf1 currElem\cf0  to \cf1 reverseArr\cf0\line\tab\tab b) decrement \cf1 idx\cf0\line\line 4. assign \cf1 result\cf0  to the result of joining the elements of \cf1 reverseArr\cf0  into a string\tab\par
+5. return \cf1 result\cf0  converted to a number \par
 \par
 \b manually test a couple of cases:\b0  \par
 \par

@@ -144,11 +144,11 @@ function detectMatchWon(playerScore, compScore) {
 
 
 function displayMatchWinner(playerScore) {
-   if (playerScore === NUM_GAMES_TO_WIN) {
-     prompt('***Player won the match!***');
-   } else {
-     prompt('***Computer won the match***');
-   }
+  if (playerScore === NUM_GAMES_TO_WIN) {
+    prompt('***Player won the match!***');
+  } else {
+    prompt('***Computer won the match***');
+  }
 }
 
 while (true) {
@@ -156,41 +156,40 @@ while (true) {
   let playerScore = 0;
   let compScore = 0;
 
-  while (true) { // start of additional inner loop
+  while (true) { // start of additional inner loop to avoid using global vars for score
     let board = initializeBoard();
 
-  while (true) { // start of game loop
+    while (true) { // start of game loop
+      displayBoard(board);
+
+      playerChoosesSquare(board);
+      if (someoneWon(board) || boardFull(board)) break;
+
+      computerChoosesSquare(board);
+      if (someoneWon(board) || boardFull(board)) break;
+    } // end of game loop
+
     displayBoard(board);
 
-    playerChoosesSquare(board);
-    if (someoneWon(board) || boardFull(board)) break;
+    if (someoneWon(board)) { //added score incrementing in this conditional
+      prompt(`${detectWinner(board)} won the round!`);
+      detectWinner(board) === 'Player'? playerScore++ : compScore++;
+    } else {
+      prompt("It's a tie!");
+    }
 
-    computerChoosesSquare(board);
-    if (someoneWon(board) || boardFull(board)) break;
-  } // end of game loop
+    displayScores(playerScore, compScore);
 
-  displayBoard(board);
+    if (detectMatchWon(playerScore, compScore)) {
+      displayMatchWinner(playerScore, compScore);
+      break;
+    }
 
-  if (someoneWon(board)) { //added score incrementing in this conditional
-    prompt(`${detectWinner(board)} won the round!`);
-    detectWinner(board) === 'Player'? playerScore++ : compScore++;
-  } else {
-    prompt("It's a tie!");
-  }
 
-  displayScores(playerScore, compScore);
-
-  if (detectMatchWon(playerScore, compScore)) {
-    displayMatchWinner(playerScore, compScore);
-    break; // THIS ISN'T WORKING  - ONLY BREAKS OUT OF THE IF STATEMENT
-
-  }
-
-  
-  prompt('Play another round? y or n');
-  let answer = readline.question().toLowerCase()[0];
-  if (answer !== 'y') break;
-} // end of additional inner loop
+    prompt('Play another round? y or n');
+    let answer = readline.question().toLowerCase()[0];
+    if (answer !== 'y') break;
+  } // end of additional inner loop
 
 
   prompt('Play another match? y or n');
@@ -200,5 +199,3 @@ while (true) {
 
 prompt('Thanks for playing Tic Tac Toe!');
 
-
-//BREAK ISN'T WORKING AFTER DISPLAYING MATCH WINNER
