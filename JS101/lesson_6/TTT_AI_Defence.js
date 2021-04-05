@@ -11,7 +11,7 @@ function defensiveAI(board) {
     if (
       board[sq1] === HUMAN_MARKER &&
       board[sq2] === HUMAN_MARKER &&
-      board[sq3] === INTIAL_MARKER
+      board[sq3] === INITIAL_MARKER
     ) {
       board[sq3] = COMPUTER_MARKER;
     } else if (

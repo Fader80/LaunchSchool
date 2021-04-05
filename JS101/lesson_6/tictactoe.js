@@ -130,6 +130,32 @@ function detectWinner(board) {
   return null;
 }
 
+function defensiveAI(board) {
+
+  let completeLines = [
+    [1,2,3], [4,5,6], [7,8,9], // rows
+    [1,4,7], [2,5,8], [3,6,9], //columns
+    [1,5,9], [3,5,7] // diagonals
+  ];
+
+  for (let line = 0; line < completeLines.length; line++) {
+    let [sq1, sq2, sq3] = completeLines[line];
+    if (
+      board[sq1] === HUMAN_MARKER &&
+      board[sq2] === HUMAN_MARKER &&
+      board[sq3] === INITIAL_MARKER
+    ) {
+      board[sq3] = COMPUTER_MARKER;
+    } else if (
+      board[sq1] === INITIAL_MARKER &&
+      board[sq2] === HUMAN_MARKER &&
+      board[sq3] === HUMAN_MARKER
+    ) {
+      board[sq1] = COMPUTER_MARKER;
+    }
+  }
+}
+
 function someoneWon(board) {
   return !!detectWinner(board);
 }
@@ -156,13 +182,14 @@ while (true) {
   let playerScore = 0;
   let compScore = 0;
 
-  while (true) { // start of additional inner loop to avoid using global vars for score
+  while (true) { // start of additional inner loop
     let board = initializeBoard();
 
     while (true) { // start of game loop
       displayBoard(board);
 
       playerChoosesSquare(board);
+      defensiveAI(board);
       if (someoneWon(board) || boardFull(board)) break;
 
       computerChoosesSquare(board);
@@ -183,6 +210,7 @@ while (true) {
     if (detectMatchWon(playerScore, compScore)) {
       displayMatchWinner(playerScore, compScore);
       break;
+
     }
 
 
@@ -198,4 +226,5 @@ while (true) {
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
+
 
