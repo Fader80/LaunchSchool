@@ -1,4 +1,5 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red192\green80\blue77;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
 \b0 Write a function that takes a string argument consisting of a first name, a space, and a last name, and returns a new string consisting of the last name, a comma, a space, and the first name.\par
 \par
@@ -10,7 +11,8 @@
 \b implicit concepts:\b0    \i\par
 \b\i0 implicit requirements:\b0    \b\par
 \par
-mental model:\b0    \b\par
+mental model:\b0    \par
+split the argument string using space as a separator.\line  Then return the string in the format second result of above operation, comma, first result\b\par
 \b0\par
 \par
 \b examples:\b0    \par
@@ -2394,10 +2396,12 @@ f8dc4d95cb4d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d
 \pard\sa200\sl276\slmult1\par
 \par
 \par
-\b edge cases:\b0    \b\par
-data structure:\b0    \par
+\b edge cases:\b0    empty string \b\par
+data structure:\b0    string, array \par
 \par
 \b algorithm:\b0    \par
+1. assign to a variable \cf1 splitName\cf0  the result of splitting the \cf1 argName\cf0  (argument passed in) using space as a separator \par
+2. Return the second result, followed by a comma, followed by a space, followed by the first result of step 1, as a string \par
 \par
 \b manually test a couple of cases:\b0  \par
 \par
