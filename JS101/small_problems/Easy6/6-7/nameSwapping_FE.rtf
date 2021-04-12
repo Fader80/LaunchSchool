@@ -15,7 +15,7 @@
 \par
 mental model:\b0    \par
 use array slice for the remainder of the names? \par
-use array pop for the surname \par
+use array pop for the surname?\par
 \par
 \b examples:\b0    \par
 \pard\sa200\sl240\slmult1{\pict\wmetafile8\picw17806\pich1852\picwgoal10230\pichgoal1005 
@@ -3027,8 +3027,9 @@ a633b1854d49454d49454d49454d494531c29131c2914d49454d49454d49454d49454d49454d49
 data structure:\b0    string, array \par
 \par
 \b algorithm:\b0    \par
-1. assign to \cf1 strArr\cf0  the result of splitting the \cf1 argString\cf0  (the argument passed in), using space as a separator.\par
-2. return as a string the last element of strArr, followed by a comma and a space, and then \par
+1. assign to \cf1 strArr\cf0  the result of splitting the \cf1 argName\cf0  (the argument passed in), with a space in between the elements \par
+2. return as a string the last element of \cf1 strArr\cf0 , followed by a comma and a space, and then the portion of \cf1 strArr\cf0  starting from the first element, ending with the penultimate element, joined with a space between the elements \par
+\par
 \par
 \b manually test a couple of cases:\b0  \par
 \par

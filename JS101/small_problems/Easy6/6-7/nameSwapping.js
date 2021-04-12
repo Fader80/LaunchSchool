@@ -6,6 +6,8 @@ function swapName(argName) {
 
 //FURTHER EXPLORATION:
 
-function swapName_FE(name) {
-  return name.split(' ').reverse().join(', ');
+function swapName_FE(argName) {
+  let strArr = argName.split(' ');
+
+  return `${strArr[strArr.length - 1]}, ${strArr.slice(0, strArr.length - 1).join(' ')}`;
 }
