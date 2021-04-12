@@ -29,6 +29,11 @@ function displayBoard(board) {
   console.log('');
 }
 
+let WINNING_LINES = [
+  [1, 2, 3], [4, 5, 6], [7, 8, 9], //rows
+  [1, 4, 7], [2, 5, 8], [3, 6, 9], //columns
+  [1, 5, 9], [3, 5, 7] //diagonals
+];
 
 // let board = {
 //   1: ' ', //top left
@@ -72,6 +77,18 @@ function joinOr(arr, sep = ', ', word = 'or') {
 
 }
 
+function findHumanThreat(board, line) {
+  let charsInLine = line.map(square => board[square]);
+
+  if (charsInLine.filter(marker => marker === HUMAN_MARKER).length === 2) {
+    let emptySquare = line.find(square => board[square] === INITIAL_MARKER);
+    if (emptySquare !== undefined) {
+      return emptySquare;
+    }
+  }
+  return null;
+}
+
 
 function playerChoosesSquare(board) {
   let square; // declared here so we can use it outside the loop
@@ -91,10 +108,18 @@ function playerChoosesSquare(board) {
 }
 
 function computerChoosesSquare(board) {
+  let square;
+  for (let idx = 0; idx < WINNING_LINES.length; idx++) {
+    let line = WINNING_LINES[idx];
+    square = findHumanThreat(board, line);
+    if (square) break;
+  }
+  if (!square) {
 
-  let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
+    let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
 
-  let square = emptySquares(board)[randomIndex];
+    square = emptySquares(board)[randomIndex];
+  }
   board[square] = COMPUTER_MARKER;
 }
 
@@ -103,19 +128,14 @@ function boardFull(board) {
 }
 
 function detectWinner(board) {
-  let winningLines = [
-    [1, 2, 3], [4, 5, 6], [7, 8, 9], //rows
-    [1, 4, 7], [2, 5, 8], [3, 6, 9], //columns
-    [1, 5, 9], [3, 5, 7] //diagonals
-  ];
 
-  for (let line = 0; line < winningLines.length; line++) {
-    let [sq1, sq2, sq3] = winningLines[line];
+  for (let line = 0; line < WINNING_LINES.length; line++) {
+    let [sq1, sq2, sq3] = WINNING_LINES[line];
 
     if (
-        board[sq1] === HUMAN_MARKER &&
-        board[sq2] === HUMAN_MARKER &&
-        board[sq3] === HUMAN_MARKER
+      board[sq1] === HUMAN_MARKER &&
+      board[sq2] === HUMAN_MARKER &&
+      board[sq3] === HUMAN_MARKER
     ) {
       return 'Player';
     } else if (
@@ -130,31 +150,6 @@ function detectWinner(board) {
   return null;
 }
 
-function defensiveAI(board) {
-
-  let completeLines = [
-    [1,2,3], [4,5,6], [7,8,9], // rows
-    [1,4,7], [2,5,8], [3,6,9], //columns
-    [1,5,9], [3,5,7] // diagonals
-  ];
-
-  for (let line = 0; line < completeLines.length; line++) {
-    let [sq1, sq2, sq3] = completeLines[line];
-    if (
-      board[sq1] === HUMAN_MARKER &&
-      board[sq2] === HUMAN_MARKER &&
-      board[sq3] === INITIAL_MARKER
-    ) {
-      board[sq3] = COMPUTER_MARKER;
-    } else if (
-      board[sq1] === INITIAL_MARKER &&
-      board[sq2] === HUMAN_MARKER &&
-      board[sq3] === HUMAN_MARKER
-    ) {
-      board[sq1] = COMPUTER_MARKER;
-    }
-  }
-}
 
 function someoneWon(board) {
   return !!detectWinner(board);
@@ -189,7 +184,6 @@ while (true) {
       displayBoard(board);
 
       playerChoosesSquare(board);
-      defensiveAI(board);
       if (someoneWon(board) || boardFull(board)) break;
 
       computerChoosesSquare(board);
@@ -228,3 +222,5 @@ while (true) {
 prompt('Thanks for playing Tic Tac Toe!');
 
 
+//in find human threat function, check the placement of the return statements
+//computer is not placing markers (none after 1st go?)
