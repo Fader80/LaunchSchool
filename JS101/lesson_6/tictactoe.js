@@ -220,7 +220,3 @@ while (true) {
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
-
-
-//in find human threat function, check the placement of the return statements
-//computer is not placing markers (none after 1st go?)
