@@ -77,10 +77,11 @@ function joinOr(arr, sep = ', ', word = 'or') {
 
 }
 
-function findHumanThreat(board, line) {
-  let charsInLine = line.map(square => board[square]);
 
-  if (charsInLine.filter(marker => marker === HUMAN_MARKER).length === 2) {
+function findAtRiskSquare(board, line, marker) {
+  let markersInLine = line.map(square => board[square]);
+
+  if (markersInLine.filter(val => val === marker).length === 2) {
     let emptySquare = line.find(square => board[square] === INITIAL_MARKER);
     if (emptySquare !== undefined) {
       return emptySquare;
@@ -89,6 +90,18 @@ function findHumanThreat(board, line) {
   return null;
 }
 
+//the below is the legacy offensive AI function
+// function findComputerWinMove(board, line) {
+//   let charsInLine = line.map(elem => board[elem]);
+
+//   if (charsInLine.filter(char => char === COMPUTER_MARKER).length === 2) {
+//     let emptySquare = line.find(elem => board[elem] === INITIAL_MARKER);
+//     if (emptySquare !== undefined) {
+//       return emptySquare;
+//     }
+//   }
+//   return null;
+// }
 
 function playerChoosesSquare(board) {
   let square; // declared here so we can use it outside the loop
@@ -109,11 +122,21 @@ function playerChoosesSquare(board) {
 
 function computerChoosesSquare(board) {
   let square;
+
   for (let idx = 0; idx < WINNING_LINES.length; idx++) {
     let line = WINNING_LINES[idx];
-    square = findHumanThreat(board, line);
+    square = findAtRiskSquare(board, line, COMPUTER_MARKER);
     if (square) break;
   }
+
+  if (!square) {
+    for (let idx = 0; idx < WINNING_LINES.length; idx++) {
+      let line = WINNING_LINES[idx];
+      square = findAtRiskSquare(board, line, HUMAN_MARKER);
+      if (square) break;
+    }
+  }
+
   if (!square) {
 
     let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
@@ -220,3 +243,6 @@ while (true) {
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
+
+
+//find out why computerChoosesSquare is not prioritizing a winning move if (!square) is not used before 2nd for loop

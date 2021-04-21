@@ -1,7 +1,10 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-{\colortbl ;\red192\green80\blue77;}
+{\colortbl ;\red255\green0\blue0;\red192\green80\blue77;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
 \b0 Write a function that takes a string argument containing one or more words and returns a new string containing the words from the string argument. All five-or-more letter words should have their letters in reverse order. The string argument will consist of only letters and spaces. Words will be separated by a single space.\par
+\par
+\cf1\b Further Exploration:\cf0\par
+\b0 Did you solve this problem in different way? Try to solve it using map() method.\par
 \par
 \par
 \par
@@ -14,9 +17,9 @@
 \b\i0 implicit requirements:\b0    words are in the same order as original string \b\par
 \par
 mental model:\b0    \par
-make an array of words from the string, by using space as a separator\par
-iterate. if any of the words are longer than 4 characters,  make another array from that word, comprisng of its letters, reversed and joined \par
-return the array, joined using space as a separator \b\par
+//use map method\par
+use ternary operator to see if element being iterated over is longer than 4. If it isn't return it unchanged. if it is, process the element as in the vanilla version, (or make a helper function) \par
+\b\par
 \b0\par
 \par
 \b examples:\b0    \par
@@ -4956,9 +4959,10 @@ edf74d4a934d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d
 data structure:\b0    array, string \par
 \par
 \b algorithm:\b0    \par
-1. assign \cf1 wordArray \cf0 to the \cf1 argString\cf0  (argument passed in) split into an array, using space as a separator \par
-2. iterate through \cf1 wordArray \cf0 - \line\tab I) assign \cf1 idx\cf0  to 0\line\tab II) assign \cf1 currElem\cf0  to the element of \cf1 wordArray\cf0  at \cf1 idx\cf0\line\tab III) while \cf1 idx\cf0  is less than the length of \cf1 wordArray\cf0 -\line\tab\tab a) test to see if \cf1 currElem\cf0  is longer than 4. If it is, then set it equal to itself split \tab\tab into an array, separated by empty string, and reversed\line\tab\tab b) increment \cf1 idx\cf0  by 1  \par
-3. return \cf1 wordArray\cf0 , joined using space as a separator\par
+1. set  \cf2 reverser\cf0  be a function that takes a string input (\cf2 word\cf0 ) and returns the result of splitting  \cf2 word \cf0 using  a empty string separator, reversing it, and joining it using an empty string separator\par
+2.  set \cf2 wordArray \cf0 to the result of using array.map on \cf2 argString\cf0  (the argument passed in), which has been split using space as a separator:\line\tab I) on each iteration, map's callback  will test the \cf2 elem \cf0 (current item being iterated over) \tab using  a ternary operator to see if the length of \cf2 elem  \cf0 is over 4 .\line\tab\tab a) if it is, the the callback will return the result of passing \cf2 elem \cf0 into \cf2 reverser\cf0\line\tab\tab b)if it isn't, the callback with return \cf2 elem \par
+\cf0 3. return \cf2 wordArray\cf0 , joined using space as a separator\par
+\par
 \par
 \b manually test a couple of cases:\b0  \par
 \par
