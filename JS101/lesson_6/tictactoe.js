@@ -129,6 +129,7 @@ function computerChoosesSquare(board) {
     if (square) break;
   }
 
+
   if (!square) {
     for (let idx = 0; idx < WINNING_LINES.length; idx++) {
       let line = WINNING_LINES[idx];
@@ -136,6 +137,11 @@ function computerChoosesSquare(board) {
       if (square) break;
     }
   }
+
+  if (!square)  {
+     if (board['5'] === INITIAL_MARKER) square = 5;
+   }
+
 
   if (!square) {
 
@@ -245,4 +251,7 @@ while (true) {
 prompt('Thanks for playing Tic Tac Toe!');
 
 
-//find out why computerChoosesSquare is not prioritizing a winning move if (!square) is not used before 2nd for loop
+//find out why the computer turn stalls when the if(!square) square = 5
+//is placed between the findAtRiskMove loops
+//to do this, you need to analyse and understand the initializeBoard and
+//findAtRiskSquare functions
