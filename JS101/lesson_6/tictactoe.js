@@ -250,8 +250,3 @@ while (true) {
 
 prompt('Thanks for playing Tic Tac Toe!');
 
-
-//find out why the computer turn stalls when the if(!square) square = 5
-//is placed between the findAtRiskMove loops
-//to do this, you need to analyse and understand the initializeBoard and
-//findAtRiskSquare functions
