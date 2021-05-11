@@ -8,6 +8,7 @@ const INITIAL_MARKER = ' ';
 const HUMAN_MARKER = 'X';
 const COMPUTER_MARKER = 'O';
 const NUM_GAMES_TO_WIN = 5;
+const FIRST_TURN = readline.question('Please choose who goes first - player or computer\n');
 
 function displayBoard(board) {
   console.clear();
@@ -201,6 +202,8 @@ function displayMatchWinner(playerScore) {
   }
 }
 
+//main game loop
+
 while (true) {
   let board = initializeBoard();
   let playerScore = 0;
@@ -212,12 +215,25 @@ while (true) {
     while (true) { // start of game loop
       displayBoard(board);
 
-      playerChoosesSquare(board);
-      if (someoneWon(board) || boardFull(board)) break;
+      if (FIRST_TURN === 'computer') {
 
-      computerChoosesSquare(board);
-      if (someoneWon(board) || boardFull(board)) break;
-    } // end of game loop
+        computerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+
+        displayBoard(board);
+
+        playerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+
+      } else {
+
+        playerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+
+        computerChoosesSquare(board);
+        if (someoneWon(board) || boardFull(board)) break;
+      }
+    }// end of game loop
 
     displayBoard(board);
 
