@@ -9,6 +9,7 @@ const HUMAN_MARKER = 'X';
 const COMPUTER_MARKER = 'O';
 const NUM_GAMES_TO_WIN = 5;
 const FIRST_TURN = readline.question('Please choose who goes first - player or computer\n');
+const VALID_CHOICES = ['y', 'n', 'yes', 'no'];
 
 function displayBoard(board) {
   console.clear();
@@ -210,7 +211,7 @@ while (true) {
   let compScore = 0;
 
   while (true) { // start of additional inner loop
-    let board = initializeBoard();
+    board = initializeBoard();
 
     while (true) { // start of game loop
       displayBoard(board);
@@ -253,16 +254,23 @@ while (true) {
     }
 
 
-    prompt('Play another round? y or n');
-    let answer = readline.question().toLowerCase()[0];
-    if (answer !== 'y') break;
+    prompt('Play another round? y or n\n');
+    let answer = readline.question().toLowerCase();
+    while (!VALID_CHOICES.includes(answer)) {
+      prompt('must choose either y or n\n');
+      answer = readline.question().toLowerCase();
+    }
+    if (answer.toLowerCase()[0] === 'n') break;
   } // end of additional inner loop
 
 
-  prompt('Play another match? y or n');
-  let answer = readline.question().toLowerCase()[0];
-  if (answer !== 'y') break;
+  prompt('Play another match? y or n\n');
+  let answer = readline.question().toLowerCase();
+  while (!VALID_CHOICES.includes(answer)) {
+    prompt('must choose either y or n\n');
+    answer = readline.question().toLowerCase();
+  }
+  if (answer.toLowerCase()[0] === 'n') break;
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
-
