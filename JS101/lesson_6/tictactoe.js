@@ -11,6 +11,7 @@ const NUM_GAMES_TO_WIN = 5;
 const FIRST_TURN = readline.question('Please choose who goes first - player or computer\n');
 const VALID_CHOICES = ['y', 'n', 'yes', 'no'];
 
+
 function displayBoard(board) {
   console.clear();
 
@@ -37,17 +38,6 @@ let WINNING_LINES = [
   [1, 5, 9], [3, 5, 7] //diagonals
 ];
 
-// let board = {
-//   1: ' ', //top left
-//   2: 'X', //top centre
-//   3: ' ', //top right
-//   4: ' ', //middle left
-//   5: 'O', //centre
-//   6: ' ', //middle right
-//   7: ' ', //bottom left
-//   8: ' ', //bottom centre
-//   9: 'X', //bottom right
-// };
 
 function initializeBoard() {
   let board = {};
@@ -92,18 +82,22 @@ function findAtRiskSquare(board, line, marker) {
   return null;
 }
 
-//the below is the legacy offensive AI function
-// function findComputerWinMove(board, line) {
-//   let charsInLine = line.map(elem => board[elem]);
 
-//   if (charsInLine.filter(char => char === COMPUTER_MARKER).length === 2) {
-//     let emptySquare = line.find(elem => board[elem] === INITIAL_MARKER);
-//     if (emptySquare !== undefined) {
-//       return emptySquare;
-//     }
-//   }
-//   return null;
-// }
+function chooseSquare(board, currentPlayer) {
+  if (currentPlayer === 'player') {
+    playerChoosesSquare(board);
+  } else {
+    computerChoosesSquare(board);
+  }
+}
+
+function alternatePlayer(currentPlayer) {
+  if (currentPlayer === 'player') {
+    return 'computer';
+  } else {
+    return 'player';
+  }
+}
 
 function playerChoosesSquare(board) {
   let square; // declared here so we can use it outside the loop
@@ -213,27 +207,15 @@ while (true) {
   while (true) { // start of additional inner loop
     board = initializeBoard();
 
+    let currentPlayer = FIRST_TURN;
+
     while (true) { // start of game loop
       displayBoard(board);
+      chooseSquare(board, currentPlayer);
+      currentPlayer = alternatePlayer(currentPlayer);
+      if (someoneWon(board) || boardFull(board)) break;
 
-      if (FIRST_TURN === 'computer') {
 
-        computerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-
-        displayBoard(board);
-
-        playerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-
-      } else {
-
-        playerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-
-        computerChoosesSquare(board);
-        if (someoneWon(board) || boardFull(board)) break;
-      }
     }// end of game loop
 
     displayBoard(board);
@@ -274,3 +256,5 @@ while (true) {
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
+
+//seems to be fully functional - do a merge
