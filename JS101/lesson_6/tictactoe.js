@@ -256,5 +256,3 @@ while (true) {
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
-
-//seems to be fully functional - do a merge
