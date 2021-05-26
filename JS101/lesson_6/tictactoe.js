@@ -125,7 +125,6 @@ function computerChoosesSquare(board) {
     if (square) break;
   }
 
-
   if (!square) {
     for (let idx = 0; idx < WINNING_LINES.length; idx++) {
       let line = WINNING_LINES[idx];
@@ -134,10 +133,9 @@ function computerChoosesSquare(board) {
     }
   }
 
-  if (!square)  {
+  if (!square) {
      if (board['5'] === INITIAL_MARKER) square = 5;
    }
-
 
   if (!square) {
 
