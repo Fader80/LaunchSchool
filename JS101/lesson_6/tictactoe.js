@@ -4,6 +4,8 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+prompt('^*^*Welcome to TicTacToe - first to 5 rounds wins*^*^\n');
+
 const INITIAL_MARKER = ' ';
 const HUMAN_MARKER = 'X';
 const COMPUTER_MARKER = 'O';
@@ -195,9 +197,11 @@ function displayMatchWinner(playerScore) {
   }
 }
 
+
 //main game loop
 
 while (true) {
+
   let board = initializeBoard();
   let playerScore = 0;
   let compScore = 0;
@@ -254,3 +258,7 @@ while (true) {
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
+
+//TA corrections: 212 - 219  should be 214 - 221 - can you put a while loop inside a function?
+//239 - 246 should be  241 - 247
+//249 - 256 should be 251 - 257
