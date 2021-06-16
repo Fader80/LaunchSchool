@@ -12,6 +12,8 @@ const COMPUTER_MARKER = 'O';
 const NUM_GAMES_TO_WIN = 5;
 const FIRST_TURN = readline.question('Please choose who goes first - player or computer\n');
 const VALID_CHOICES = ['y', 'n', 'yes', 'no'];
+let roundAnswer;
+let matchAnswer;
 
 
 function displayBoard(board) {
@@ -105,7 +107,7 @@ function playerChoosesSquare(board) {
   let square; // declared here so we can use it outside the loop
 
 
-  while(true) {
+  while (true) {
     prompt(`Choose one of the following squares - ${joinOr(emptySquares(board))}`);
     square = readline.question().trim(); // input trimmed to allow spaces in input
 
@@ -197,6 +199,33 @@ function displayMatchWinner(playerScore) {
   }
 }
 
+function playSingleRound(board, currentPlayer) {
+  while (true) {
+    displayBoard(board);
+    chooseSquare(board, currentPlayer);
+    currentPlayer = alternatePlayer(currentPlayer);
+    if (someoneWon(board) || boardFull(board)) break;
+  }
+}
+
+function askToPlayAnotherRound() {
+  prompt('Play another round? y or n\n');
+  roundAnswer = readline.question().toLowerCase();
+  while (!VALID_CHOICES.includes(roundAnswer)) {
+    prompt('must choose either y or n\n');
+    roundAnswer = readline.question().toLowerCase();
+  }
+}
+
+function askToPlayAnotherMatch() {
+  prompt('Play another match? y or n\n');
+  matchAnswer = readline.question().toLowerCase();
+  while (!VALID_CHOICES.includes(matchAnswer)) {
+    prompt('must choose either y or n\n');
+    matchAnswer = readline.question().toLowerCase();
+  }
+}
+
 
 //main game loop
 
@@ -206,19 +235,15 @@ while (true) {
   let playerScore = 0;
   let compScore = 0;
 
+
   while (true) { // start of additional inner loop
     board = initializeBoard();
 
+
     let currentPlayer = FIRST_TURN;
 
-    while (true) { // start of game loop
-      displayBoard(board);
-      chooseSquare(board, currentPlayer);
-      currentPlayer = alternatePlayer(currentPlayer);
-      if (someoneWon(board) || boardFull(board)) break;
+    playSingleRound(board, currentPlayer); //game loop function
 
-
-    }// end of game loop
 
     displayBoard(board);
 
@@ -237,28 +262,15 @@ while (true) {
 
     }
 
+    askToPlayAnotherRound();
 
-    prompt('Play another round? y or n\n');
-    let answer = readline.question().toLowerCase();
-    while (!VALID_CHOICES.includes(answer)) {
-      prompt('must choose either y or n\n');
-      answer = readline.question().toLowerCase();
-    }
-    if (answer.toLowerCase()[0] === 'n') break;
+    if (roundAnswer.toLowerCase()[0] === 'n') break;
+
   } // end of additional inner loop
 
+  askToPlayAnotherMatch();
 
-  prompt('Play another match? y or n\n');
-  let answer = readline.question().toLowerCase();
-  while (!VALID_CHOICES.includes(answer)) {
-    prompt('must choose either y or n\n');
-    answer = readline.question().toLowerCase();
-  }
-  if (answer.toLowerCase()[0] === 'n') break;
+  if (matchAnswer.toLowerCase()[0] === 'n') break;
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
-
-//TA corrections: 212 - 219  should be 214 - 221 - can you put a while loop inside a function?
-//239 - 246 should be  241 - 247
-//249 - 256 should be 251 - 257

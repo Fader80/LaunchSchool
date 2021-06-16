@@ -1,5 +1,5 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-{\colortbl ;\red192\green80\blue77;}
+{\colortbl ;\red192\green80\blue77;\red0\green0\blue0;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
 \b0 Write a function that takes a string as an argument and returns true if all parentheses in the string are properly balanced, false otherwise. To be properly balanced, parentheses must occur in matching '(' and ')' pairs.\par
 \par
@@ -7,7 +7,7 @@
 \ul my workings:\par
 \par
 \ulnone\b inputs:\b0   string \par
-\b output:\b0   boolean to reflect if parentheses in string are balaned \par
+\b output:\b0   boolean to reflect if parentheses in string are balanced \par
 \par
 \b implicit concepts:\b0    balanced parentheses. \i\par
 \b\i0 implicit requirements:\b0    \par
@@ -9732,15 +9732,18 @@ The tests above should log true.\par
 Note that balanced pairs must each start with a (, not a ).\par
 \pard\sa200\sl276\slmult1\par
 \par
-\par
 \b edge cases:\b0    empty string \b\par
 data structure:\b0    string, array \par
 \par
 \b algorithm:\b0    \par
-1. set \cf1 parenList\cf0  equal to an array, testing \cf1 argString\cf0  (the argument passed in) for any parentheses, and adding any found to it\par
-2. if the length of \cf1 parenList \cf0 is odd, return false \par
-3. Otherwise, \cf1 parenListHalf1 \cf0 equal an empty array\par
-4. Set a variable \cf1 idx\cf0  to 0\line\tab While \cf1 idx\cf0  is less than the length of \cf1 parenList\cf0  divided by two: \line\tab\tab I) \cf1 set currElem\cf0  equal to the element of \cf1 parenList\cf0  at \cf1 idx\cf0\line\tab\tab II) add \cf1 currElem\cf0  to \cf1 parenListHalf1\cf0\par
+1. set \cf1 flag \cf0 equal to true\par
+2. set \cf1 parenList\cf0  equal to an array, testing \cf1 argString\cf0  (the argument passed in) for any parentheses, and adding any found to it\par
+3. if the length of \cf1 parenList \cf0 is odd, return  false \par
+4. if the first element of \cf1 parenList \cf0 is ), return false\par
+5. Otherwise\cf1 , \cf0 set  \cf1 parenListHalf1 \cf0 equal to the elements comprising the first half of \cf1 parenList\cf0 , reversed\par
+6. loop through \cf1 parenListHalf1\cf0  - \line\tab I) let \cf1 idxHalf2\cf0  equal to length of \cf1 parenList\cf0 , divided by 2 \line\tab II) set \cf1 idx \cf0 to 0\line\tab III) set \cf1 currElem\cf0  as the element of \cf1 parenListHalf1\cf0  at \cf1 idx\line\cf2\tab IV) while \cf1 idx\cf2  is less than the length of \cf1 parenListHalf1\cf2 :\line\tab\tab a) check if currElem is the same as the element of parenList at \cf1 idx\cf2 :\line\tab\tab\tab -if it isn't: \line\tab\tab\tab\tab -set \cf1 flag\cf2  to false\line\tab\tab\tab\tab - break out of the loop\line\tab\tab b)\tab -increment \cf1 idx\cf2  by 1\line\tab\tab\tab -increment \cf1 idxHalf2\cf2  by 1 \par
+7. return \cf1 flag\cf0\par
+\par
 \par
 \b manually test a couple of cases:\b0  \par
 \par
