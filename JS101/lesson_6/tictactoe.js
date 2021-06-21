@@ -103,6 +103,16 @@ function alternatePlayer(currentPlayer) {
   }
 }
 
+function offensiveOrDefensiveSquare(board, marker) {
+  let square;
+  for (let idx = 0; idx < WINNING_LINES.length; idx++) {
+    let line = WINNING_LINES[idx];
+    square = findAtRiskSquare(board, line, marker);
+    if (square) return square;
+  }
+  return null;
+}
+
 function playerChoosesSquare(board) {
   let square; // declared here so we can use it outside the loop
 
@@ -121,25 +131,15 @@ function playerChoosesSquare(board) {
 }
 
 function computerChoosesSquare(board) {
-  let square;
+  let square = offensiveOrDefensiveSquare(board, COMPUTER_MARKER);
 
-  for (let idx = 0; idx < WINNING_LINES.length; idx++) {
-    let line = WINNING_LINES[idx];
-    square = findAtRiskSquare(board, line, COMPUTER_MARKER);
-    if (square) break;
+  if (!square) {
+    square = offensiveOrDefensiveSquare(board, HUMAN_MARKER);
   }
 
   if (!square) {
-    for (let idx = 0; idx < WINNING_LINES.length; idx++) {
-      let line = WINNING_LINES[idx];
-      square = findAtRiskSquare(board, line, HUMAN_MARKER);
-      if (square) break;
-    }
+    if (board['5'] === INITIAL_MARKER) square = 5;
   }
-
-  if (!square) {
-     if (board['5'] === INITIAL_MARKER) square = 5;
-   }
 
   if (!square) {
 
