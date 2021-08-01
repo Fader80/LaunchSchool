@@ -1,17 +1,28 @@
 function isBalanced(argString) {
   let flag = true;
-  let parLength  = parenList.length;
-  let parenList = argString.match(/()/g);
+
+  let parenList = argString.match(/[()]/g);
+
+  if (!parenList) return true; // this is to handle no parentheses in sentence
+
+  let parLength = parenList.length;
 
   if (parLength % 2 !== 0) return false;
 
   if (parenList[0] === ')') return false;
 
-  let parenListHalf1 = parenList.split(0, parLength / 2);
+  let parenListHalf1Rev = parenList.slice(0, parLength / 2).reverse(); // fix this - see note #2 below
 
-  for (let idx = 0; idx < parenListHalf1.length; idx++) {
-    let idxHalf2 = parenLength / 2;
-    let currElem = parenListHalf1[idx];
+  for (let idx = 0; idx < parenListHalf1Rev.length; idx++) {
+    let currElem = parenListHalf1Rev[idx];
+    currElem === '(' ? parenListHalf1Rev[idx] = ')' : parenListHalf1Rev[idx] = '(';
+  }
+
+  let idxHalf2 = parLength / 2;
+
+  for (let idx = 0; idx < parenListHalf1Rev.length; idx++) {
+    
+    let currElem = parenListHalf1Rev[idx];
     let comparElem = parenList[idxHalf2];
 
     if (currElem !== comparElem) {
@@ -26,4 +37,5 @@ function isBalanced(argString) {
 
 }
 
-//finished, but need to test it in playcode 
+
+//code is now working fully as intended - but need to extract some of the code into helper function if possible (too long)
