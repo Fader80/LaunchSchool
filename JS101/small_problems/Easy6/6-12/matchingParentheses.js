@@ -11,8 +11,29 @@ function parenListHalf1Reverser(parenArr, parArrLength) { // the arguments shoul
 }
 
 
-function isBalanced(argString) {
+function parenListComparer(arrLength, parenArr, parenArrFirtHalfRev) { // the arguments should be parlength, parenList and parenListHalf1Rev 
   let flag = true;
+  let idxHalf2 = arrLength / 2;
+
+  for (let idx = 0; idx < parenArrFirtHalfRev.length; idx++) {
+
+    let currElem = parenArrFirtHalfRev[idx];
+    let comparElem = parenArr[idxHalf2];
+
+    if (currElem !== comparElem) {
+      flag = false;
+      break;
+    } else {
+      idxHalf2++;
+    }
+  }
+  return flag;
+
+}
+
+
+function isBalanced(argString) {
+
 
   let parenList = argString.match(/[()]/g);
 
@@ -26,29 +47,12 @@ function isBalanced(argString) {
 
   let parenListHalf1Rev = parenListHalf1Reverser(parenList, parLength);
 
+  let flag = parenListComparer(parLength, parenList, parenListHalf1Rev);
 
-  let idxHalf2 = parLength / 2;
-
-  for (let idx = 0; idx < parenListHalf1Rev.length; idx++) {
-
-    let currElem = parenListHalf1Rev[idx];
-    let comparElem = parenList[idxHalf2];
-
-    if (currElem !== comparElem) {
-      flag = false;
-      break;
-    } else {
-      idxHalf2++;
-    }
-  }
 
   return flag;
 
 }
 
-
-//code is now working fully as intended - but need to extract some of the code into helper function if possible (too long)
-//extract the for loops into separate functions - FIRST ONE DONE
-
-
+//code is now working fully as intended - post solution to thread
 
