@@ -23,7 +23,6 @@ function parseAceValueFromCard() {
   }
 }
 
-
 function calculateCardTotal(card) {
   let cardValue = card[1];
   let parsedCardValue;
@@ -37,3 +36,15 @@ function calculateCardTotal(card) {
   return parsedCardValue;
 
 }
+
+//this is the main final function
+function calculateHandTotal(hand) {
+  let total = 0;
+
+  hand.forEach(card => {
+    total += calculateCardTotal(card);
+  });
+  return total;
+}
+
+
