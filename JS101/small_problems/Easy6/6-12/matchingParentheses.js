@@ -54,5 +54,3 @@ function isBalanced(argString) {
 
 }
 
-//code is now working fully as intended - post solution to thread
-
