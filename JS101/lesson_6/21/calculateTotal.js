@@ -37,7 +37,7 @@ function calculateCardTotal(card) {
 
 }
 
-//this is the main final function
+//this is the main calculate total function
 function calculateHandTotal(hand) {
   let total = 0;
 

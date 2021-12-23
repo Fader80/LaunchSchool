@@ -10,6 +10,7 @@ const deckKeysArr = Object.keys(deck);
 
 const NUMBER_OF_RANKS = 12;
 
+let currentTotal;
 
 const suiteGenerator = function() {
   return Math.floor(Math.random() * deckKeysArr.length);
@@ -38,15 +39,58 @@ const handGenerator = function() {
   return hand;
 };
 
+const parseNonAceValueFromCard =  function(argValue) {
+  let convertedArg = Number(argValue);
+
+  if (convertedArg) {
+    return convertedArg;
+  } else {
+    return 10;
+  }
+};
+
+
+const parseAceValueFromCard = function() {
+  currentTotal += 11;
+
+  if (currentTotal > 21) {
+    return 1;
+  } else {
+    return 11;
+  }
+};
+
+const calculateCardTotal = function(card) {
+  let cardValue = card[1];
+  let parsedCardValue;
+
+  if (cardValue !== 'Ace') {
+    parsedCardValue = parseNonAceValueFromCard(cardValue);
+  } else {
+    parsedCardValue = parseAceValueFromCard();
+  }
+
+  return parsedCardValue;
+
+};
+
+//this is the main calculate total function
+function calculateHandTotal(hand) {
+  let total = 0;
+
+  hand.forEach(card => {
+    total += calculateCardTotal(card);
+  });
+  return total;
+}
+
 //round starts here - should you display a welcome message?
+
 
 const playerHand = handGenerator();
 
 const dealerHand = handGenerator();
 
+let playerTotal = calculateHandTotal(playerHand);
 
-let currentTotal;
-
-let playerTotal = 0;
-
-let dealerTotal = 0;
+let dealerTotal = calculateHandTotal(dealerHand);
