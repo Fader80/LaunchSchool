@@ -3,7 +3,9 @@ while (true) {
   let answer = readline.question();
   if (answer === 'stay' || busted()) break;
 
-  playerTotal += calculateCardTotal(cardGenerator()); // see calculateTotal.js, this function has been built
+  playerHand.push(cardGenerator());
+
+  playerTotal += calculateHandTotal(playerHand); // see calculateTotal.js, this function has been built
 }
 
 

@@ -5,12 +5,16 @@ const deck = {
   Spades: [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
 };
 
+let rlSync = require('readline-sync');
 
 const deckKeysArr = Object.keys(deck);
 
 const NUMBER_OF_RANKS = 12;
 
-let currentTotal;
+
+let playerBust;
+
+let dealerBust;
 
 const suiteGenerator = function() {
   return Math.floor(Math.random() * deckKeysArr.length);
@@ -75,17 +79,26 @@ const calculateCardTotal = function(card) {
 };
 
 //this is the main calculate total function
-function calculateHandTotal(hand) {
+const calculateHandTotal = function(hand) {
   let total = 0;
 
   hand.forEach(card => {
     total += calculateCardTotal(card);
   });
   return total;
-}
+};
+
+const busted = function(total) {
+  if (total > 21) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 //round starts here - should you display a welcome message?
-
+//put this into a while loop encompassing the other loops?
+console.log('***welcome to 21!***');
 
 const playerHand = handGenerator();
 
@@ -93,4 +106,32 @@ const dealerHand = handGenerator();
 
 let playerTotal = calculateHandTotal(playerHand);
 
+
 let dealerTotal = calculateHandTotal(dealerHand);
+
+
+//player turn loop
+while (true) {
+
+  console.log("hit or stay?");
+  let answer = rlSync.question();
+  if (answer === 'hit') {
+    playerHand.push(cardGenerator());
+
+    playerTotal = calculateHandTotal(playerHand);
+  }
+
+  if (answer === 'stay' || busted(playerTotal)) break;
+
+}
+
+
+if (busted(playerTotal)) {
+  playerBust = true;
+  console.log('you busted'); //FOR TESTING - DELETE AFTER
+  // probably end the game? or ask the user to play again?
+} else {
+  console.log("You chose to stay!");  // if player didn't bust, must have stayed to get here
+}
+
+
