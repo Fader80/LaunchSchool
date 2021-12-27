@@ -12,10 +12,6 @@ const deckKeysArr = Object.keys(deck);
 const NUMBER_OF_RANKS = 12;
 
 
-let playerBust;
-
-let dealerBust;
-
 const suiteGenerator = function() {
   return Math.floor(Math.random() * deckKeysArr.length);
 };
@@ -127,8 +123,8 @@ while (true) {
 
 
 if (busted(playerTotal)) {
-  playerBust = true;
-  console.log('you busted'); //FOR TESTING - DELETE AFTER
+
+  console.log('You busted, dealer won');
   // probably end the game? or ask the user to play again?
 } else {
   console.log("You chose to stay!");  // if player didn't bust, must have stayed to get here
