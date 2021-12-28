@@ -1,5 +1,5 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-{\colortbl ;\red209\green99\blue73;}
+{\colortbl ;\red209\green99\blue73;\red192\green80\blue77;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
 \b0 Building on the previous exercise, write a function that returns true or false based on whether or not an inventory item is available. As before, the function takes two arguments: an inventory item and a list of transactions. The function should return true only if the sum of the quantity values of the item's transactions is greater than zero. Notice that there is a movement property in each transaction object. A movement value of 'out' will decrease the item's quantity.\par
 \par
@@ -14,7 +14,13 @@ You may (and should) use the \cf1 transactionsFor \cf0 function from the previou
 \b explicit requirements:\b0    takes two arguments specified above, returns a boolean on whether the item is available\b\par
 implicit requirements:\b0    \b\par
 \par
-mental model:\b0    \b\par
+mental model:\b0    \par
+the \cf2 transactionsFor \cf0 function from the previous exercises will return an array of only the objects that match the transaction ID we're querying - this is the array which we'll be processing \par
+a \cf2 total \cf0 variable should be declared \par
+iterate through each of the objects in the array: \par
+- if the value of 'movement' property is 'in', add the value of the 'quantity' property to \cf2 total \line\cf0 - if on the other hand the value is 'out', then subtract the value from \cf2 total\par
+\cf0 return true if the total is over 0, false if otherwise\par
+\b\par
 \b0\par
 \par
 \b examples:\b0    \par

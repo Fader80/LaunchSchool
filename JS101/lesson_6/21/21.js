@@ -100,10 +100,10 @@ const playerHand = handGenerator();
 
 const dealerHand = handGenerator();
 
-let playerTotal = calculateHandTotal(playerHand);
+let playerTotal;
 
 
-let dealerTotal = calculateHandTotal(dealerHand);
+let dealerTotal;
 
 
 //player turn loop
