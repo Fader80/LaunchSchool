@@ -5,6 +5,7 @@ const deck = {
   Spades: [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
 };
 
+const { clear } = require('console');
 let rlSync = require('readline-sync');
 
 const deckKeysArr = Object.keys(deck);
@@ -92,42 +93,59 @@ const busted = function(total) {
   }
 };
 
+const displayHands = function(dealerCards, playerCards, playerSum) {
+
+  let dealerHandRedacted = [dealerCards[0], ['?']];
+  console.log(`Your hand is: ${playerCards}`);
+  console.log(`Note, your hand's total is: ${playerSum}\n`);
+
+  console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
+};
+
 //round starts here - should you display a welcome message?
 //put this into a while loop encompassing the other loops?
-console.log('***welcome to 21!***');
 
-const playerHand = handGenerator();
+while (true) { // main game loop
 
-const dealerHand = handGenerator();
+  console.log('***welcome to 21!***');
 
-let playerTotal;
+  const playerHand = handGenerator();
+
+  const dealerHand = handGenerator();
+
+  let playerTotal = calculateHandTotal(playerHand);
+
+  let dealerTotal;
+
+  let playRound = rlSync.question('Do you want to start a round? answer y/n\n');
+
+  if (playRound.toLocaleLowerCase() === 'n') break;
 
 
-let dealerTotal;
+  //player turn loop
+  while (true) {
+    clear();
+    displayHands(dealerHand, playerHand, playerTotal);
 
+    console.log("hit or stay?");
+    let answer = rlSync.question();
+    if (answer[0] === 'h') {
+      playerHand.push(cardGenerator());
 
-//player turn loop
-while (true) {
+      playerTotal = calculateHandTotal(playerHand);
+    }
 
-  console.log("hit or stay?");
-  let answer = rlSync.question();
-  if (answer === 'hit') {
-    playerHand.push(cardGenerator());
+    if (answer[0] === 's' || busted(playerTotal)) break;
 
-    playerTotal = calculateHandTotal(playerHand);
+  }//end of player turn loop
+
+  if (busted(playerTotal)) {
+
+    console.log('You busted, dealer won');
+    break;
+    // probably end the game? or ask the user to play again? - if the latter, ask the question above the break
+  } else {
+    console.log("You chose to stay!");  // if player didn't bust, must have stayed to get here
   }
 
-  if (answer === 'stay' || busted(playerTotal)) break;
-
-}
-
-
-if (busted(playerTotal)) {
-
-  console.log('You busted, dealer won');
-  // probably end the game? or ask the user to play again?
-} else {
-  console.log("You chose to stay!");  // if player didn't bust, must have stayed to get here
-}
-
-
+}//end of main game loop
