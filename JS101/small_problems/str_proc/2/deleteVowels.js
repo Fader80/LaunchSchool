@@ -1,16 +1,16 @@
-//helper function:
-function isVowel(argLetter) {
-  return 'aeiouAEIOU'.includes(argLetter);
-}
+//helper function
+function removeVowelsFromString(argStr) {
 
-function removeVowels(argStr) {
   let targStr = '';
 
   for (let idx = 0; idx < argStr.length; idx++) {
     let currLetter = argStr[idx];
-    if (isVowel(currLetter)) continue;
+    if ('aeiouAEIOU'.includes(currLetter)) continue;
     targStr += currLetter;
   }
-
   return targStr;
+}
+
+function removeVowels(argArr) {
+  return argArr.map(string => removeVowelsFromString(string));
 }

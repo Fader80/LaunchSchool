@@ -115,7 +115,11 @@ while (true) { // main game loop
 
   let playerTotal = calculateHandTotal(playerHand);
 
-  let dealerTotal;
+  let dealerTotal = calculateHandTotal(dealerHand);
+
+  let playerBust;
+
+  let dealerBust;
 
   let playRound = rlSync.question('Do you want to start a round? answer y/n\n');
 
@@ -140,12 +144,28 @@ while (true) { // main game loop
   }//end of player turn loop
 
   if (busted(playerTotal)) {
+    playerBust = true;
 
     console.log('You busted, dealer won');
     break;
     // probably end the game? or ask the user to play again? - if the latter, ask the question above the break
   } else {
     console.log("You chose to stay!");  // if player didn't bust, must have stayed to get here
+    //also if player chose to stay, it's now the dealer's turn
   }
+  //dealer turn while loop
+  while (true) {
+    if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
+
+    dealerTotal = calculateHandTotal(cardGenerator()); // this is the equivalent of 'hit'
+
+  }//end of dealer turn loop
+
+  if (busted(dealerTotal)) {
+    dealerBust = true;
+    console.log('Dealer busted, you win!');
+    break;
+  }
+
 
 }//end of main game loop

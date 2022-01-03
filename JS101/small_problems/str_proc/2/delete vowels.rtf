@@ -3,7 +3,6 @@
 \b0 Write a function that takes an array of strings and returns an array of the same string values, but with all vowels (a, e, i, o, u) removed.\par
 \par
 \par
-\par
 \ul my workings:\par
 \par
 \ulnone\b inputs:\b0   array of strings \par
@@ -13,12 +12,9 @@
 implicit requirements:\b0    characters should keep the same case after removal of the vowels\b\par
 \par
 mental model:\b0    \par
-//THE BELOW NEEDS TO BE UPDATED / REWRITTEN AS WE NEED AN ARRAY OF STRINGS, AND NOT JUST A SINGLE STRING\par
-have a target string \par
-make a predicate helper function with a string of vowels, which tests if the string includes  the current character \par
-iterate through the argument string, passing in the current element into the helper. if the current element returns false, add it to the target string \par
-return target string\par
 \par
+make a  helper function which sets a target string, then with a string of vowels, which iterates and tests if the vowel string includes the current character - if it does, skips to next character, if not then adds the current character to the target string, and returns the target string  \par
+use map and set each element equal to the return value of it being passed into the helper function, and return the return value of this map operation as the main return value  of the function \par
 \b\par
 \b0\par
 \par
@@ -5562,9 +5558,8 @@ a64d8b844d49454d49454d49454d4945d7b645f2f8f7f2f8f8f2f8f8b4dcf84d4a464d49454d49
 }\par
 \pard\sa200\sl276\slmult1\par
 \par
-\par
 \b edge cases:\b0    \b\par
-data structure:\b0    \par
+data structure:\b0    strings, array\par
 \par
 \b algorithm:\b0    \par
 \par
