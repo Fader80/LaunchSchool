@@ -157,7 +157,11 @@ while (true) { // main game loop
   while (true) {
     if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
 
-    dealerTotal = calculateHandTotal(cardGenerator()); // this is the equivalent of 'hit'
+
+    dealerHand.push(cardGenerator); // this is the equivalent of 'hit'
+
+    dealerTotal = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
+    console.log(dealerTotal); // THIS IS FOR PLAYTESTING
 
   }//end of dealer turn loop
 
