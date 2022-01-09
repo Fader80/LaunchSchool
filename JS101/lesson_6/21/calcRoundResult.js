@@ -1,14 +1,9 @@
-function calcResultOfRound() {
-  let result;
-
-  if (playerBust || (dealerTotal > playerTotal)) {
-    result = 'dealer';
-  } else if (dealerBust || (playerTotal > dealerTotal)) {
-    result = 'player';
+function calcRoundResult(totalOfPlayer, totalOfComputer) {
+  if (totalOfPlayer > totalOfComputer) {
+    return 'player';
+  } else if (totalOfComputer > totalOfPlayer) {
+    return 'computer';
   } else {
-    result = 'tie';
+    return 'tie';
   }
-
-  return result;
-
 }

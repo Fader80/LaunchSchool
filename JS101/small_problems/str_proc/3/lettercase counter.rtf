@@ -12,9 +12,24 @@
 \b\i0 implicit requirements:\b0    non -letter characters count as 'neither' but empty string counts as nothing at all\b\par
 \par
 mental model:\b0    \b\par
-\b0 use split to make it into an array \par
+\b0 use split to make it into an array strArr\par
 then use reduce, with an empty object as the accumulator? \par
-for each iteration of reduce, use each property starting at 0 and +=  the result of the current element for all 3 of them \par
+for each iteration of reduce, use each property starting at 0 and +=  the result of the current element for all 3 of them  // scrap this\par
+\par
+then for each iteration, accum[helperFunction(currElem)] += 1\par
+return accum on each iteration\par
+\par
+\ul mini pedac for helper function:\par
+\ulnone\b input: \b0  string character (the element of the strArr being iterated over) \b\line\b0\par
+\b output:  \b0 should return the string  'lowercase', 'uppercase', or 'neither'\b\par
+\b0\par
+\b mental model:\line\b0\par
+let char be the character passed in\par
+if the character is not the same when changed to lowercase && not the same when changed to uppercase, return 'neither'\par
+else if the character is not the same when changed to lowercase, return 'uppercase'\par
+else return 'lowercase'\b\par
+\par
+\b0\par
 \par
 \b examples:\b0    \par
 \pard\sa200\sl240\slmult1{\pict\wmetafile8\picw16748\pich3096\picwgoal9495\pichgoal1755 

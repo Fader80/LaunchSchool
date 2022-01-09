@@ -102,6 +102,34 @@ const displayHands = function(dealerCards, playerCards, playerSum) {
   console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
 };
 
+const calcRoundResult = function(totalOfPlayer, totalOfComputer) {
+  if (totalOfPlayer > totalOfComputer) {
+    return 'player';
+  } else if (totalOfComputer > totalOfPlayer) {
+    return 'computer';
+  } else {
+    return 'tie';
+  }
+};
+
+const displayResult = function(calcFunc) {
+
+  switch (calcFunc()) {
+    case 'player' : {
+      console.log('You won the round!');
+      break;
+    }
+    case 'computer' : {
+      console.log('Dealer won the round');
+      break;
+    }
+    default : {
+      console.log('Round was a tie');
+      break;
+    }
+  }
+};
+
 //round starts here - should you display a welcome message?
 //put this into a while loop encompassing the other loops?
 
@@ -116,10 +144,6 @@ while (true) { // main game loop
   let playerTotal = calculateHandTotal(playerHand);
 
   let dealerTotal = calculateHandTotal(dealerHand);
-
-  let playerBust;
-
-  let dealerBust;
 
   let playRound = rlSync.question('Do you want to start a round? answer y/n\n');
 
@@ -144,7 +168,6 @@ while (true) { // main game loop
   }//end of player turn loop
 
   if (busted(playerTotal)) {
-    playerBust = true;
 
     console.log('You busted, dealer won');
     break;
@@ -158,18 +181,17 @@ while (true) { // main game loop
     if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
 
 
-    dealerHand.push(cardGenerator); // this is the equivalent of 'hit'
+    dealerHand.push(cardGenerator()); // this is the equivalent of 'hit'
 
     dealerTotal = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
-    console.log(dealerTotal); // THIS IS FOR PLAYTESTING
 
   }//end of dealer turn loop
 
   if (busted(dealerTotal)) {
-    dealerBust = true;
     console.log('Dealer busted, you win!');
     break;
+  } else {
+    displayResult(calcRoundResult(playerTotal, dealerTotal));
   }
-
 
 }//end of main game loop
