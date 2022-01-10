@@ -147,7 +147,7 @@ while (true) { // main game loop
 
   let playRound = rlSync.question('Do you want to start a round? answer y/n\n');
 
-  if (playRound.toLocaleLowerCase() === 'n') break;
+  if (playRound.toLowerCase() === 'n') break;
 
 
   //player turn loop
