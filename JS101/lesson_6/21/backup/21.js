@@ -51,24 +51,24 @@ const parseNonAceValueFromCard =  function(argValue) {
 };
 
 
-const parseAceValueFromCard = function(total) {
-  total += 11;
+const parseAceValueFromCard = function() {
+  currentTotal += 11;
 
-  if (total > 21) {
+  if (currentTotal > 21) {
     return 1;
   } else {
     return 11;
   }
 };
 
-const calculateCardTotal = function(card, total) {
+const calculateCardTotal = function(card) {
   let cardValue = card[1];
   let parsedCardValue;
 
   if (cardValue !== 'Ace') {
     parsedCardValue = parseNonAceValueFromCard(cardValue);
   } else {
-    parsedCardValue = parseAceValueFromCard(total);
+    parsedCardValue = parseAceValueFromCard();
   }
 
   return parsedCardValue;
@@ -77,16 +77,15 @@ const calculateCardTotal = function(card, total) {
 
 //this is the main calculate total function
 const calculateHandTotal = function(hand) {
-
   let total = 0;
 
   hand.forEach(card => {
-    total += calculateCardTotal(card, total);
+    total += calculateCardTotal(card);
   });
   return total;
 };
 
-const busted = function(currentTotal) {
+const busted = function() {
   if (currentTotal > 21) {
     return true;
   } else {
@@ -113,9 +112,9 @@ const calcRoundResult = function(totalOfPlayer, totalOfComputer) {
   }
 };
 
-const displayResult = function(totalOfPlayer, totalOfComputer) {
+const displayResult = function(calcFunc) {
 
-  switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
+  switch (calcFunc()) {
     case 'player' : {
       console.log('You won the round!');
       break;
@@ -124,7 +123,7 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
       console.log('Dealer won the round');
       break;
     }
-    case 'tie' : {
+    default : {
       console.log('Round was a tie');
       break;
     }
@@ -164,11 +163,11 @@ while (true) { // main game loop
       playerTotal = calculateHandTotal(playerHand);
     }
 
-    if (answer[0] === 's' || busted(playerTotal)) break;
+    if (answer[0] === 's' || busted()) break;
 
   }//end of player turn loop
 
-  if (busted(playerTotal)) {
+  if (busted()) {
 
     console.log('You busted, dealer won');
     break;
@@ -192,7 +191,7 @@ while (true) { // main game loop
     console.log('Dealer busted, you win!');
     break;
   } else {
-    displayResult(displayResult(playerTotal, dealerTotal));
+    displayResult(calcRoundResult(playerTotal, dealerTotal));
   }
 
 }//end of main game loop

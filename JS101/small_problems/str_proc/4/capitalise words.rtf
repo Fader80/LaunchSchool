@@ -1,7 +1,6 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
 \b0 Write a function that takes a string as an argument and returns that string with the first character of every word capitalized and all subsequent characters in lowercase.\par
-\par
 You may assume that a word is any sequence of non-whitespace characters.\par
 \par
 \par
@@ -11,12 +10,18 @@ You may assume that a word is any sequence of non-whitespace characters.\par
 \b output:\b0   string with first letter of each word capitalised and the remaining characters lowercase\par
 \par
 \b explicit requirements:\b0    \par
--each word's first letter is capitalised\line -subsequent letters are are lowercase\line -what is a word in this context? ...\line\par
+-each word's first letter is capitalised\line -subsequent letters are are lowercase\line -what is a word in this context?  - any sequence of non-whitespace characters (i.e. not spaces) \line\par
 \b\par
-implicit requirements:\b0    \b\par
+implicit requirements:\b0    \line - words in double quotation marks do not have their first letter uppercase (rather, the opening quotation mark is uppercased, and that operation doesn't change it)  \line - single letter words like I and a count as words and need to be uppercased\b\par
 \par
 mental model:\b0    \b\par
-\b0\par
+\b0 how to determine what is a word? regex? - or you can split the string using a whitespace as separator - this will give you an array of words \par
+then for every element in that array of words, you would iterate through and return a new string based on the word, its first letter made uppercase and the rest of the body of the word unchanged\par
+for the reconstructed sentence, how would you account for the fact that there's no space after the last word in the sentence?  - iterate through the capitalised word array, and generally add the capitalised word plus a space to the result string, unless it's the final element of the array, in which case you only add the capitalised word to the result string\par
+OR\par
+iterate through the string, if the character directly preceding it is not a string, then it should be capitalised and added to a result string, otherwise it should just be added to the result string \par
+\par
+\par
 \par
 \b examples:\b0    \par
 \pard\sa200\sl240\slmult1{\pict\wmetafile8\picw16351\pich2328\picwgoal9270\pichgoal1320 
@@ -4131,8 +4136,8 @@ b13ee7f8f74e95cb4d49464d49454d49454d49454d49454d49454d49454d49454d49454d49454d
 }\par
 \pard\sa200\sl276\slmult1\par
 \par
-\b edge cases:\b0    \b\par
-data structure:\b0    \par
+\b edge cases:\b0    empty string \b\par
+data structure:\b0    string, array \par
 \par
 \b algorithm:\b0    \par
 \par
