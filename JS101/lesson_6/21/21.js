@@ -117,15 +117,15 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
 
   switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
     case 'player' : {
-      console.log('You won the round!');
+      console.log('You won the round!\n');
       break;
     }
     case 'computer' : {
-      console.log('Dealer won the round');
+      console.log('Dealer won the round\n');
       break;
     }
     case 'tie' : {
-      console.log('Round was a tie');
+      console.log('Round was a tie\n');
       break;
     }
   }
@@ -136,7 +136,7 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
 
 while (true) { // main game loop
 
-  console.log('***welcome to 21!***');
+  console.log('***welcome to 21!***\n');
 
   const playerHand = handGenerator();
 
@@ -169,12 +169,14 @@ while (true) { // main game loop
   }//end of player turn loop
 
   if (busted(playerTotal)) {
+    clear();
+    displayHands(dealerHand, playerHand, playerTotal); // this is so player can still see their full hand after they bust
 
     console.log('You busted, dealer won');
     break;
     // probably end the game? or ask the user to play again? - if the latter, ask the question above the break
   } else {
-    console.log("You chose to stay!");  // if player didn't bust, must have stayed to get here
+    console.log("You chose to stay!\n");  // if player didn't bust, must have stayed to get here
     //also if player chose to stay, it's now the dealer's turn
   }
   //dealer turn while loop
@@ -192,7 +194,7 @@ while (true) { // main game loop
     console.log('Dealer busted, you win!');
     break;
   } else {
-    displayResult(displayResult(playerTotal, dealerTotal));
+    displayResult(playerTotal, dealerTotal);
   }
 
 }//end of main game loop
