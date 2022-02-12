@@ -12,6 +12,21 @@ const deckKeysArr = Object.keys(deck);
 
 const NUMBER_OF_RANKS = 12;
 
+const cloneDeck = function(origDeck) {
+  let clonedDeck = {};
+
+  let deckEntries = Object.entries(origDeck);
+
+  deckEntries.forEach(entry => {
+    let [key, value] = entry;
+
+    clonedDeck[key] = value.map(elem => elem);
+  });
+
+  return clonedDeck;
+
+};
+
 
 const suiteGenerator = function() {
   return Math.floor(Math.random() * deckKeysArr.length);
@@ -31,13 +46,23 @@ const cardGenerator = function() {
 
 };
 
-const handGenerator = function() {
-  let hand = [];
+//need to delete this function
+// const handGenerator = function() {
+//   let hand = [];
 
-  hand[0] = cardGenerator();
-  hand[1] = cardGenerator();
+//   hand[0] = cardGenerator();
+//   hand[1] = cardGenerator();
 
-  return hand;
+//   return hand;
+// };
+
+const deleteGeneratedCardFromDeck = function(cardToDelete, roundDeck) {
+  let [suite, value] = cardToDelete;
+
+  let suiteArray = roundDeck[suite];
+  let indexOfCardToDelete = suiteArray.indexOf(value);
+
+  suiteArray.splice(indexOfCardToDelete, 1);
 };
 
 const parseNonAceValueFromCard =  function(argValue) {
@@ -121,7 +146,7 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
       break;
     }
     case 'computer' : {
-      console.log('Dealer won the round\n');
+      console.log(`Dealer scored ${totalOfComputer} and won the round\n`);
       break;
     }
     case 'tie' : {
@@ -131,16 +156,27 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
   }
 };
 
-//round starts here - should you display a welcome message?
-//put this into a while loop encompassing the other loops?
 
 while (true) { // main game loop
 
   console.log('***welcome to 21!***\n');
 
-  const playerHand = handGenerator();
+  const playerHand = [];
 
-  const dealerHand = handGenerator();
+  playerHand[0] = cardGenerator();
+  deleteGeneratedCardFromDeck(playerHand[0], deck);
+
+  playerHand[1] = cardGenerator();
+  deleteGeneratedCardFromDeck(playerHand[1], deck);
+
+
+  const dealerHand = [];
+
+  dealerHand[0] = cardGenerator();
+  deleteGeneratedCardFromDeck(dealerHand[0], deck);
+
+  dealerHand[1] = cardGenerator();
+  deleteGeneratedCardFromDeck(dealerHand[1], deck);
 
   let playerTotal = calculateHandTotal(playerHand);
 
@@ -160,6 +196,7 @@ while (true) { // main game loop
     let answer = rlSync.question();
     if (answer[0] === 'h') {
       playerHand.push(cardGenerator());
+      deleteGeneratedCardFromDeck(playerHand[playerHand.length - 1], deck);
 
       playerTotal = calculateHandTotal(playerHand);
     }
@@ -185,6 +222,7 @@ while (true) { // main game loop
 
 
     dealerHand.push(cardGenerator()); // this is the equivalent of 'hit'
+    deleteGeneratedCardFromDeck(dealerHand[dealerHand.length - 1], deck);
 
     dealerTotal = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
 
@@ -198,3 +236,5 @@ while (true) { // main game loop
   }
 
 }//end of main game loop
+
+//im adding this as a marker for non shuffle
