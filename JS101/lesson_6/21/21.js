@@ -46,17 +46,7 @@ const cardGenerator = function() {
 
 };
 
-//need to delete this function
-// const handGenerator = function() {
-//   let hand = [];
-
-//   hand[0] = cardGenerator();
-//   hand[1] = cardGenerator();
-
-//   return hand;
-// };
-
-const deleteGeneratedCardFromDeck = function(cardToDelete, roundDeck) {
+const deleteGenCardFromDeck = function(cardToDelete, roundDeck) {
   let [suite, value] = cardToDelete;
 
   let suiteArray = roundDeck[suite];
@@ -64,6 +54,7 @@ const deleteGeneratedCardFromDeck = function(cardToDelete, roundDeck) {
 
   suiteArray.splice(indexOfCardToDelete, 1);
 };
+
 
 const parseNonAceValueFromCard =  function(argValue) {
   let convertedArg = Number(argValue);
@@ -146,7 +137,7 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
       break;
     }
     case 'computer' : {
-      console.log(`Dealer scored ${totalOfComputer} and won the round\n`);
+      console.log('Dealer won the round\n');
       break;
     }
     case 'tie' : {
@@ -161,22 +152,24 @@ while (true) { // main game loop
 
   console.log('***welcome to 21!***\n');
 
-  const playerHand = [];
+  let deckOfRound = cloneDeck(deck);
+
+  let playerHand = [];
 
   playerHand[0] = cardGenerator();
-  deleteGeneratedCardFromDeck(playerHand[0], deck);
+  deleteGenCardFromDeck(playerHand[0], deckOfRound);
 
   playerHand[1] = cardGenerator();
-  deleteGeneratedCardFromDeck(playerHand[1], deck);
+  deleteGenCardFromDeck(playerHand[1], deckOfRound);
 
 
-  const dealerHand = [];
+  let dealerHand = [];
 
   dealerHand[0] = cardGenerator();
-  deleteGeneratedCardFromDeck(dealerHand[0], deck);
+  deleteGenCardFromDeck(dealerHand[0], deckOfRound);
 
   dealerHand[1] = cardGenerator();
-  deleteGeneratedCardFromDeck(dealerHand[1], deck);
+  deleteGenCardFromDeck(dealerHand[1], deckOfRound);
 
   let playerTotal = calculateHandTotal(playerHand);
 
@@ -196,7 +189,7 @@ while (true) { // main game loop
     let answer = rlSync.question();
     if (answer[0] === 'h') {
       playerHand.push(cardGenerator());
-      deleteGeneratedCardFromDeck(playerHand[playerHand.length - 1], deck);
+      deleteGenCardFromDeck(playerHand[playerHand.length - 1], deckOfRound);
 
       playerTotal = calculateHandTotal(playerHand);
     }
@@ -222,7 +215,7 @@ while (true) { // main game loop
 
 
     dealerHand.push(cardGenerator()); // this is the equivalent of 'hit'
-    deleteGeneratedCardFromDeck(dealerHand[dealerHand.length - 1], deck);
+    deleteGenCardFromDeck(dealerHand[dealerHand.length - 1], deckOfRound);
 
     dealerTotal = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
 
