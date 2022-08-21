@@ -6,18 +6,24 @@
 \ul my workings:\par
 \par
 \ulnone\b inputs:\b0  two numbers. The first one is the number you're manipulating, the second is the number of digits from the end of the number where you want to start performing the rotation\par
-\b output:\b0  an integer.  the number represented by the first argument, with the rotation performed. \par
+\b output:\b0  an integer.  the number represented by the first argument, after having had the rotation performed. \par
 \par
 \b explicit requirements:\b0    \b\par
 implicit requirements:\b0    the remaining digits being shifted to the left should remain intact in their own order, no further changes should be made to them apart from shifting them to the left. \b\par
 \par
 mental model:\b0    \par
 convert the first argument into a string, then split it into an array. \par
-the block of numbers to be manipulated is the block of numbers at the end of the number, and is the same length as the second argument. I.e. if the second argument is three, it's comprised of the three digits on the end. \par
+the block of numbers to be manipulated is the block of numbers at the end of the number, and is the  length as the second argument . I.e. if the second argument is three, it's comprised of the three digits on the end. \par
 \par
-the first number of the 'block' gets moved to the end. and the remaining digits of the block move to the left. How is this performed? \par
+the first number of the 'block' gets moved to the end. and the remaining digits of the block move to the left. How is this performed? - \par
 thought 1: \par
-make a target array. The first 'block' of numbers, not to be manipulated, appear in the target array in the same order as they do in the original. Apart from the first number of the second 'block', the rest of the digits move one place to the left. The first number of the second 'block' comprises the final element of the target array, which can then be joinred and converted to a number. \b\par
+make a target array. The first 'block' of numbers, not to be manipulated, appear in the target array in the same order as they do in the original. Apart from the first number of the second 'block', the rest of the digits move one place to the left. The first number of the second 'block' comprises the final element of the target array. The target array can then be joined and converted to a number. \par
+use array.length - x, where x is the second argument. This is used to select the final element that needs to be moved to the end of the target array \par
+\b how to move the block  that needs to be moved to the left?\par
+\b0 thought 1: use array.slice, with the sole argument being array.length - (x -1). then push this sliced block to the target array, (and use the spread operator?), or use concat with no need to use the spread operator //DONE\par
+thought 2: use a decrementing loop, with the initial index the array.length - (x-1), and subsequent iterations array.length - (x-2) etc. Flesh this out more //DONE\par
+\par
+\b\par
 \b0\par
 \par
 \b examples:\b0    \par

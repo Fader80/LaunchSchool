@@ -113,7 +113,7 @@ const busted = function(currentTotal) {
 const displayHands = function(dealerCards, playerCards, playerSum) {
 
   let dealerHandRedacted = [dealerCards[0], ['?']];
-  console.log(`Your hand is: ${playerCards}`);
+  console.log(`Your hand is: ${playerCards}\n`);
   console.log(`Note, your hand's total is: ${playerSum}\n`);
 
   console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
@@ -148,9 +148,17 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
 };
 
 
+console.log('***welcome to 21!***\n');
+
+
 while (true) { // main game loop
 
-  console.log('***welcome to 21!***\n');
+  let play21 = rlSync.question('Play a round?\n');
+
+  if (play21 !== 'y') {
+    break;
+  }
+
 
   let deckOfRound = cloneDeck(deck);
 
@@ -175,9 +183,7 @@ while (true) { // main game loop
 
   let dealerTotal = calculateHandTotal(dealerHand);
 
-  let playRound = rlSync.question('Do you want to start a round? answer y/n\n');
-
-  if (playRound.toLowerCase() === 'n') break;
+  let dontFallThrough = true;
 
 
   //player turn loop
@@ -185,7 +191,7 @@ while (true) { // main game loop
     clear();
     displayHands(dealerHand, playerHand, playerTotal);
 
-    console.log("hit or stay?");
+    console.log("hit or stay?\n");
     let answer = rlSync.question();
     if (answer[0] === 'h') {
       playerHand.push(cardGenerator());
@@ -198,19 +204,27 @@ while (true) { // main game loop
 
   }//end of player turn loop
 
+
   if (busted(playerTotal)) {
     clear();
     displayHands(dealerHand, playerHand, playerTotal); // this is so player can still see their full hand after they bust
 
-    console.log('You busted, dealer won');
-    break;
-    // probably end the game? or ask the user to play again? - if the latter, ask the question above the break
+    console.log('You busted, dealer won\n');
+    let playAgain = rlSync.question('Would you like to play again?\n');
+    if (playAgain !== 'y') {
+      break;
+    } else {
+      dontFallThrough = false;
+      clear();
+    }
+
+    // probably end the game? or ask the user to play again?
   } else {
     console.log("You chose to stay!\n");  // if player didn't bust, must have stayed to get here
     //also if player chose to stay, it's now the dealer's turn
   }
   //dealer turn while loop
-  while (true) {
+  while (dontFallThrough) {
     if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
 
 
@@ -221,13 +235,12 @@ while (true) { // main game loop
 
   }//end of dealer turn loop
 
+
   if (busted(dealerTotal)) {
-    console.log('Dealer busted, you win!');
-    break;
-  } else {
+    console.log('Dealer busted, you win!\n');
+  } else if (dontFallThrough) {
     displayResult(playerTotal, dealerTotal);
   }
 
-}//end of main game loop
 
-//im adding this as a marker for non shuffle
+}//end of main game loop
