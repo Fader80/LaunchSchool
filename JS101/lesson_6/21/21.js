@@ -153,11 +153,11 @@ console.log('***welcome to 21!***\n');
 
 while (true) { // main game loop
 
-  let play21 = rlSync.question('Play a round?\n');
+  // let play21 = rlSync.question('Play a round?\n');
 
-  if (play21 !== 'y') {
-    break;
-  }
+  // if (play21 !== 'y') {
+  //   break;
+  // }
 
 
   let deckOfRound = cloneDeck(deck);
@@ -238,9 +238,15 @@ while (true) { // main game loop
 
   if (busted(dealerTotal)) {
     console.log('Dealer busted, you win!\n');
+    let playAgain = rlSync.question('Would you like to play again?\n');
+    if (playAgain !== 'y') break;
   } else if (dontFallThrough) {
     displayResult(playerTotal, dealerTotal);
+    let playAgain = rlSync.question('Would you like to play again?\n');
+    if (playAgain !== 'y') break;
   }
 
 
 }//end of main game loop
+
+console.log('Thanks for playing 21!');
