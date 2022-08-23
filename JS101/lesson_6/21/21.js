@@ -147,6 +147,15 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
   }
 };
 
+const playAgain = function() {
+  let flag = rlSync.question('Would you like to play again?\n');
+  if (flag !== 'y') {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 
 console.log('***welcome to 21!***\n');
 
@@ -238,14 +247,14 @@ while (true) { // main game loop
 
   if (busted(dealerTotal)) {
     console.log('Dealer busted, you win!\n');
-    let playAgain = rlSync.question('Would you like to play again?\n');
-    if (playAgain !== 'y') break;
+
+    if (!playAgain()) break;
+
   } else if (dontFallThrough) {
     displayResult(playerTotal, dealerTotal);
-    let playAgain = rlSync.question('Would you like to play again?\n');
-    if (playAgain !== 'y') break;
-  }
 
+    if (!playAgain()) break;
+  }
 
 }//end of main game loop
 
