@@ -149,24 +149,23 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
 
 const playAgain = function() {
   let flag = rlSync.question('Would you like to play again?\n');
-  if (flag !== 'y') {
-    return false;
-  } else {
-    return true;
-  }
+  return flag === 'y';
 };
 
+let initialPlayMsg = true;
 
-console.log('***welcome to 21!***\n');
+console.log('\n***welcome to 21!***\n');
 
 
 while (true) { // main game loop
 
-  // let play21 = rlSync.question('Play a round?\n');
+  if (initialPlayMsg) {
+    let play21 = rlSync.question('Would you like to play a round?\n');
 
-  // if (play21 !== 'y') {
-  //   break;
-  // }
+    if (play21 !== 'y') {
+      break;
+    }
+  }
 
 
   let deckOfRound = cloneDeck(deck);
@@ -193,6 +192,8 @@ while (true) { // main game loop
   let dealerTotal = calculateHandTotal(dealerHand);
 
   let dontFallThrough = true;
+
+  initialPlayMsg = false;
 
 
   //player turn loop
@@ -258,4 +259,4 @@ while (true) { // main game loop
 
 }//end of main game loop
 
-console.log('Thanks for playing 21!');
+console.log('\nThanks for playing 21!');
