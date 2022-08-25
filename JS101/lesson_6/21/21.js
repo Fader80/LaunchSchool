@@ -103,11 +103,7 @@ const calculateHandTotal = function(hand) {
 };
 
 const busted = function(currentTotal) {
-  if (currentTotal > 21) {
-    return true;
-  } else {
-    return false;
-  }
+  return currentTotal > 21;
 };
 
 const displayHands = function(dealerCards, playerCards, playerSum) {
