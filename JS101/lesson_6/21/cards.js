@@ -1,28 +1,17 @@
 
 
-let val = 'J';
+let val = '10'; // for letter vals there should be a space after, eg 'J '
 let suite = '♣';
 
 
 let card2 = 
-`-------------
-|${val}       |
-|             |
-|  ${suite}   |
-|             |
-|             |
-|      ${val} |
---------------`
+` -------
+|${val}     |          
+|       |
+|   ${suite}   |
+|       |
+|     ${val}|
+ -------`;
 
 
-
-let card3 = 
-
-`-----------
-|$1{}      |
-|          |
-------------`
-
-
-
-console.log(card3);
+console.log(card2);
