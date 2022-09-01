@@ -22,7 +22,11 @@ what's the structure of the card?  - nested array?-no how would the drawn bounda
 you can assign a card in backticks to a variable, and if you console log the variable multiple times, the cards are logged side by side \par
 \line - you also need to figure out what the correct template literal expressions are going to be so you can bake them into the card design from the beginning.\line -solution: for now, don't worry about them looking aligned in the js file, as long as the rendered card is aligned, that's all you can aim for  - //DONE\par
  - need to design the back of a card // DONE\par
-- current displayHands function takes three arguments - dealerCards, playerCards and playerSum. need to figure out the structure of dealerCard and playerCards\line playerCards is an array comprised of two subarrays. each subarray is a card with two elements - the first element is a string representing the suite, and the second element is either a number or a string (e.g. 'queen') representing the value.  -** need to test this in node to see if you've got this right**. \line\line\par
+- current displayHands function takes three arguments - dealerCards, playerCards and playerSum. need to figure out the structure of dealerCard and playerCards: \line playerCards is an array comprised of two subarrays. each subarray is a card with two elements - the first element is a string representing the suite, and the second element is either a number or a string (e.g. 'queen') representing the value.  -need to test this in node to see if you've got this right.  Tested and it is correct as described\par
+\par
+\ul what is the structure of this function?\ulnone\par
+Couple of options - either\line 1) it is written as a helper function to the existing displayHands function, \line 2) or the entire displayHands function needs to be rewritten to encompass the visual cards. \par
+ - for now, examine option 1. \line\line\par
 \par
 \b examples:\b0    \par
 \pard\sa200\sl240\slmult1{\pict\wmetafile8\picw10504\pich5371\picwgoal5955\pichgoal3045 
