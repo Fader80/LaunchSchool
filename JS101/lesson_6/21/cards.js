@@ -36,3 +36,25 @@ const displayHands = function(dealerCards, playerCards, playerSum) {
 
   console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
 };
+
+
+function renderCard(cardSubArr) {
+
+  let suites = {Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' };
+
+  let val = //need to complete this 
+  let suite = //need to complete this
+
+  let visualCard =
+` -------
+|${val}     |          
+|       |
+|   ${suite}   |
+|       |
+|     ${val}|
+ -------`;
+
+ return visualCard;
+
+
+}

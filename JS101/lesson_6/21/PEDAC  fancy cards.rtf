@@ -1,5 +1,5 @@
 {\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
-{\colortbl ;\red255\green0\blue0;}
+{\colortbl ;\red255\green0\blue0;\red255\green255\blue0;}
 {\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
  \b0  display ascii cards in a more graphical way with symbols wingdings? and make cards like the board in tic tac toe  - note, you can have a function call as an array element - can use this in the rendering process?  \par
 OR - allow the more fancy card display bit, just have wingdings display in the card display function in place of the word for the suite, i.e. 'clubs' would be replaced by the symbol, all else same\par
@@ -22,11 +22,18 @@ what's the structure of the card?  - nested array?-no how would the drawn bounda
 you can assign a card in backticks to a variable, and if you console log the variable multiple times, the cards are logged side by side \par
 \line - you also need to figure out what the correct template literal expressions are going to be so you can bake them into the card design from the beginning.\line -solution: for now, don't worry about them looking aligned in the js file, as long as the rendered card is aligned, that's all you can aim for  - //DONE\par
  - need to design the back of a card // DONE\par
-- current displayHands function takes three arguments - dealerCards, playerCards and playerSum. need to figure out the structure of dealerCard and playerCards: \line playerCards is an array comprised of two subarrays. each subarray is a card with two elements - the first element is a string representing the suite, and the second element is either a number or a string (e.g. 'queen') representing the value.  -need to test this in node to see if you've got this right.  Tested and it is correct as described\par
+- current displayHands function takes three arguments - dealerCards, playerCards and playerSum. need to figure out the structure of dealerCard and playerCards: \line playerCards is an array comprised of two subarrays.\highlight2  each subarray is a card with two elements - the first element is a string representing the suite, and the second element is either a number or a string (e.g. 'queen') representing the value\highlight0 .  -need to test this in node to see if you've got this right.  Tested and it is correct as described\par
 \par
 \ul what is the structure of this function?\ulnone\par
 Couple of options - either\line 1) it is written as a helper function to the existing displayHands function, \line 2) or the entire displayHands function needs to be rewritten to encompass the visual cards. \par
- - for now, examine option 1. \line\line\par
+ - for now, examine option 1. \par
+\ul what are the inputs of this helper? and where is it called in displayHands? what mechanics? \ulnone\line  - there should be a forEach loop, and this loops through for example playerCards (the array containing all the player's cards)  - logging each card being passed as an argument to a renderCard function. \par
+renderCard function mini-PEDAC: \par
+inputs - subarray from eg playerHands\line outputs - returns a card filled with the relvant suite and value details\line\line mental model:\line\line an object should be used as a lookup table for the suites\line for primitive values, they can go in the card as is.  for string values, it should be the first letter followed by a space. ** need to complete the renderCard function**\par
+\par
+\par
+\par
+\line\par
 \par
 \b examples:\b0    \par
 \pard\sa200\sl240\slmult1{\pict\wmetafile8\picw10504\pich5371\picwgoal5955\pichgoal3045 
