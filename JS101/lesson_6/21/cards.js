@@ -23,9 +23,9 @@ let card2 =
 | / / / |
  -------`;
 
-console.log(card);
+//console.log(card);
 
-console.log(card2);
+//console.log(card2);
 
 
 const displayHands = function(dealerCards, playerCards, playerSum) {
@@ -42,8 +42,14 @@ function renderCard(cardSubArr) {
 
   let suites = {Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' };
 
-  let val = //need to complete this 
-  let suite = //need to complete this
+  let suite = suites[cardSubArr[0]];
+  let val;
+  if (cardSubArr[1] === 10) {
+    val = 10;
+  } else {
+    val = cardSubArr[1] + ' ';
+  }
+
 
   let visualCard =
 ` -------
@@ -54,7 +60,9 @@ function renderCard(cardSubArr) {
 |     ${val}|
  -------`;
 
- return visualCard;
+  return visualCard;
 
 
 }
+
+console.log(renderCard(['Diamonds', 10]));
