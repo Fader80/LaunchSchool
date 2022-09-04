@@ -16,7 +16,7 @@ let card =
 
 let card2 =
 ` -------
-| / / / |          
+| / / / |
 |/ / / /|
 | / / / |
 |/ / / /|
@@ -25,7 +25,7 @@ let card2 =
 
 //console.log(card);
 
-//console.log(card2);
+console.log(card2);
 
 
 const displayHands = function(dealerCards, playerCards, playerSum) {
@@ -37,19 +37,20 @@ const displayHands = function(dealerCards, playerCards, playerSum) {
   console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
 };
 
+const suiteSymbols = {Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' }; // this will need to be put in 21.js near the top
 
 function renderCard(cardSubArr) {
 
-  let suites = {Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' };
 
-  let suite = suites[cardSubArr[0]];
+  let suite = suiteSymbols[cardSubArr[0]];
   let val;
-  if (cardSubArr[1] === 10) {
+  if (typeof cardSubArr[1] === 'string') {
+    val = cardSubArr[1][0] + ' ';
+  } else if (cardSubArr[1] === 10) {
     val = 10;
   } else {
     val = cardSubArr[1] + ' ';
   }
-
 
   let visualCard =
 ` -------
@@ -62,7 +63,21 @@ function renderCard(cardSubArr) {
 
   return visualCard;
 
+}
+
+function renderBack() {
+  let cardBack =
+` -------
+| / / / |
+|/ / / /|
+| / / / |
+|/ / / /|
+| / / / |
+ -------`;
+
+  return cardBack;
 
 }
 
-console.log(renderCard(['Diamonds', 10]));
+console.log(renderCard(['Diamonds', 9]));
+console.log(renderBack());
