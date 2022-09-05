@@ -1,33 +1,5 @@
 
 
-let val = '10'; // for letter vals there should be a space after, eg 'J '
-let suite = '♣';
-
-
-let card = 
-` -------
-|${val}     |          
-|       |
-|   ${suite}   |
-|       |
-|     ${val}|
- -------`;
-
-
-let card2 =
-` -------
-| / / / |
-|/ / / /|
-| / / / |
-|/ / / /|
-| / / / |
- -------`;
-
-//console.log(card);
-
-console.log(card2);
-
-
 const displayHands = function(dealerCards, playerCards, playerSum) {
 
   let dealerHandRedacted = [dealerCards[0], ['?']];
@@ -37,12 +9,10 @@ const displayHands = function(dealerCards, playerCards, playerSum) {
   console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
 };
 
-const suiteSymbols = {Hearts: '♥', Diamonds: '♦', Clubs: '♣', Spades: '♠' }; // this will need to be put in 21.js near the top
 
 function renderCard(cardSubArr) {
 
-
-  let suite = suiteSymbols[cardSubArr[0]];
+  let suite = [cardSubArr[0]];
   let val;
   if (typeof cardSubArr[1] === 'string') {
     val = cardSubArr[1][0] + ' ';
@@ -54,7 +24,7 @@ function renderCard(cardSubArr) {
 
   let visualCard =
 ` -------
-|${val}     |          
+|${val}     |
 |       |
 |   ${suite}   |
 |       |
@@ -65,7 +35,7 @@ function renderCard(cardSubArr) {
 
 }
 
-function renderBack() {
+function renderCardBack() {
   let cardBack =
 ` -------
 | / / / |
@@ -79,5 +49,7 @@ function renderBack() {
 
 }
 
-console.log(renderCard(['Diamonds', 9]));
-console.log(renderBack());
+
+//console.log(renderCard(playerHand[0]), renderCard(playerHand[1]));
+
+console.log(playerHand[0], playerHand[1]);
