@@ -50,6 +50,18 @@ function renderCardBack() {
 }
 
 
-//console.log(renderCard(playerHand[0]), renderCard(playerHand[1]));
+let suite  = '♠';
 
-console.log(playerHand[0], playerHand[1]);
+let val = 10;
+
+let multCard =
+` -------          --------             --------
+|${val}     |         |${val}     |            |${val}     |     
+|       |         |       |            |       |         
+|   ${suite}   |         |   ${suite}     |          |   ${suite}   |       
+|       |         |       |                     |       |
+|     ${val}|         |     ${val}|             |     ${val}|  
+ -------           -------                   -------  `;
+
+
+console.log(multCard);
