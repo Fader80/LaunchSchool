@@ -54,14 +54,18 @@ let suite  = '♠';
 
 let val = 10;
 
-let multCard =
+function threeCard(val, suite, val1, suite1, val2, suite2) {
+let threeCard =
 ` -------          --------             --------
-|${val}     |         |${val}     |            |${val}     |     
+|${val}     |         |${val1}     |            |${val2}     |     
 |       |         |       |            |       |         
-|   ${suite}   |         |   ${suite}     |          |   ${suite}   |       
+|   ${suite}   |         |   ${suite1}     |          |   ${suite2}   |       
 |       |         |       |                     |       |
-|     ${val}|         |     ${val}|             |     ${val}|  
+|     ${val}|         |     ${val1}|             |     ${val2}|  
  -------           -------                   -------  `;
 
+ return threeCard;
+}
 
-console.log(multCard);
+
+console.log(threeCard(10,'♠', 8, '♠', 2, '♠'));
