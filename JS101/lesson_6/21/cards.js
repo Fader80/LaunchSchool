@@ -56,16 +56,20 @@ let val = 10;
 
 function threeCard(val, suite, val1, suite1, val2, suite2) {
 let threeCard =
-` -------          --------             --------
-|${val}     |         |${val1}     |            |${val2}     |     
-|       |         |       |            |       |         
-|   ${suite}   |         |   ${suite1}     |          |   ${suite2}   |       
-|       |         |       |                     |       |
-|     ${val}|         |     ${val1}|             |     ${val2}|  
- -------           -------                   -------  `;
+` -------           -------           -------
+|${val}     |         |${val1}      |         |${val2}      |     
+|       |         |       |         |       |         
+|   ${suite}   |         |   ${suite1}   |         |   ${suite2}   |       
+|       |         |       |         |       |
+|     ${val}|         |     ${val1} |         |      ${val2}|  
+ -------           -------           -------  `;
 
  return threeCard;
 }
 
+let funcArr = ['dummy', 'dummy', threeCard];
 
-console.log(threeCard(10,'♠', 8, '♠', 2, '♠'));
+let playerCards = [[10,'♠'], [8, '♥'], [2, '♣']];
+
+console.log(funcArr[playerCards.length - 1](...playerCards.flat()));
+
