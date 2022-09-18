@@ -10,28 +10,15 @@ const displayHands = function(dealerCards, playerCards, playerSum) {
 };
 
 
-function renderCard(cardSubArr) {
+function parseVal(value) {
 
-  let suite = [cardSubArr[0]];
-  let val;
-  if (typeof cardSubArr[1] === 'string') {
-    val = cardSubArr[1][0] + ' ';
-  } else if (cardSubArr[1] === 10) {
-    val = 10;
-  } else {
-    val = cardSubArr[1] + ' ';
+  if (typeof value === 'number' && value !== 10) {
+    value += ' ';
+  } else if (typeof value === 'string') {
+    value = value[0] + ' ';
   }
 
-  let visualCard =
-` -------
-|${val}     |
-|       |
-|   ${suite}   |
-|       |
-|     ${val}|
- -------`;
-
-  return visualCard;
+  return value;
 
 }
 
@@ -54,22 +41,29 @@ let suite  = '♠';
 
 let val = 10;
 
-function threeCard(val, suite, val1, suite1, val2, suite2) {
-let threeCard =
+function threeCard(playerHand) {
+
+  let [val, suite, val1, suite1, val2, suite2] = [...playerHand].flat();
+
+  val = parseVal(val);
+  val1 = parseVal(val1);
+  val2 = parseVal(val2);
+
+  let threeCard =
 ` -------           -------           -------
-|${val}     |         |${val1}      |         |${val2}      |     
+|${val}     |         |${val1}     |         |${val2}     |     
 |       |         |       |         |       |         
 |   ${suite}   |         |   ${suite1}   |         |   ${suite2}   |       
 |       |         |       |         |       |
-|     ${val}|         |     ${val1} |         |      ${val2}|  
+|     ${val}|         |     ${val1}|         |     ${val2}|   
  -------           -------           -------  `;
 
- return threeCard;
+  return threeCard;
 }
 
 let funcArr = ['dummy', 'dummy', threeCard];
 
-let playerCards = [[10,'♠'], [8, '♥'], [2, '♣']];
+let playerCards = [[10,'♠'], ['Jack', '♥'], [10, '♣']];
 
-console.log(funcArr[playerCards.length - 1](...playerCards.flat()));
 
+console.log(funcArr[playerCards.length - 1](playerCards));

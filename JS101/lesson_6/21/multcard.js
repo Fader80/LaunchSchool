@@ -3,6 +3,17 @@ let suite  = '♠';
 
 let val = 10;
 
+
+let card1 =
+` -------
+|${val}     |
+|       |
+|   ${suite}   |
+|       |
+|     ${val}|
+ -------`;
+
+
 let card3 =
  ` -------        -------        -------
 |${val}     |      |${val}     |      |${val}     |     
@@ -47,4 +58,4 @@ let card3 =
 
 
  
- console.log(card5);
+ console.log(card1);
