@@ -43,7 +43,7 @@ let val = 10;
 
 function threeCard(playerHand) {
 
-  let [val, suite, val1, suite1, val2, suite2] = [...playerHand].flat();
+  let [suite, val, suite1, val1, suite2, val2] = [...playerHand].flat();
 
   val = padVal(val);
   val1 = padVal(val1);
@@ -64,7 +64,7 @@ function threeCard(playerHand) {
 
 function twoCard(playerHand) {
 
-  let [val, suite, val1, suite1] = [...playerHand].flat();
+  let [suite, val, suite1, val1] = [...playerHand].flat();
 
   val = padVal(val);
   val1 = padVal(val1);
@@ -84,7 +84,7 @@ function twoCard(playerHand) {
 
 function fourCard(playerHand) {
 
-  let [val, suite, val1, suite1, val2, suite2, val3, suite3]
+  let [suite, val, suite1, val1, suite2, val2, suite3, val3]
   = [...playerHand].flat();
 
   val = padVal(val);
@@ -106,7 +106,7 @@ function fourCard(playerHand) {
 
 function fiveCard(playerHand) {
 
-  let [val, suite, val1, suite1, val2, suite2, val3, suite3, val4, suite4]
+  let [suite, val, suite1, val1, suite2, val2, suite3, val3, suite4, val4]
   = [...playerHand].flat();
 
   val = padVal(val);
@@ -128,17 +128,23 @@ function fiveCard(playerHand) {
 }
 
 
+function dealerCards(dealerHand) {
+  let [val, suite] = dealerHand[0];
+
+  let dealerCards = 
+}
+
 
 
 let cardFuncArr = [twoCard, threeCard, fourCard, fiveCard];
 
-//let playerCards = [[10,'♠'], ['Jack', '♥'], [10, '♣']];
+//let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10]];
 
-//let playerCards = [[10,'♠'], [1, '♥']];
+//let playerCards = [['♠', 1], ['♥', 'Jack']];
 
-//let playerCards = [[1,'♠'], ['Jack', '♥'], [1, '♣'], ['Ace', '♦']];
+//let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace']];
 
-let playerCards = [[1,'♠'], ['Jack', '♥'], [10, '♣'], ['Ace', '♦'], [9, '♣']];
+let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace'], ['♣', 9]];
 
 
 console.log(cardFuncArr[playerCards.length - 2](playerCards));
