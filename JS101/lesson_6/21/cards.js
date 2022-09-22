@@ -128,10 +128,21 @@ function fiveCard(playerHand) {
 }
 
 
-function dealerCards(dealerHand) {
-  let [val, suite] = dealerHand[0];
+function dealerCardFunc(dealerHand) {
+  let [suite, val] = dealerHand[0];
 
-  let dealerCards = 
+  val = padVal(val);
+
+  let dealerCards =
+   `  -------        ------- 
+ |${val}     |      | / / / |
+ |       |      |/ / / /|
+ |   ${suite}   |      | / / / |
+ |       |      |/ / / /|
+ |     ${val}|      | / / / |
+  -------        -------`;
+
+  return dealerCards;
 }
 
 
@@ -140,7 +151,7 @@ let cardFuncArr = [twoCard, threeCard, fourCard, fiveCard];
 
 //let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10]];
 
-//let playerCards = [['♠', 1], ['♥', 'Jack']];
+let dealerCards = [['♠', 10], ['♥', 'Jack']];
 
 //let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace']];
 
@@ -149,4 +160,4 @@ let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace'], ['�
 
 console.log(cardFuncArr[playerCards.length - 2](playerCards));
 
-//cardFuncArr[playerCards.length - 2](playerCards);
+console.log(dealerCardFunc(dealerCards));
