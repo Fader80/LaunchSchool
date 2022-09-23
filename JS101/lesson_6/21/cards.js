@@ -1,15 +1,5 @@
 
 
-const displayHands = function(dealerCards, playerCards, playerSum) {
-
-  let dealerHandRedacted = [dealerCards[0], ['?']];
-  console.log(`Your hand is: ${playerCards}\n`);
-  console.log(`Note, your hand's total is: ${playerSum}\n`);
-
-  console.log(`Dealer's hand is: ${dealerHandRedacted}\n`);
-};
-
-
 function padVal(value) {
 
   if (typeof value === 'number' && value !== 10) {
@@ -153,11 +143,25 @@ let cardFuncArr = [twoCard, threeCard, fourCard, fiveCard];
 
 let dealerCards = [['♠', 10], ['♥', 'Jack']];
 
-//let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace']];
+let playerCards = [['♠', 1], ['♥', 5], ['♣', 10], ['♦', 'Ace']];
 
-let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace'], ['♣', 9]];
+//let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10], ['♦', 'Ace'], ['♣', 9]];
 
 
-console.log(cardFuncArr[playerCards.length - 2](playerCards));
+//console.log(cardFuncArr[playerCards.length - 2](playerCards));
 
-console.log(dealerCardFunc(dealerCards));
+//console.log(dealerCardFunc(dealerCards));
+
+
+const displayHands = function(dealerCards, playerCards, playerSum) {
+
+
+  console.log(`Your hand is:\n ${fourCard(playerCards)}\n`);
+  console.log(`Note, your hand's total is: ${playerSum}\n`);
+
+  console.log(`Dealer's hand is: \n ${dealerCardFunc(dealerCards)}\n`);
+};
+
+
+displayHands(dealerCards, playerCards, 19);
+
