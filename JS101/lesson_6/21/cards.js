@@ -40,13 +40,13 @@ function threeCard(playerHand) {
   val2 = padVal(val2);
 
   let threeCard =
-` -------           -------           -------
-|${val}     |         |${val1}     |         |${val2}     |     
-|       |         |       |         |       |         
-|   ${suite}   |         |   ${suite1}   |         |   ${suite2}   |       
-|       |         |       |         |       |
-|     ${val}|         |     ${val1}|         |     ${val2}|   
- -------           -------           -------  `;
+ ` -------        -------        -------
+ |${val}     |      |${val1}     |      |${val2}     |     
+ |       |      |       |      |       |         
+ |   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |       
+ |       |      |       |      |       |
+ |     ${val}|      |     ${val1}|      |     ${val2}|   
+  -------        -------        -------  `;
 
   return threeCard;
 }
@@ -60,13 +60,13 @@ function twoCard(playerHand) {
   val1 = padVal(val1);
 
   let twoCard =
-  `  -------        -------  
-  |${val}     |     |${val1}     |
-  |       |     |       |
-  |  ${suite}    |     |   ${suite1}   |
-  |       |     |       |
-  |     ${val}|     |     ${val1}|
-   -------       -------`;
+` -------        -------  
+ |${val}     |      |${val1}     |
+ |       |      |       |
+ |  ${suite}    |      |   ${suite1}   |
+ |       |      |       |
+ |     ${val}|      |     ${val1}|
+  -------        -------`;
 
   return twoCard;
 }
@@ -84,12 +84,12 @@ function fourCard(playerHand) {
 
   let fourCard =
   ` -------        -------        -------        -------
-|${val}     |      |${val1}     |      |${val2}     |      |${val3}     |
-|       |      |       |      |       |      |       |
-|   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |      |   ${suite3}   |       
-|       |      |       |      |       |      |       |
-|     ${val}|      |     ${val1}|      |     ${val2}|      |     ${val3}|
- -------        -------        -------        -------`;
+ |${val}     |      |${val1}     |      |${val2}     |      |${val3}     |
+ |       |      |       |      |       |      |       |
+ |   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |      |   ${suite3}   |       
+ |       |      |       |      |       |      |       |
+ |     ${val}|      |     ${val1}|      |     ${val2}|      |     ${val3}|
+  -------        -------        -------        -------`;
 
   return fourCard;
 }
@@ -106,7 +106,7 @@ function fiveCard(playerHand) {
   val4 = padVal(val4);
 
   let fiveCard =
-  `  -------        -------        -------        -------        -------            
+  ` -------        -------        -------        -------        -------            
  |${val}     |      |${val1}     |      |${val2}     |      |${val3}     |      |${val4}     |
  |       |      |       |      |       |      |       |      |       |
  |   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |      |   ${suite3}   |      |   ${suite4}   |       
@@ -124,7 +124,7 @@ function dealerCardFunc(dealerHand) {
   val = padVal(val);
 
   let dealerCards =
-   `  -------        ------- 
+   ` -------        ------- 
  |${val}     |      | / / / |
  |       |      |/ / / /|
  |   ${suite}   |      | / / / |
@@ -139,9 +139,12 @@ function dealerCardFunc(dealerHand) {
 
 let cardFuncArr = [twoCard, threeCard, fourCard, fiveCard];
 
-//let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10]];
 
 let dealerCards = [['♠', 10], ['♥', 'Jack']];
+
+//let playerCards = [['♠', 1], ['♥', 'Jack']];
+
+//let playerCards = [['♠', 1], ['♥', 'Jack'], ['♣', 10]];
 
 let playerCards = [['♠', 1], ['♥', 5], ['♣', 10], ['♦', 'Ace']];
 
@@ -156,8 +159,8 @@ let playerCards = [['♠', 1], ['♥', 5], ['♣', 10], ['♦', 'Ace']];
 const displayHands = function(dealerCards, playerCards, playerSum) {
 
 
-  console.log(`Your hand is:\n ${fourCard(playerCards)}\n`);
-  console.log(`Note, your hand's total is: ${playerSum}\n`);
+  console.log(`Your hand is:\n ${cardFuncArr[playerCards.length - 2](playerCards)}\n`);
+  console.log(`Note, your hand's total is: ${playerSum}\n \n`);
 
   console.log(`Dealer's hand is: \n ${dealerCardFunc(dealerCards)}\n`);
 };
