@@ -106,6 +106,118 @@ const busted = function(currentTotal) {
   return currentTotal > 21;
 };
 
+
+//the following are the card functions for visual rendering - I had to do them
+//as individual functions because console.log doesn't allow for any verticality
+//for subsequent cards, thus cannot be used to loop through the player's hand
+//and render cards side-by-side, which I would have preferred
+//as it's more efficient, and would not require multiple render functions,
+//just one.  it would also have been able to cope with more than five cards
+//being rendered with ease, however in playtesting there was never a need for
+//more than five so that's what I've gone with for this implementation
+//Unfortunately trying to do it with console.log has the newer card render below
+//the previous one
+
+
+//this is for padding the value for card visual render
+const padVal = function(value) {
+
+  if (typeof value === 'number' && value !== 10) {
+    value += ' ';
+  } else if (typeof value === 'string') {
+    value = value[0] + ' ';
+  }
+
+  return value;
+
+};
+
+const renderTwoCard = function(playerHand) {
+
+  let [suite, val, suite1, val1] = [...playerHand].flat();
+
+  val = padVal(val);
+  val1 = padVal(val1);
+
+  let twoCard =
+` -------        -------  
+ |${val}     |      |${val1}     |
+ |       |      |       |
+ |  ${suite}    |      |   ${suite1}   |
+ |       |      |       |
+ |     ${val}|      |     ${val1}|
+  -------        -------`;
+
+  return twoCard;
+};
+
+const renderThreeCard = function(playerHand) {
+
+  let [suite, val, suite1, val1, suite2, val2] = [...playerHand].flat();
+
+  val = padVal(val);
+  val1 = padVal(val1);
+  val2 = padVal(val2);
+
+  let threeCard =
+ ` -------        -------        -------
+ |${val}     |      |${val1}     |      |${val2}     |     
+ |       |      |       |      |       |         
+ |   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |       
+ |       |      |       |      |       |
+ |     ${val}|      |     ${val1}|      |     ${val2}|   
+  -------        -------        -------  `;
+
+  return threeCard;
+};
+
+const renderFourCard = function(playerHand) {
+
+  let [suite, val, suite1, val1, suite2, val2, suite3, val3]
+  = [...playerHand].flat();
+
+  val = padVal(val);
+  val1 = padVal(val1);
+  val2 = padVal(val2);
+  val3 = padVal(val3);
+
+  let fourCard =
+  ` -------        -------        -------        -------
+ |${val}     |      |${val1}     |      |${val2}     |      |${val3}     |
+ |       |      |       |      |       |      |       |
+ |   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |      |   ${suite3}   |       
+ |       |      |       |      |       |      |       |
+ |     ${val}|      |     ${val1}|      |     ${val2}|      |     ${val3}|
+  -------        -------        -------        -------`;
+
+  return fourCard;
+};
+
+
+const renderFiveCard = function(playerHand) {
+
+  let [suite, val, suite1, val1, suite2, val2, suite3, val3, suite4, val4]
+  = [...playerHand].flat();
+
+  val = padVal(val);
+  val1 = padVal(val1);
+  val2 = padVal(val2);
+  val3 = padVal(val3);
+  val4 = padVal(val4);
+
+  let fiveCard =
+  ` -------        -------        -------        -------        -------            
+ |${val}     |      |${val1}     |      |${val2}     |      |${val3}     |      |${val4}     |
+ |       |      |       |      |       |      |       |      |       |
+ |   ${suite}   |      |   ${suite1}   |      |   ${suite2}   |      |   ${suite3}   |      |   ${suite4}   |       
+ |       |      |       |      |       |      |       |      |       |
+ |     ${val}|      |     ${val1}|      |     ${val2}|      |     ${val3}|      |     ${val4}|
+  -------        -------        -------        -------        -------`;
+
+  return fiveCard;
+};
+
+
 const displayHands = function(dealerCards, playerCards, playerSum) {
 
   let dealerHandRedacted = [dealerCards[0], ['?']];

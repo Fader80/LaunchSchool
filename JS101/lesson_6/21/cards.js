@@ -31,7 +31,7 @@ let suite  = '♠';
 
 let val = 10;
 
-function threeCard(playerHand) {
+function renderThreeCard(playerHand) {
 
   let [suite, val, suite1, val1, suite2, val2] = [...playerHand].flat();
 
@@ -52,7 +52,7 @@ function threeCard(playerHand) {
 }
 
 
-function twoCard(playerHand) {
+function renderTwoCard(playerHand) {
 
   let [suite, val, suite1, val1] = [...playerHand].flat();
 
@@ -72,7 +72,7 @@ function twoCard(playerHand) {
 }
 
 
-function fourCard(playerHand) {
+function renderFourCard(playerHand) {
 
   let [suite, val, suite1, val1, suite2, val2, suite3, val3]
   = [...playerHand].flat();
@@ -94,7 +94,7 @@ function fourCard(playerHand) {
   return fourCard;
 }
 
-function fiveCard(playerHand) {
+function renderFiveCard(playerHand) {
 
   let [suite, val, suite1, val1, suite2, val2, suite3, val3, suite4, val4]
   = [...playerHand].flat();
@@ -118,7 +118,7 @@ function fiveCard(playerHand) {
 }
 
 
-function dealerCardFunc(dealerHand) {
+function renderDealerCard(dealerHand) {
   let [suite, val] = dealerHand[0];
 
   val = padVal(val);
@@ -137,7 +137,7 @@ function dealerCardFunc(dealerHand) {
 
 
 
-let cardFuncArr = [twoCard, threeCard, fourCard, fiveCard];
+let rendArr = [renderTwoCard, renderThreeCard, renderFourCard, renderFiveCard];
 
 
 let dealerCards = [['♠', 10], ['♥', 'Jack']];
@@ -159,10 +159,10 @@ let playerCards = [['♠', 1], ['♥', 5], ['♣', 10], ['♦', 'Ace']];
 const displayHands = function(dealerCards, playerCards, playerSum) {
 
 
-  console.log(`Your hand is:\n ${cardFuncArr[playerCards.length - 2](playerCards)}\n`);
+  console.log(`Your hand is:\n ${rendArr[playerCards.length - 2](playerCards)}\n`);
   console.log(`Note, your hand's total is: ${playerSum}\n \n`);
 
-  console.log(`Dealer's hand is: \n ${dealerCardFunc(dealerCards)}\n`);
+  console.log(`Dealer's hand is: \n ${renderDealerCard(dealerCards)}\n`);
 };
 
 
