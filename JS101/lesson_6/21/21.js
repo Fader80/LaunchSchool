@@ -237,13 +237,17 @@ const renderDealerCards = function(dealerHand) {
 const renderCardArr = [render2Cards, render3Cards, render4Cards, render5Cards];
 
 
-const displayHands = function(dealerCards, playerCards, playerSum) {
+const displayHands = function(dealerCards, playerCards, playerSum, endOfRound) {
 
 
   console.log(`Your hand is:\n ${renderCardArr[playerCards.length - 2](playerCards)}\n`);
   console.log(`Note, your hand's total is: ${playerSum}\n \n`);
 
-  console.log(`Dealer's hand is: \n ${renderDealerCards(dealerCards)}\n`);
+  if (!endOfRound) {
+    console.log(`Dealer's hand is: \n ${renderDealerCards(dealerCards)}\n`);
+  } else {
+    console.log(`Dealer's hand is: \n ${renderCardArr[dealerCards.length - 2](dealerCards)}\n`);
+  }
 };
 
 const calcRoundResult = function(totalOfPlayer, totalOfComputer) {
@@ -322,9 +326,12 @@ while (true) { // main game loop
 
   initialPlayMsg = false;
 
+  let roundEnded = false;
+
 
   //player turn loop
   while (true) {
+    ri
     clear();
     displayHands(dealerHand, playerHand, playerTotal);
 
@@ -343,8 +350,9 @@ while (true) { // main game loop
 
 
   if (busted(playerTotal)) {
+    roundEnded = true;
     clear();
-    displayHands(dealerHand, playerHand, playerTotal); // this is so player can still see their full hand after they bust
+    displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
 
     console.log('You busted, dealer won\n');
     let playAgain = rlSync.question('Would you like to play again?\n');
