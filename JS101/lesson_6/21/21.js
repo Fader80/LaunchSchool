@@ -331,9 +331,8 @@ while (true) { // main game loop
 
   //player turn loop
   while (true) {
-    ri
     clear();
-    displayHands(dealerHand, playerHand, playerTotal);
+    displayHands(dealerHand, playerHand, playerTotal, roundEnded);
 
     console.log("hit or stay?\n");
     let answer = rlSync.question();
@@ -382,11 +381,17 @@ while (true) { // main game loop
 
 
   if (busted(dealerTotal)) {
+    roundEnded = true;
+    clear();
+    displayHands(dealerHand, playerHand, playerTotal, roundEnded);
     console.log('Dealer busted, you win!\n');
 
     if (!playAgain()) break;
 
   } else if (dontFallThrough) {
+    roundEnded = true;
+    clear();
+    displayHands(dealerHand, playerHand, playerTotal, roundEnded);
     displayResult(playerTotal, dealerTotal);
 
     if (!playAgain()) break;
