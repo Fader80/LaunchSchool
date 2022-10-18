@@ -109,13 +109,13 @@ const busted = function(currentTotal) {
 
 //the following are the card functions for visual rendering - I had to do them
 //as individual functions because console.log doesn't allow for any verticality
-//for subsequent cards, (it has the newer card display below
+//for subsequent cards, (it makes the newer card display below
 //the previous one) thus cannot be used to loop through the player's hand
 //and render cards side-by-side, which I would have preferred
 //as it's more efficient, and would not require multiple render functions.
 // it would also have been able to cope with more than five cards
-//being rendered, however in playtesting there was never a need for
-//more than five so that's what I've gone with for this implementation
+//being rendered, however in playtesting there was seldom a need for
+//more than five, so that's what I've gone with to save time
 
 
 //this is for padding the value for card visual render
