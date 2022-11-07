@@ -12,7 +12,7 @@ const deckKeysArr = Object.keys(deck);
 
 const NUMBER_OF_RANKS = 12;
 
-const cloneDeck = function(origDeck) {
+function cloneDeck(origDeck) {
   let clonedDeck = {};
 
   let deckEntries = Object.entries(origDeck);
@@ -25,18 +25,18 @@ const cloneDeck = function(origDeck) {
 
   return clonedDeck;
 
-};
+}
 
 
-const suiteGenerator = function() {
+function suiteGenerator() {
   return Math.floor(Math.random() * deckKeysArr.length);
-};
+}
 
-const rankGenerator = function() {
+function rankGenerator() {
   return Math.floor(Math.random() * NUMBER_OF_RANKS);
-};
+}
 
-const cardGenerator = function() {
+function cardGenerator() {
   let card = [];
 
   card[0] = deckKeysArr[suiteGenerator()];
@@ -44,19 +44,19 @@ const cardGenerator = function() {
 
   return card;
 
-};
+}
 
-const deleteGenCardFromDeck = function(cardToDelete, roundDeck) {
+function deleteGenCardFromDeck(cardToDelete, roundDeck) {
   let [suite, value] = cardToDelete;
 
   let suiteArray = roundDeck[suite];
   let indexOfCardToDelete = suiteArray.indexOf(value);
 
   suiteArray.splice(indexOfCardToDelete, 1);
-};
+}
 
 
-const parseNonAceValueFromCard =  function(argValue) {
+function parseNonAceValueFromCard(argValue) {
   let convertedArg = Number(argValue);
 
   if (convertedArg) {
@@ -64,10 +64,10 @@ const parseNonAceValueFromCard =  function(argValue) {
   } else {
     return 10;
   }
-};
+}
 
 
-const parseAceValueFromCard = function(total) {
+function parseAceValueFromCard(total) {
   total += 11;
 
   if (total > 21) {
@@ -75,9 +75,9 @@ const parseAceValueFromCard = function(total) {
   } else {
     return 11;
   }
-};
+}
 
-const calculateCardTotal = function(card, total) {
+function calculateCardTotal(card, total) {
   let cardValue = card[1];
   let parsedCardValue;
 
@@ -89,10 +89,10 @@ const calculateCardTotal = function(card, total) {
 
   return parsedCardValue;
 
-};
+}
 
 //this is the main calculate total function
-const calculateHandTotal = function(hand) {
+function calculateHandTotal(hand) {
 
   let total = 0;
 
@@ -100,11 +100,11 @@ const calculateHandTotal = function(hand) {
     total += calculateCardTotal(card, total);
   });
   return total;
-};
+}
 
-const busted = function(currentTotal) {
+function busted(currentTotal) {
   return currentTotal > 21;
-};
+}
 
 
 //the following are the card functions for visual rendering - I had to do them
@@ -113,13 +113,13 @@ const busted = function(currentTotal) {
 //the previous one) thus cannot be used to loop through the player's hand
 //and render cards side-by-side, which I would have preferred
 //as it's more efficient, and would not require multiple render functions.
-// it would also have been able to cope with more than five cards
-//being rendered, however in playtesting there was seldom a need for
+// it would also have been able to cope theoretically with any number of cards
+//being rendered. However in playtesting there was seldom a need for
 //more than five, so that's what I've gone with to save time
 
 
 //this is for padding the value for card visual render
-const padVal = function(value) {
+function padVal(value) {
 
   if (typeof value === 'number' && value !== 10) {
     value += ' ';
@@ -129,9 +129,9 @@ const padVal = function(value) {
 
   return value;
 
-};
+}
 
-const render2Cards = function(playerHand) {
+function render2Cards(playerHand) {
 
   let [suite, val, suite1, val1] = [...playerHand].flat();
 
@@ -148,9 +148,9 @@ const render2Cards = function(playerHand) {
   -------        -------`;
 
   return twoCard;
-};
+}
 
-const render3Cards = function(playerHand) {
+function render3Cards(playerHand) {
 
   let [suite, val, suite1, val1, suite2, val2] = [...playerHand].flat();
 
@@ -168,9 +168,9 @@ const render3Cards = function(playerHand) {
   -------        -------        -------  `;
 
   return threeCard;
-};
+}
 
-const render4Cards = function(playerHand) {
+function render4Cards(playerHand) {
 
   let [suite, val, suite1, val1, suite2, val2, suite3, val3]
   = [...playerHand].flat();
@@ -190,10 +190,10 @@ const render4Cards = function(playerHand) {
   -------        -------        -------        -------`;
 
   return fourCard;
-};
+}
 
 
-const render5Cards = function(playerHand) {
+function render5Cards(playerHand) {
 
   let [suite, val, suite1, val1, suite2, val2, suite3, val3, suite4, val4]
   = [...playerHand].flat();
@@ -214,10 +214,10 @@ const render5Cards = function(playerHand) {
   -------        -------        -------        -------        -------`;
 
   return fiveCard;
-};
+}
 
 
-const renderDealerCards = function(dealerHand) {
+function renderDealerCards(dealerHand) {
   let [suite, val] = dealerHand[0];
 
   val = padVal(val);
@@ -232,12 +232,12 @@ const renderDealerCards = function(dealerHand) {
   -------        -------`;
 
   return dealerCards;
-};
+}
 
 const renderCardArr = [render2Cards, render3Cards, render4Cards, render5Cards];
 
 
-const displayHands = function(dealerCards, playerCards, playerSum, endOfRound) {
+function displayHands(dealerCards, playerCards, playerSum, endOfRound) {
 
 
   console.log(`Your hand is:\n ${renderCardArr[playerCards.length - 2](playerCards)}\n`);
@@ -248,9 +248,9 @@ const displayHands = function(dealerCards, playerCards, playerSum, endOfRound) {
   } else {
     console.log(`Dealer's hand is: \n ${renderCardArr[dealerCards.length - 2](dealerCards)}\n`);
   }
-};
+}
 
-const calcRoundResult = function(totalOfPlayer, totalOfComputer) {
+function calcRoundResult(totalOfPlayer, totalOfComputer) {
   if (totalOfPlayer > totalOfComputer) {
     return 'player';
   } else if (totalOfComputer > totalOfPlayer) {
@@ -258,9 +258,9 @@ const calcRoundResult = function(totalOfPlayer, totalOfComputer) {
   } else {
     return 'tie';
   }
-};
+}
 
-const displayResult = function(totalOfPlayer, totalOfComputer) {
+function displayResult(totalOfPlayer, totalOfComputer) {
 
   switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
     case 'player' : {
@@ -276,29 +276,35 @@ const displayResult = function(totalOfPlayer, totalOfComputer) {
       break;
     }
   }
-};
+}
 
-const playAgain = function() {
+function playAgain() {
   let flag = rlSync.question('Would you like to play again?\n');
   return flag === 'y';
-};
+}
+
 
 let initialPlayMsg = true;
 
 console.log('\n***welcome to 21!***\n');
 
 
-while (true) { // main game loop
-
+while (true) {//main match loop
   if (initialPlayMsg) {
-    let play21 = rlSync.question('Would you like to play a round?\n');
+    let play21 = rlSync.question('Would you like to play a match?\n');
 
     if (play21 !== 'y') {
       break;
     }
+    initialPlayMsg = false;
   }
 
+  let playerScore = 0;
+  let dealerScore = 0;
 
+while (true) { // round loop
+
+  
   let deckOfRound = cloneDeck(deck);
 
   let playerHand = [];
@@ -324,7 +330,7 @@ while (true) { // main game loop
 
   let dontFallThrough = true;
 
-  initialPlayMsg = false;
+  
 
   let roundEnded = false;
 
@@ -334,7 +340,7 @@ while (true) { // main game loop
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
 
-    console.log("hit or stay?\n");
+    console.log("(h)it or (s)tay?\n");
     let answer = rlSync.question();
     if (answer[0] === 'h') {
       playerHand.push(cardGenerator());
@@ -350,6 +356,7 @@ while (true) { // main game loop
 
   if (busted(playerTotal)) {
     roundEnded = true;
+    dealerScore += 1;
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
 
@@ -382,6 +389,7 @@ while (true) { // main game loop
 
   if (busted(dealerTotal)) {
     roundEnded = true;
+    playerScore += 1;
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
     console.log('Dealer busted, you win!\n');
@@ -394,9 +402,18 @@ while (true) { // main game loop
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
     displayResult(playerTotal, dealerTotal);
 
+    switch(calcRoundResult(playerTotal, dealerTotal)) {
+      case 'player' : playerScore += 1;
+      break;
+      case 'dealer' : dealerScore += 1;
+      break;
+    }
+
     if (!playAgain()) break;
   }
 
-}//end of main game loop
+}//end of round loop
+
+}//end of match loop
 
 console.log('\nThanks for playing 21!');
