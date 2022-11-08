@@ -260,7 +260,7 @@ function calcRoundResult(totalOfPlayer, totalOfComputer) {
   }
 }
 
-function displayResult(totalOfPlayer, totalOfComputer) {
+function displayRoundOutcome(totalOfPlayer, totalOfComputer) {
 
   switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
     case 'player' : {
@@ -283,6 +283,9 @@ function playAgain() {
   return flag === 'y';
 }
 
+function displayMatchScore(playerPoints, dealerPoints) {
+  console.log(`MATCH SCORE:-  Player: ${playerPoints}  Dealer: ${dealerPoints}\n`);
+}
 
 let initialPlayMsg = true;
 
@@ -361,6 +364,7 @@ while (true) { // round loop
     displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
 
     console.log('You busted, dealer won\n');
+    displayMatchScore(playerScore,dealerScore);
     let playAgain = rlSync.question('Would you like to play again?\n');
     if (playAgain !== 'y') {
       break;
@@ -393,6 +397,7 @@ while (true) { // round loop
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
     console.log('Dealer busted, you win!\n');
+    displayMatchScore(playerScore,dealerScore);
 
     if (!playAgain()) break;
 
@@ -400,7 +405,7 @@ while (true) { // round loop
     roundEnded = true;
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
-    displayResult(playerTotal, dealerTotal);
+    displayRoundOutcome(playerTotal, dealerTotal);
 
     switch(calcRoundResult(playerTotal, dealerTotal)) {
       case 'player' : playerScore += 1;
@@ -408,6 +413,7 @@ while (true) { // round loop
       case 'dealer' : dealerScore += 1;
       break;
     }
+    displayMatchScore(playerScore,dealerScore);
 
     if (!playAgain()) break;
   }
