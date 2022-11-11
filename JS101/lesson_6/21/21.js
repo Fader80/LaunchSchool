@@ -278,8 +278,13 @@ function displayRoundOutcome(totalOfPlayer, totalOfComputer) {
   }
 }
 
-function playAgain() {
-  let flag = rlSync.question('Would you like to play again?\n');
+function playRoundAgain() {
+  let flag = rlSync.question('Would you like to play another round?\n');
+  return flag === 'y';
+}
+
+function playMatchAgain() {
+  let flag = rlSync.question('Would you like to play another match?\n');
   return flag === 'y';
 }
 
@@ -331,7 +336,7 @@ while (true) { // round loop
 
   let dealerTotal = calculateHandTotal(dealerHand);
 
-  let dontFallThrough = true;
+  let dealerPlays = true;
 
   
 
@@ -363,13 +368,13 @@ while (true) { // round loop
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
 
-    console.log('You busted, dealer won\n');
+    console.log('You busted, dealer won the round\n');
     displayMatchScore(playerScore,dealerScore);
-    let playAgain = rlSync.question('Would you like to play again?\n');
-    if (playAgain !== 'y') {
+    
+    if (!playRoundAgain()) {
       break;
     } else {
-      dontFallThrough = false;
+      dealerPlays = false;
       clear();
     }
 
@@ -379,7 +384,7 @@ while (true) { // round loop
     //also if player chose to stay, it's now the dealer's turn
   }
   //dealer turn while loop
-  while (dontFallThrough) {
+  while (dealerPlays) {
     if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
 
 
@@ -396,12 +401,12 @@ while (true) { // round loop
     playerScore += 1;
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
-    console.log('Dealer busted, you win!\n');
+    console.log('Dealer busted, you win the round!\n');
     displayMatchScore(playerScore,dealerScore);
 
-    if (!playAgain()) break;
+    if (!playRoundAgain()) break;
 
-  } else if (dontFallThrough) {
+  } else if (dealerPlays) {
     roundEnded = true;
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
@@ -415,11 +420,12 @@ while (true) { // round loop
     }
     displayMatchScore(playerScore,dealerScore);
 
-    if (!playAgain()) break;
+    if (!playRoundAgain()) break;
   }
 
 }//end of round loop
 
+if (!playMatchAgain()) break;
 }//end of match loop
 
 console.log('\nThanks for playing 21!');
