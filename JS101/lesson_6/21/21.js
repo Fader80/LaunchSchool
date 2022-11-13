@@ -10,7 +10,7 @@ let rlSync = require('readline-sync');
 
 const deckKeysArr = Object.keys(deck);
 
-const NUMBER_OF_RANKS = 12;
+const NUMBER_OF_RANKS = 13;
 
 function cloneDeck(origDeck) {
   let clonedDeck = {};
@@ -142,7 +142,7 @@ function render2Cards(playerHand) {
 ` -------        -------  
  |${val}     |      |${val1}     |
  |       |      |       |
- |  ${suite}    |      |   ${suite1}   |
+ |   ${suite}   |      |   ${suite1}   |
  |       |      |       |
  |     ${val}|      |     ${val1}|
   -------        -------`;
@@ -307,10 +307,13 @@ while (true) {//main match loop
     initialPlayMsg = false;
   }
 
+  let matchWon;
+
   let playerScore = 0;
   let dealerScore = 0;
 
-while (true) { // round loop
+
+while (!matchWon) { // round loop
 
   
   let deckOfRound = cloneDeck(deck);
@@ -338,7 +341,6 @@ while (true) { // round loop
 
   let dealerPlays = true;
 
-  
 
   let roundEnded = false;
 
@@ -371,12 +373,20 @@ while (true) { // round loop
     console.log('You busted, dealer won the round\n');
     displayMatchScore(playerScore,dealerScore);
     
-    if (!playRoundAgain()) {
+    
+
+    if (playerScore === 3 || dealerScore === 3) {
+      console.log('Someone won the match');
+      matchWon = true;
       break;
+    } else if (!playRoundAgain()) {
+       break;
     } else {
-      dealerPlays = false;
-      clear();
-    }
+         dealerPlays = false;
+        clear();
+      }
+
+
 
     // probably end the game? or ask the user to play again?
   } else {
@@ -404,24 +414,40 @@ while (true) { // round loop
     console.log('Dealer busted, you win the round!\n');
     displayMatchScore(playerScore,dealerScore);
 
-    if (!playRoundAgain()) break;
+    if (playerScore === 3 || dealerScore === 3) {
+      console.log('Someone won the match');
+      matchWon = true;
+      break;
+    } else if (!playRoundAgain()) {
+       break;
+    }
 
-  } else if (dealerPlays) {
+  } else if (dealerPlays) { // if dealer plays, means both players will have played
     roundEnded = true;
     clear();
     displayHands(dealerHand, playerHand, playerTotal, roundEnded);
     displayRoundOutcome(playerTotal, dealerTotal);
 
-    switch(calcRoundResult(playerTotal, dealerTotal)) {
+    switch (calcRoundResult(playerTotal, dealerTotal)) {
       case 'player' : playerScore += 1;
       break;
       case 'dealer' : dealerScore += 1;
       break;
     }
     displayMatchScore(playerScore,dealerScore);
+    if (playerScore === 3 || dealerScore === 3) {
+      console.log('Someone won the match');
+      matchWon = true;
+      break;
+    } else if (!playRoundAgain()) {
+       break;
+    }
 
-    if (!playRoundAgain()) break;
+
   }
+  
+
+
 
 }//end of round loop
 
