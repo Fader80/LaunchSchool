@@ -260,7 +260,7 @@ function calcRoundResult(totalOfPlayer, totalOfComputer) {
   }
 }
 
-function displayRoundOutcome(totalOfPlayer, totalOfComputer) {
+function displayRoundtOutcome(totalOfPlayer, totalOfComputer) {
 
   switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
     case 'player' : {
@@ -341,6 +341,10 @@ while (!matchWon) { // round loop
 
   let dealerPlays = true;
 
+  let playerBust;
+
+  let dealerBust;
+
 
   let roundEnded = false;
 
@@ -367,24 +371,26 @@ while (!matchWon) { // round loop
   if (busted(playerTotal)) {
     roundEnded = true;
     dealerScore += 1;
-    clear();
-    displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
+    playerBust = true;
+    dealerPlays = false;
+    // clear();
+    // displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
 
-    console.log('You busted, dealer won the round\n');
-    displayMatchScore(playerScore,dealerScore);
+    // console.log('You busted, dealer won the round\n');
+    // displayMatchScore(playerScore,dealerScore);
     
     
 
-    if (playerScore === 3 || dealerScore === 3) {
-      console.log('Someone won the match');
-      matchWon = true;
-      break;
-    } else if (!playRoundAgain()) {
-       break;
-    } else {
-         dealerPlays = false;
-        clear();
-      }
+    // if (playerScore === 3 || dealerScore === 3) {
+    //   console.log('Someone won the match');
+    //   matchWon = true;
+    //   break;
+    // } else if (!playRoundAgain()) {
+    //    break;
+    // } else {
+    //   dealerPlays = false;
+    //     clear();
+    //   }
 
 
 
@@ -409,24 +415,22 @@ while (!matchWon) { // round loop
   if (busted(dealerTotal)) {
     roundEnded = true;
     playerScore += 1;
-    clear();
-    displayHands(dealerHand, playerHand, playerTotal, roundEnded);
-    console.log('Dealer busted, you win the round!\n');
-    displayMatchScore(playerScore,dealerScore);
+    dealerBust = true;
+    // clear();
+    // displayHands(dealerHand, playerHand, playerTotal, roundEnded);
+    // console.log('Dealer busted, you win the round!\n');
+    // displayMatchScore(playerScore,dealerScore);
 
-    if (playerScore === 3 || dealerScore === 3) {
-      console.log('Someone won the match');
-      matchWon = true;
-      break;
-    } else if (!playRoundAgain()) {
-       break;
-    }
+    // if (playerScore === 3 || dealerScore === 3) {
+    //   console.log('Someone won the match');
+    //   matchWon = true;
+    //   break;
+    // } else if (!playRoundAgain()) {
+    //    break;
+    // }
 
   } else if (dealerPlays) { // if dealer plays, means both players will have played
     roundEnded = true;
-    clear();
-    displayHands(dealerHand, playerHand, playerTotal, roundEnded);
-    displayRoundOutcome(playerTotal, dealerTotal);
 
     switch (calcRoundResult(playerTotal, dealerTotal)) {
       case 'player' : playerScore += 1;
@@ -434,7 +438,20 @@ while (!matchWon) { // round loop
       case 'dealer' : dealerScore += 1;
       break;
     }
+
+  }
+
+  clear();
+  displayHands(dealerHand, playerHand, playerTotal, roundEnded);
+
+  if (playerBust) console.log('You busted, dealer won the round\n');
+  if (dealerBust) console.log('Dealer busted, you win the round!\n');
+
+
+
+
     displayMatchScore(playerScore,dealerScore);
+
     if (playerScore === 3 || dealerScore === 3) {
       console.log('Someone won the match');
       matchWon = true;
@@ -444,7 +461,7 @@ while (!matchWon) { // round loop
     }
 
 
-  }
+  
   
 
 
