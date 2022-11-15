@@ -5,7 +5,7 @@ const deck = {
   '♠': [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
 };
 
-const { clear } = require('console');
+const { clear, timeEnd } = require('console');
 let rlSync = require('readline-sync');
 
 const deckKeysArr = Object.keys(deck);
@@ -251,30 +251,44 @@ function displayHands(dealerCards, playerCards, playerSum, endOfRound) {
 }
 
 function calcRoundResult(totalOfPlayer, totalOfComputer) {
-  if (totalOfPlayer > totalOfComputer) {
+
+  if (totalOfPlayer > 21) {
+    return 'player bust';
+  } else if (totalOfComputer > 21) {
+    return 'computer bust';
+  } else if (totalOfPlayer > totalOfComputer) {
     return 'player';
   } else if (totalOfComputer > totalOfPlayer) {
     return 'computer';
   } else {
     return 'tie';
   }
+
 }
 
-function displayRoundtOutcome(totalOfPlayer, totalOfComputer) {
+function displayRoundResult(totalOfPlayer, totalOfComputer) {
 
   switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
-    case 'player' : {
+    case 'player bust' :
+      console.log('You busted, dealer won the round\n');
+      break;
+
+    case 'computer bust' :
+      console.log('Dealer busted, you won the round!\n');
+      break;
+
+    case 'player' :
       console.log('You won the round!\n');
       break;
-    }
-    case 'computer' : {
+
+    case 'computer' :
       console.log('Dealer won the round\n');
       break;
-    }
-    case 'tie' : {
+
+    case 'tie' :
       console.log('Round was a tie\n');
       break;
-    }
+
   }
 }
 
@@ -341,11 +355,8 @@ while (!matchWon) { // round loop
 
   let dealerPlays = true;
 
-  let playerBust;
-
-  let dealerBust;
-
-
+  
+ 
   let roundEnded = false;
 
 
@@ -371,29 +382,8 @@ while (!matchWon) { // round loop
   if (busted(playerTotal)) {
     roundEnded = true;
     dealerScore += 1;
-    playerBust = true;
     dealerPlays = false;
-    // clear();
-    // displayHands(dealerHand, playerHand, playerTotal, roundEnded); // this is so player can still see their full hand after they bust
-
-    // console.log('You busted, dealer won the round\n');
-    // displayMatchScore(playerScore,dealerScore);
-    
-    
-
-    // if (playerScore === 3 || dealerScore === 3) {
-    //   console.log('Someone won the match');
-    //   matchWon = true;
-    //   break;
-    // } else if (!playRoundAgain()) {
-    //    break;
-    // } else {
-    //   dealerPlays = false;
-    //     clear();
-    //   }
-
-
-
+     
     // probably end the game? or ask the user to play again?
   } else {
     console.log("You chose to stay!\n");  // if player didn't bust, must have stayed to get here
@@ -415,19 +405,6 @@ while (!matchWon) { // round loop
   if (busted(dealerTotal)) {
     roundEnded = true;
     playerScore += 1;
-    dealerBust = true;
-    // clear();
-    // displayHands(dealerHand, playerHand, playerTotal, roundEnded);
-    // console.log('Dealer busted, you win the round!\n');
-    // displayMatchScore(playerScore,dealerScore);
-
-    // if (playerScore === 3 || dealerScore === 3) {
-    //   console.log('Someone won the match');
-    //   matchWon = true;
-    //   break;
-    // } else if (!playRoundAgain()) {
-    //    break;
-    // }
 
   } else if (dealerPlays) { // if dealer plays, means both players will have played
     roundEnded = true;
@@ -444,9 +421,7 @@ while (!matchWon) { // round loop
   clear();
   displayHands(dealerHand, playerHand, playerTotal, roundEnded);
 
-  if (playerBust) console.log('You busted, dealer won the round\n');
-  if (dealerBust) console.log('Dealer busted, you win the round!\n');
-
+  displayRoundResult(playerTotal, dealerTotal);
 
 
 
@@ -457,13 +432,8 @@ while (!matchWon) { // round loop
       matchWon = true;
       break;
     } else if (!playRoundAgain()) {
-       break;
+      break;
     }
-
-
-  
-  
-
 
 
 }//end of round loop
