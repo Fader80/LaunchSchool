@@ -430,7 +430,6 @@ while (!matchWon) { // round loop
     if (playerScore === 3 || dealerScore === 3) {
       console.log('Someone won the match');
       matchWon = true;
-      break;
     } else if (!playRoundAgain()) {
       break;
     }
