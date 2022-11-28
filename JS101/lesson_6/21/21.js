@@ -20,7 +20,7 @@ function cloneDeck(origDeck) {
   deckEntries.forEach(entry => {
     let [key, value] = entry;
 
-    clonedDeck[key] = value.map(elem => elem);
+    clonedDeck[key] = value.slice();
   });
 
   return clonedDeck;
@@ -306,6 +306,39 @@ function displayMatchScore(playerPoints, dealerPoints) {
   console.log(`MATCH SCORE:-  Player: ${playerPoints}  Dealer: ${dealerPoints}\n`);
 }
 
+function playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck) {
+  while (true) {
+    clear();
+    displayHands(dealerHand, playerHand, playerTotal[0], roundEnd);
+
+    console.log("(h)it or (s)tay?\n");
+    let answer = rlSync.question();
+    if (answer[0] === 'h') {
+      playerHand.push(cardGenerator());
+      deleteGenCardFromDeck(playerHand[playerHand.length - 1], roundDeck);
+
+      playerTotal[0] = [calculateHandTotal(playerHand)];
+    }
+
+    if (answer[0] === 's' || busted(playerTotal[0])) break;
+
+  }
+
+}
+
+function dealerTurn(dealerPlays, dealerTotal, dealerHand, roundDeck) {
+  while (dealerPlays) {
+    if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
+
+
+    dealerHand.push(cardGenerator()); // this is the equivalent of 'hit'
+    deleteGenCardFromDeck(dealerHand[dealerHand.length - 1], roundDeck);
+
+    dealerTotal[0] = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
+
+  }
+}
+
 let initialPlayMsg = true;
 
 console.log('\n***welcome to 21!***\n');
@@ -327,62 +360,65 @@ while (true) {//main match loop
   let dealerScore = 0;
 
 
+
 while (!matchWon) { // round loop
 
   
-  let deckOfRound = cloneDeck(deck);
+  let roundDeck = cloneDeck(deck);
 
   let playerHand = [];
 
   playerHand[0] = cardGenerator();
-  deleteGenCardFromDeck(playerHand[0], deckOfRound);
+  deleteGenCardFromDeck(playerHand[0], roundDeck);
 
   playerHand[1] = cardGenerator();
-  deleteGenCardFromDeck(playerHand[1], deckOfRound);
+  deleteGenCardFromDeck(playerHand[1], roundDeck);
 
 
   let dealerHand = [];
 
   dealerHand[0] = cardGenerator();
-  deleteGenCardFromDeck(dealerHand[0], deckOfRound);
+  deleteGenCardFromDeck(dealerHand[0], roundDeck);
 
   dealerHand[1] = cardGenerator();
-  deleteGenCardFromDeck(dealerHand[1], deckOfRound);
+  deleteGenCardFromDeck(dealerHand[1], roundDeck);
 
-  let playerTotal = calculateHandTotal(playerHand);
+  let playerTotal = [calculateHandTotal(playerHand)];
 
-  let dealerTotal = calculateHandTotal(dealerHand);
+  let dealerTotal = [calculateHandTotal(dealerHand)];
 
   let dealerPlays = true;
 
   
  
-  let roundEnded = false;
+  let roundEnd = false;
 
+  
 
-  //player turn loop
-  while (true) {
-    clear();
-    displayHands(dealerHand, playerHand, playerTotal, roundEnded);
+  // //player turn loop
+  // while (true) {
+  //   clear();
+  //   displayHands(dealerHand, playerHand, playerTotal, roundEnd);
 
-    console.log("(h)it or (s)tay?\n");
-    let answer = rlSync.question();
-    if (answer[0] === 'h') {
-      playerHand.push(cardGenerator());
-      deleteGenCardFromDeck(playerHand[playerHand.length - 1], deckOfRound);
+  //   console.log("(h)it or (s)tay?\n");
+  //   let answer = rlSync.question();
+  //   if (answer[0] === 'h') {
+  //     playerHand.push(cardGenerator());
+  //     deleteGenCardFromDeck(playerHand[playerHand.length - 1], roundDeck);
 
-      playerTotal = calculateHandTotal(playerHand);
-    }
+  //     playerTotal = calculateHandTotal(playerHand);
+  //   }
 
-    if (answer[0] === 's' || busted(playerTotal)) break;
+  //   if (answer[0] === 's' || busted(playerTotal)) break;
 
-  }//end of player turn loop
+  // }//end of player turn loop
 
+  playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck);
 
-  if (busted(playerTotal)) {
-    roundEnded = true;
+  if (busted(playerTotal[0])) {
+    roundEnd = true;
     dealerScore += 1;
-    dealerPlays = false;
+    dealerPlays = false; // this is to save cpu cycles and prevent dealer turn executing needlessly
      
     // probably end the game? or ask the user to play again?
   } else {
@@ -395,7 +431,7 @@ while (!matchWon) { // round loop
 
 
     dealerHand.push(cardGenerator()); // this is the equivalent of 'hit'
-    deleteGenCardFromDeck(dealerHand[dealerHand.length - 1], deckOfRound);
+    deleteGenCardFromDeck(dealerHand[dealerHand.length - 1], roundDeck);
 
     dealerTotal = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
 
@@ -403,13 +439,13 @@ while (!matchWon) { // round loop
 
 
   if (busted(dealerTotal)) {
-    roundEnded = true;
+    roundEnd = true;
     playerScore += 1;
 
   } else if (dealerPlays) { // if dealer plays, means both players will have played
-    roundEnded = true;
+    roundEnd = true;
 
-    switch (calcRoundResult(playerTotal, dealerTotal)) {
+    switch (calcRoundResult(playerTotal[0], dealerTotal)) {
       case 'player' : playerScore += 1;
       break;
       case 'dealer' : dealerScore += 1;
@@ -419,9 +455,11 @@ while (!matchWon) { // round loop
   }
 
   clear();
-  displayHands(dealerHand, playerHand, playerTotal, roundEnded);
+  
+  displayHands(dealerHand, playerHand, playerTotal[0], roundEnd);
 
-  displayRoundResult(playerTotal, dealerTotal);
+  
+  displayRoundResult(playerTotal[0], dealerTotal);
 
 
 
