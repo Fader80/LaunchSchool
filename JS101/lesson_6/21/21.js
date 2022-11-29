@@ -109,7 +109,7 @@ function busted(currentTotal) {
 
 //the following are the card functions for visual rendering - I had to do them
 //as individual functions because console.log doesn't allow for any verticality
-//for subsequent cards, (it makes the newer card display below
+//for any card but the first one, (it makes the newer card display below
 //the previous one) thus cannot be used to loop through the player's hand
 //and render cards side-by-side, which I would have preferred
 //as it's more efficient, and would not require multiple render functions.
@@ -241,7 +241,7 @@ function displayHands(dealerCards, playerCards, playerSum, endOfRound) {
 
 
   console.log(`Your hand is:\n ${renderCardArr[playerCards.length - 2](playerCards)}\n`);
-  console.log(`Note, your hand's total is: ${playerSum}\n \n`);
+  console.log(`Note, your hand's total is: ${playerSum[0]}\n \n`);
 
   if (!endOfRound) {
     console.log(`Dealer's hand is: \n ${renderDealerCards(dealerCards)}\n`);
@@ -268,7 +268,7 @@ function calcRoundResult(totalOfPlayer, totalOfComputer) {
 
 function displayRoundResult(totalOfPlayer, totalOfComputer) {
 
-  switch (calcRoundResult(totalOfPlayer,totalOfComputer)) {
+  switch (calcRoundResult(totalOfPlayer[0],totalOfComputer[0])) {
     case 'player bust' :
       console.log('You busted, dealer won the round\n');
       break;
@@ -309,7 +309,7 @@ function displayMatchScore(playerPoints, dealerPoints) {
 function playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck) {
   while (true) {
     clear();
-    displayHands(dealerHand, playerHand, playerTotal[0], roundEnd);
+    displayHands(dealerHand, playerHand, playerTotal, roundEnd);
 
     console.log("(h)it or (s)tay?\n");
     let answer = rlSync.question();
@@ -326,8 +326,8 @@ function playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck) {
 
 }
 
-function dealerTurn(dealerPlays, dealerTotal, dealerHand, roundDeck) {
-  while (dealerPlays) {
+function dealerTurn(dealerTotal, dealerHand, roundDeck) {
+  while (true) {
     if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
 
 
@@ -395,23 +395,6 @@ while (!matchWon) { // round loop
 
   
 
-  // //player turn loop
-  // while (true) {
-  //   clear();
-  //   displayHands(dealerHand, playerHand, playerTotal, roundEnd);
-
-  //   console.log("(h)it or (s)tay?\n");
-  //   let answer = rlSync.question();
-  //   if (answer[0] === 'h') {
-  //     playerHand.push(cardGenerator());
-  //     deleteGenCardFromDeck(playerHand[playerHand.length - 1], roundDeck);
-
-  //     playerTotal = calculateHandTotal(playerHand);
-  //   }
-
-  //   if (answer[0] === 's' || busted(playerTotal)) break;
-
-  // }//end of player turn loop
 
   playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck);
 
@@ -425,18 +408,11 @@ while (!matchWon) { // round loop
     console.log("You chose to stay!\n");  // if player didn't bust, must have stayed to get here
     //also if player chose to stay, it's now the dealer's turn
   }
-  //dealer turn while loop
-  while (dealerPlays) {
-    if (dealerTotal >= 17) break; // this break is the equivalent of 'stay'
 
-
-    dealerHand.push(cardGenerator()); // this is the equivalent of 'hit'
-    deleteGenCardFromDeck(dealerHand[dealerHand.length - 1], roundDeck);
-
-    dealerTotal = calculateHandTotal(dealerHand); // this is the equivalent of 'hit'
-
-  }//end of dealer turn loop
-
+  if (dealerPlays) {
+    dealerTurn(dealerTotal, dealerHand, roundDeck);
+  } 
+ 
 
   if (busted(dealerTotal)) {
     roundEnd = true;
@@ -445,7 +421,7 @@ while (!matchWon) { // round loop
   } else if (dealerPlays) { // if dealer plays, means both players will have played
     roundEnd = true;
 
-    switch (calcRoundResult(playerTotal[0], dealerTotal)) {
+    switch (calcRoundResult(playerTotal[0], dealerTotal[0])) {
       case 'player' : playerScore += 1;
       break;
       case 'dealer' : dealerScore += 1;
@@ -456,14 +432,13 @@ while (!matchWon) { // round loop
 
   clear();
   
-  displayHands(dealerHand, playerHand, playerTotal[0], roundEnd);
+  displayHands(dealerHand, playerHand, playerTotal, roundEnd);
 
   
-  displayRoundResult(playerTotal[0], dealerTotal);
+  displayRoundResult(playerTotal, dealerTotal);
 
 
-
-    displayMatchScore(playerScore,dealerScore);
+  displayMatchScore(playerScore,dealerScore);
 
     if (playerScore === 3 || dealerScore === 3) {
       console.log('Someone won the match');
