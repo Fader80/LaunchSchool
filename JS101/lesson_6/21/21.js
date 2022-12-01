@@ -46,10 +46,10 @@ function cardGenerator() {
 
 }
 
-function deleteGenCardFromDeck(cardToDelete, roundDeck) {
+function deleteGenCardFromDeck(cardToDelete, deckOfRound) {
   let [suite, value] = cardToDelete;
 
-  let suiteArray = roundDeck[suite];
+  let suiteArray = deckOfRound[suite];
   let indexOfCardToDelete = suiteArray.indexOf(value);
 
   suiteArray.splice(indexOfCardToDelete, 1);
@@ -241,7 +241,7 @@ function displayHands(dealerCards, playerCards, playerSum, endOfRound) {
 
 
   console.log(`Your hand is:\n ${renderCardArr[playerCards.length - 2](playerCards)}\n`);
-  console.log(`Note, your hand's total is: ${playerSum[0]}\n \n`);
+  console.log(`Note, your hand's total is ${playerSum[0]}\n \n`);
 
   if (!endOfRound) {
     console.log(`Dealer's hand is: \n ${renderDealerCards(dealerCards)}\n`);
@@ -268,7 +268,7 @@ function calcRoundResult(totalOfPlayer, totalOfComputer) {
 
 function displayRoundResult(totalOfPlayer, totalOfComputer) {
 
-  switch (calcRoundResult(totalOfPlayer[0],totalOfComputer[0])) {
+  switch (calcRoundResult(totalOfPlayer[0], totalOfComputer[0])) {
     case 'player bust' :
       console.log('You busted, dealer won the round\n');
       break;
@@ -306,6 +306,19 @@ function displayMatchScore(playerPoints, dealerPoints) {
   console.log(`MATCH SCORE:-  Player: ${playerPoints}  Dealer: ${dealerPoints}\n`);
 }
 
+function dealCards(deckOfRound) {
+  let hand = [];
+
+  hand[0] = cardGenerator();
+  deleteGenCardFromDeck(hand[0], deckOfRound);
+
+  hand[1] = cardGenerator();
+  deleteGenCardFromDeck(hand[1], deckOfRound);
+
+  return hand;
+
+}
+
 function playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck) {
   while (true) {
     clear();
@@ -339,6 +352,19 @@ function dealerTurn(dealerTotal, dealerHand, roundDeck) {
   }
 }
 
+function detectMatchWinner(playerPoints, dealerPoints) {
+  return playerPoints === 3 || dealerPoints === 3;
+}
+
+function displayMatchWinner(playerPoints) {
+  if (playerPoints === 3) {
+    console.log('**Congratulations, you won the match!**\n\n');
+  } else {
+    console.log('Commiserations, you lost the match :(\n\n');
+  }
+}
+
+
 let initialPlayMsg = true;
 
 console.log('\n***welcome to 21!***\n');
@@ -366,29 +392,17 @@ while (!matchWon) { // round loop
   
   let roundDeck = cloneDeck(deck);
 
-  let playerHand = [];
+  let playerHand = dealCards(roundDeck);
 
-  playerHand[0] = cardGenerator();
-  deleteGenCardFromDeck(playerHand[0], roundDeck);
-
-  playerHand[1] = cardGenerator();
-  deleteGenCardFromDeck(playerHand[1], roundDeck);
+  let dealerHand = dealCards(roundDeck);
 
 
-  let dealerHand = [];
-
-  dealerHand[0] = cardGenerator();
-  deleteGenCardFromDeck(dealerHand[0], roundDeck);
-
-  dealerHand[1] = cardGenerator();
-  deleteGenCardFromDeck(dealerHand[1], roundDeck);
 
   let playerTotal = [calculateHandTotal(playerHand)];
 
   let dealerTotal = [calculateHandTotal(dealerHand)];
 
   let dealerPlays = true;
-
   
  
   let roundEnd = false;
@@ -401,7 +415,7 @@ while (!matchWon) { // round loop
   if (busted(playerTotal[0])) {
     roundEnd = true;
     dealerScore += 1;
-    dealerPlays = false; // this is to save cpu cycles and prevent dealer turn executing needlessly
+    dealerPlays = false;
      
     // probably end the game? or ask the user to play again?
   } else {
@@ -424,7 +438,7 @@ while (!matchWon) { // round loop
     switch (calcRoundResult(playerTotal[0], dealerTotal[0])) {
       case 'player' : playerScore += 1;
       break;
-      case 'dealer' : dealerScore += 1;
+      case 'computer' : dealerScore += 1;
       break;
     }
 
@@ -440,8 +454,8 @@ while (!matchWon) { // round loop
 
   displayMatchScore(playerScore,dealerScore);
 
-    if (playerScore === 3 || dealerScore === 3) {
-      console.log('Someone won the match');
+    if (detectMatchWinner(playerScore,dealerScore)) {
+      displayMatchWinner(playerScore);
       matchWon = true;
     } else if (!playRoundAgain()) {
       break;

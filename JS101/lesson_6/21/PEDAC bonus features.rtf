@@ -46,9 +46,18 @@ Now, if player busts, and the displayHands function call line 445 is not display
  Note that if player does not bust and both parties play, or if player does not bust but dealer does, this does not happen, only if player busts - why?  - is there reassignment going on when  roundDeck is passed in to playerTurn function? - you can use 'variables as pointers' chapter from 'more stuff' in intro to js book as a reference if you need  // I don't think this is currently the avenue to explore, I think the bug's been trapped in the paragraph above  - but explore this if the above paragraph doesn't unearth the bug//update no, roundEnd is not reassigned when passed in as an argument, the parameter just gets a copy to the roundEnd object in memory. Reassignment was the issue, but it was taking place in the playerTurn function\par
 do a dealerTurn function //DONE\par
 need to test the dealerTurn function //DONE\par
+\par
 need to have a proper function for when someone wins the match  - actually, split this into two functions - detectMatchWinner which runs first, then displayMatchWinner. have it as\par
- if (detectMatchWinner) \{ displayMatchWinner\} ? \par
-can you have a dealCards function near the top of the round loop to deal the initial cards for player and dealer?\cf1\par
+ if (detectMatchWinner) \{ displayMatchWinner\} ? //DONE\par
+\par
+can you have a dealCards function near the top of the round loop to deal the initial cards for player and dealer? //DONE\par
+\par
+try to implement the 'improved input handling' section of the bonus features - \line\i In the Tic Tac Toe game, we asked you to examine the Play again? code and modify it so that it can do a better job of handling arbitrary inputs. Do the same thing for this program.\par
+Do you need to do some similar coding to handle the hit/stay inputs?\par
+\i0 have a const array of VALID_CHOICES and if the input isn't one of those, prompt user to supply a valid input\par
+\par
+try running the game in cygwin  / git bash to see how it renders\par
+\cf1\par
 \cf0\par
 \par
 \b examples:\b0    \par
