@@ -114,7 +114,7 @@ function busted(currentTotal) {
 //the following are the card functions for visual rendering - I had to do them
 //as individual functions because console.log doesn't allow for any verticality
 //for any card but the first one, (it makes the newer card display below
-//the previous one) thus cannot be used to loop through the player's hand
+//the previous one) thus cannot be used to loop through each player's hand
 //and render cards side-by-side, which I would have preferred
 //as it's more efficient, and would not require multiple render functions.
 // it would also have been able to cope theoretically with any number of cards
