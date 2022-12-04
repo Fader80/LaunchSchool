@@ -12,6 +12,10 @@ const deckKeysArr = Object.keys(deck);
 
 const NUMBER_OF_RANKS = 13;
 
+const VALID_CHOICES = ['y', 'n', 'yes', 'no'];
+
+const VALID_TURN_CHOICES = ['h', 's', 'hit', 'stay'];
+
 function cloneDeck(origDeck) {
   let clonedDeck = {};
 
@@ -293,13 +297,22 @@ function displayRoundResult(totalOfPlayer, totalOfComputer) {
 }
 
 function playRoundAgain() {
-  let flag = rlSync.question('Would you like to play another round?\n');
-  return flag === 'y';
+  let ans = rlSync.question('Would you like to play another round?\n');
+
+  while (!VALID_CHOICES.includes(ans.toLowerCase())) {
+    ans = rlSync.question('Please enter a valid choice, (y)es or (n)o\n');
+  }
+  return ans[0].toLowerCase() === 'y';
 }
 
+
 function playMatchAgain() {
-  let flag = rlSync.question('Would you like to play another match?\n');
-  return flag === 'y';
+  let ans = rlSync.question('Would you like to play another match?\n');
+
+  while (!VALID_CHOICES.includes(ans.toLowerCase())) {
+    ans = rlSync.question('Please enter a valid choice, (y)es or (n)o\n');
+  }
+  return ans[0].toLowerCase() === 'y';
 }
 
 function displayMatchScore(playerPoints, dealerPoints) {
@@ -326,6 +339,11 @@ function playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck) {
 
     console.log("(h)it or (s)tay?\n");
     let answer = rlSync.question();
+
+    while (!VALID_TURN_CHOICES.includes(answer.toLowerCase())) {
+      answer = rlSync.question('Please enter a valid choice, (h)it or (s)tay\n');
+    }
+
     if (answer[0] === 'h') {
       playerHand.push(cardGenerator());
       deleteGenCardFromDeck(playerHand[playerHand.length - 1], roundDeck);
@@ -374,9 +392,14 @@ while (true) {//main match loop
   if (initialPlayMsg) {
     let play21 = rlSync.question('Would you like to play a match?\n');
 
-    if (play21 !== 'y') {
+    while (!VALID_CHOICES.includes(play21.toLowerCase())) {
+      play21 = rlSync.question('Please enter a valid choice, (y)es or (n)o\n');
+    }
+
+    if (play21[0] !== 'y') {
       break;
     }
+
     initialPlayMsg = false;
   }
 
@@ -386,73 +409,69 @@ while (true) {//main match loop
   let dealerScore = 0;
 
 
-
-while (!matchWon) { // round loop
-
-  
-  let roundDeck = cloneDeck(deck);
-
-  let playerHand = dealCards(roundDeck);
-
-  let dealerHand = dealCards(roundDeck);
+  while (!matchWon) { // round loop
 
 
+    let roundDeck = cloneDeck(deck);
 
-  let playerTotal = [calculateHandTotal(playerHand)];
+    let playerHand = dealCards(roundDeck);
 
-  let dealerTotal = [calculateHandTotal(dealerHand)];
-
-  let dealerPlays = true;
-  
- 
-  let roundEnd = false;
-
-  
+    let dealerHand = dealCards(roundDeck);
 
 
-  playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck);
+    let playerTotal = [calculateHandTotal(playerHand)];
 
-  if (busted(playerTotal[0])) {
-    roundEnd = true;
-    dealerScore += 1;
-    dealerPlays = false;
-     
+    let dealerTotal = [calculateHandTotal(dealerHand)];
+
+    let dealerPlays = true;
+
+
+    let roundEnd = false;
+
+
+    playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck);
+
+    if (busted(playerTotal[0])) {
+      roundEnd = true;
+      dealerScore += 1;
+      dealerPlays = false;
+
     // probably end the game? or ask the user to play again?
-  } else {
-    console.log("You chose to stay!\n");  // if player didn't bust, must have stayed to get here
+    } else {
+      console.log("You chose to stay!\n");  // if player didn't bust, must have stayed to get here
     //also if player chose to stay, it's now the dealer's turn
-  }
-
-  if (dealerPlays) {
-    dealerTurn(dealerTotal, dealerHand, roundDeck);
-  } 
- 
-
-  if (busted(dealerTotal)) {
-    roundEnd = true;
-    playerScore += 1;
-
-  } else if (dealerPlays) { // if dealer plays, means both players will have played
-    roundEnd = true;
-
-    switch (calcRoundResult(playerTotal[0], dealerTotal[0])) {
-      case 'player' : playerScore += 1;
-      break;
-      case 'computer' : dealerScore += 1;
-      break;
     }
 
-  }
-
-  clear();
-  
-  displayHands(dealerHand, playerHand, playerTotal, roundEnd);
-
-  
-  displayRoundResult(playerTotal, dealerTotal);
+    if (dealerPlays) {
+      dealerTurn(dealerTotal, dealerHand, roundDeck);
+    }
 
 
-  displayMatchScore(playerScore,dealerScore);
+    if (busted(dealerTotal)) {
+      roundEnd = true;
+      playerScore += 1;
+
+    } else if (dealerPlays) { // if dealer plays, means both players will have played
+      roundEnd = true;
+
+      switch (calcRoundResult(playerTotal[0], dealerTotal[0])) {
+        case 'player' : playerScore += 1;
+          break;
+        case 'computer' : dealerScore += 1;
+          break;
+      }
+
+    }
+
+    clear();
+
+    displayHands(dealerHand, playerHand, playerTotal, roundEnd);
+
+
+    displayRoundResult(playerTotal, dealerTotal);
+
+
+    displayMatchScore(playerScore,dealerScore);
 
     if (detectMatchWinner(playerScore,dealerScore)) {
       displayMatchWinner(playerScore);
@@ -462,9 +481,9 @@ while (!matchWon) { // round loop
     }
 
 
-}//end of round loop
+  }//end of round loop
 
-if (!playMatchAgain()) break;
+  if (!playMatchAgain()) break;
 }//end of match loop
 
 console.log('\nThanks for playing 21!');
