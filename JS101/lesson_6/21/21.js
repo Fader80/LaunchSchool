@@ -5,7 +5,7 @@ const deck = {
   '♠': [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace']
 };
 
-const { clear, timeEnd } = require('console');
+const { clear } = require('console');
 let rlSync = require('readline-sync');
 
 const deckKeysArr = Object.keys(deck);
@@ -340,9 +340,9 @@ function playerTurn(dealerHand, playerHand, playerTotal, roundEnd, roundDeck) {
     displayHands(dealerHand, playerHand, playerTotal, roundEnd);
 
     console.log("(h)it or (s)tay?\n");
-    let answer = rlSync.question();
+    let answer = rlSync.question().toLowerCase();
 
-    while (!VALID_TURN_CHOICES.includes(answer.toLowerCase())) {
+    while (!VALID_TURN_CHOICES.includes(answer)) {
       answer = rlSync.question('Please enter a valid choice, (h)it or (s)tay\n');
     }
 
@@ -426,7 +426,6 @@ while (true) {//main match loop
     let dealerTotal = [calculateHandTotal(dealerHand)];
 
     let dealerPlays = true;
-
 
     let roundEnd = false;
 
