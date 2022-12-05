@@ -12,6 +12,8 @@ const deckKeysArr = Object.keys(deck);
 
 const NUMBER_OF_RANKS = 13;
 
+const  NUM_GAMES_TO_WIN = 3;
+
 const VALID_CHOICES = ['y', 'n', 'yes', 'no'];
 
 const VALID_TURN_CHOICES = ['h', 's', 'hit', 'stay'];
@@ -371,11 +373,11 @@ function dealerTurn(dealerTotal, dealerHand, roundDeck) {
 }
 
 function detectMatchWinner(playerPoints, dealerPoints) {
-  return playerPoints === 3 || dealerPoints === 3;
+  return playerPoints === NUM_GAMES_TO_WIN || dealerPoints === NUM_GAMES_TO_WIN;
 }
 
 function displayMatchWinner(playerPoints) {
-  if (playerPoints === 3) {
+  if (playerPoints === NUM_GAMES_TO_WIN) {
     console.log('**Congratulations, you won the match!**\n\n');
   } else {
     console.log('Commiserations, you lost the match :(\n\n');
