@@ -1,7 +1,7 @@
 function fibonacci(argNum) {
 
   if (argNum < 3) {
-    return argNum;
+    return 1;
   }
 
   let f1 = 1;
