@@ -1,4 +1,5 @@
 function letterPercentages(argStr) {
+
   let resultObj =  argStr.split('').reduce((accum, elem) => {
     if (/[^A-z]/.test(elem)) {
       accum['neither'] += ((1 / argStr.length) * 100);
