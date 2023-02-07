@@ -1,6 +1,7 @@
-{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
 {\colortbl ;\red192\green80\blue77;}
-{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\sa200\sl276\slmult1\lang9\b\f0\fs22 Aim:   \par
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\b\f0\fs22\lang9 Aim:   \par
 \b0 A triangle is classified as follows:\par
 \par
 \i Equilateral\i0 : All three sides are of equal length.\par
@@ -16,15 +17,16 @@ Write a function that takes the lengths of the three sides of a triangle as argu
 \b output:\b0   string representing the classification of what type of triangle it is\par
 \par
 \b explicit requirements:\b0    the definitions of types of triangle\b\par
-implicit requirements:\b0    that there are three sides to the triangle, and that they all touch each other at the end points.\b\par
+implicit requirements:\b0    that there are three sides to the triangle, and that they all touch each other at the end points. A side is a straight line. \b\par
 \par
 mental model:\b0    \par
-have a guard clause that if any of the sides === 0, return false\line also have another guard clause that if the sum of the two shortest sides is shorter than the longest side, return false.\line //how to find the longest side?  and what if it's equilateral or isosceles?  - does some of this go in implicit requirements? \line if it's equilateral, then all sides are the longest side. If it's isosceles, then there will be two 'longest sides' and a shortest side. How to account for this? - need to iterate through the lengths and set the first number to the longest number. If a subsequent number is longer, then set that to the largest number. Then find the first instance of that number in the collection, and compare it to the other two. \line //how to compare it to the other two?  - set up an array of indexes, and remove the index of the longest number from this array? (or manipulate the numArray?)\par
-how to classify the triangle?  - set up an array of unique elements. If there is only one in there, it must be equilateral. If there are two in there, it must be isosceles, and if there are three in there, it must be scalene. \b\par
+have a guard clause that if any of the sides === 0, return false\line also have another guard clause that if the sum of the two shortest sides is shorter than the longest side, return false.\line //how to find the longest side?  and what if it's equilateral or isosceles?  - does some of this go in implicit requirements? \line if it's equilateral, then all sides are the longest side. If it's isosceles, then there will be two 'longest sides' and a shortest side. How to account for this? - need to iterate through the lengths and set the first number to the longest number. If a subsequent number is longer, then set that to the largest number. Then find the first instance of that number in the collection, and compare it to the other two. \line //how to compare it to the other two?  - set up an array of indexes, and remove the index of the longest number from this array? (or manipulate the \cf1 numArray\cf0 ?)\par
+how to classify the triangle?  - set up an array of unique elements. If there is only one in there, it must be equilateral. If there are two in there, it must be isosceles, and if there are three in there, it must be scalene.    \b\par
 \b0\par
 \par
 \b examples:\b0    \par
-\pard\sa200\sl240\slmult1{\pict\wmetafile8\picw11774\pich3969\picwgoal6675\pichgoal2250 
+
+\pard\sa200\sl240\slmult1{\pict{\*\picprop}\wmetafile8\picw11774\pich3969\picwgoal6675\pichgoal2250 
 010009000003a087010000008a8701000000050000000b0200000000050000000c02810ffe2d8a
 870100430f2000cc0000009600bd0100000000810ffe2d0000000028000000bd01000096000000
 0100180000000000d00e0300c40e0000c40e000000000000000000004d49454d49454d49454d49
@@ -5168,15 +5170,16 @@ a19f4d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d
 4d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d49454d4945
 4d49454d494500030000000000
 }\par
+
 \pard\sa200\sl276\slmult1\par
 \par
 \b edge cases:\b0    \b\par
 data structure:\b0    array \par
 \par
 \b algorithm:\b0    \par
-set \cf1 numArr \cf0 equal to an array that contains all the numeric arguments as elements  \line\line set \cf1 idx \cf0 to 1\par
-set \cf1 longestNum \cf0 equal to value at \cf1 numArr \cf0 at space \cf1 idx \line\line\cf0 while \cf1 idx \cf0 < length of \cf1 numArr \cf0\line if value at space \cf1 idx \cf0 is larger than \cf1 longestNum\cf0\line set \cf1 longestNum \cf0 = value at space \cf1 idx\line\cf0 else skip to next iteration \line\cf1 idx \cf0 += 1\par
-\par
+set \cf1 numArr \cf0 equal to an array that contains all the numeric arguments as elements  \line\line set \cf1 indxArr \cf0 equal to the index numbers of \cf1 numArr\cf0\line\line set \cf1 idx \cf0 to 1\par
+set \cf1 longestNum \cf0 equal to value at \cf1 numArr \cf0 at space \cf1 idx \line\line\cf0 while \cf1 idx \cf0 < length of \cf1 numArr \cf0\line if \line value at space \cf1 idx \cf0 is larger than \cf1 longestNum\cf0\line set \cf1 longestNum \cf0 = value at space \cf1 idx\line\cf0 else \line skip to next iteration \line\cf1 idx \cf0 += 1\par
+set \cf1 firstLongest \cf0 equal to the first appearance of \cf1 longestNum \cf0 in \cf1 numArr\cf0\line\line delete the index of \cf1 firstLongest\cf0 's appearance in \cf1 numArr \cf0 from \cf1 idxArr\line\line\cf0\par
 \par
 \par
 \b manually test a couple of cases:\b0  \par
