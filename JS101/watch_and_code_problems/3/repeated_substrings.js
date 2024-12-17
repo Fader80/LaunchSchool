@@ -20,5 +20,6 @@ function repeatedSubstringPattern(argStr) {
 
     if (targStr === argStr) return true;
   }
+
   return false;
 }
