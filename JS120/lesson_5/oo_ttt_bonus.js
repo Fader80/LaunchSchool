@@ -152,7 +152,7 @@ class TTTGame {
 
   play() {
 
-    this.dislayWelcomeMessage();
+    this.displayWelcomeMessage();
 
     this.playMatch();
 
@@ -164,42 +164,28 @@ class TTTGame {
 
   playOneGame(firstMove, secondMove) {
     this.board.reset();
-   
+
     this.board.display();
     while (true) {
 
- 
 
       firstMove.call(this);
-      if (this.gameOver()) {
-        if (this.isRoundWinner(this.human)) {
-          this.human.incrementScore();
-          break;
-        } else if (this.isRoundWinner(this.computer)) {
-          this.computer.incrementScore();
-          break;
-        }        
-      }
+      if (this.gameOver()) break;
+
+
       this.board.displayWithClear();
 
       secondMove.call(this);
-      if (this.gameOver()) {
-        if (this.isRoundWinner(this.human)) {
-          this.human.incrementScore();
-          break;
-        } else if (this.isRoundWinner(this.computer)) {
-          this.computer.incrementScore();
-          break;
-        }        
-      }
+      if (this.gameOver()) break;
 
-      this.board.displayWithClear(); 
-     
+
+      this.board.displayWithClear();
+
 
     }
-    this.board.displayWithClear(); 
+    this.board.displayWithClear();
     this.displayRoundResults();
-    
+
 
   } // end of playOneGame
 
@@ -231,6 +217,7 @@ class TTTGame {
 
     while (true) {
       this.playOneGame(firstMove, secondMove);
+      this.updateMatchScore(this.human, this.computer);
       this.displayMatchScore();
       if (this.someoneWonMatch()) break;
       if (!this.playAgain()) break;
@@ -249,7 +236,7 @@ class TTTGame {
   }
 
 
-  dislayWelcomeMessage() {
+  displayWelcomeMessage() {
     console.clear();
     console.log('Welcome to Tic Tac Toe!');
     console.log("");
@@ -383,11 +370,19 @@ class TTTGame {
   }
 
   isMatchWinner(player) {
-    return player.score === TTTGame.MATCH_GOAL;
+    return player.getScore() === TTTGame.MATCH_GOAL;
   }
 
   someoneWonMatch() {
     return this.isMatchWinner(this.human) || this.isMatchWinner(this.computer);
+  }
+
+  updateMatchScore(human, computer) {
+    if (this.isRoundWinner(human)) {
+      this.human.incrementScore();
+    } else if (this.isRoundWinner(computer)) {
+      this.computer.incrementScore();
+    }
   }
 
   displayMatchResults() {
