@@ -192,27 +192,7 @@ class TTTGame {
   playMatch() {
     console.log(`First player to win ${TTTGame.MATCH_GOAL} games wins the match.`);
 
-
-    let firstMove;
-    let secondMove;
-    let askFirstMove;
-
-    while (true) {
-      askFirstMove = readline.question('who goes first - human or computer?\n').toLowerCase();
-      if (['h', 'c'].includes(askFirstMove[0])) break;
-      console.log('sorry, that\'s not a valid choice');
-    }
-
-      if (askFirstMove[0] === 'h') {
-        firstMove = this.humanMoves;
-        secondMove = this.computerMoves;
-      } else {
-        firstMove = this.computerMoves;
-        secondMove = this.humanMoves;
-      }
-
-     
-
+    let [firstMove, secondMove] = this.selectWhoMovesFirst();
 
 
     while (true) {
@@ -393,6 +373,30 @@ class TTTGame {
 
       console.log("\nI won the match! hahahahaha\n");
     }
+  }
+
+  selectWhoMovesFirst() {
+
+    let firstMove;
+    let secondMove;
+    let askFirstMove;
+
+    while (true) {
+      askFirstMove = readline.question('who goes first - human or computer?\n').toLowerCase();
+      if (['h', 'c'].includes(askFirstMove[0])) break;
+      console.log('sorry, that\'s not a valid choice');
+    }
+
+    if (askFirstMove[0] === 'h') {
+      firstMove = this.humanMoves;
+      secondMove = this.computerMoves;
+    } else {
+      firstMove = this.computerMoves;
+      secondMove = this.humanMoves;
+    }
+
+    return [firstMove, secondMove];
+
   }
 
 
