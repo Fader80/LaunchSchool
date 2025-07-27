@@ -1,8 +1,13 @@
+const INITIAL_HAND_SIZE = 2;
+
 class Card {
-  constructor() {
+  constructor(suit, rank, points) {
     //STUB
     //What sort of state does a card need?
     //Rank? Suit? Points?
+    this.suit = suit;
+    this.rank = rank;
+    this.points = points;
   }
 }
 
@@ -12,14 +17,32 @@ class Deck {
   //STUB
   //Whart sort of state does a deck need?
   //52 cards?
-  //obviously, we need some data strucrtue to keep track of cards
+  //obviously, we need some data strucrture to keep track of cards
   //array, object, something else?
+    this.reset();
+
+  }
+
+  reset() {
+    let suits = ['♣', '♦', '♥', '♠'];
+    let ranks = {2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10,
+      Ace: 11, King: 10, Queen: 10, Jack: 10};
+
+    this.cards = [];
+
+    suits.forEach(suit => {
+
+
+      for (let rank in ranks) {
+        this.cards.push(new Card(suit, rank, ranks[rank]));
+      }
+    });
 
   }
 
   deal() {
     //STUB
-    // does the dealer or the deck deal?
+    // does the dealer or the deck deal? // I think the dealer should
   }
 
 }
@@ -30,14 +53,10 @@ class Participant {
     // What sort of state does a participant need?
     //Score? Hand? Amount of money available?
     // What else goes here? All the redundant behaviours from Player and Dealer?
-  }
-}
+    this.score = 0;
+    this.money = 0;
+    this.hand = [];
 
-class Player extends Participant {
-  constructor() {
-    //STUB
-    //What sort of state does a player need?
-    //Score? Hand? Amount of money available?
   }
 
   hit() {
@@ -52,7 +71,36 @@ class Player extends Participant {
     //STUB
   }
 
-  score() {
+  randomIdxGenerator(deck) {
+    return Math.floor(Math.random() * deck.cards.length);
+  }
+
+  removeCardFromDeck(deck, randomIdx) {
+    return deck.cards.splice(randomIdx, 1);
+  }
+}
+
+class Player extends Participant {
+  constructor() {
+    //STUB
+    //What sort of state does a player need?
+    //Score? Hand? Amount of money available?
+    super();
+  }
+
+  // hit() {
+  //   //STUB
+  // }
+
+  // stay() {
+  //   //STUB
+  // }
+
+  // isBusted() {
+  //   //STUB
+  // }
+
+  score() { // do we need this?
     //STUB
   }
 
@@ -63,23 +111,24 @@ class Dealer extends Participant {
 
   constructor() {
     //STUB
-    //What sort of state does a dealer need? 
+    //What sort of state does a dealer need?
     //Score? Hand? Deck of cards? Bow tie?
+    super();
   }
 
-  hit() {
-    //STUB
-  }
+  // hit() {
+  //   //STUB
+  // }
 
-  stay() {
-    //STUB
-  }
+  // stay() {
+  //   //STUB
+  // }
 
-  isBusted() {
-    //STUB
-  }
+  // isBusted() {
+  //   //STUB
+  // }
 
-  score() {
+  score() { // do we need this?
     //STUB
   }
 
@@ -91,9 +140,40 @@ class Dealer extends Participant {
     //STUB
   }
 
-  deal() {
+  deal(deck, playerHand, dealerHand) {
     //STUB
-    //Does the dealer or the deck deal?
+    //Does the dealer or the deck deal? - I think the dealer should
+    let randomIdx;
+
+    for (let idx = 0; idx < INITIAL_HAND_SIZE; idx++) {
+      randomIdx = this.randomIdxGenerator(deck);
+      playerHand.push(this.removeCardFromDeck(deck, randomIdx));
+
+    }
+
+    for (let idx = 0; idx < INITIAL_HAND_SIZE; idx++) {
+      randomIdx = this.randomIdxGenerator(deck);
+      dealerHand.push(this.removeCardFromDeck(deck, randomIdx));
+    }
+
+
+
+    // randomIdx = Math.floor(Math.random() * deck.cards.length);
+    // playerHand.push(deck.cards.splice(randomIdx, 1));
+
+    // randomIdx = Math.floor(Math.random() * deck.cards.length);
+    // playerHand.push(deck.cards.splice(randomIdx, 1));
+
+    //  randomIdx = Math.floor(Math.random() * deck.cards.length);
+    // dealerHand.push(deck.cards.splice(randomIdx, 1));
+
+    // randomIdx = Math.floor(Math.random() * deck.cards.length);
+    // dealerHand.push(deck.cards.splice(randomIdx, 1));
+      console.log(playerHand, dealerHand);
+    
+    // does this need to get extracted to a function?
+    //console.log(game);
+
   }
 
 }
@@ -103,6 +183,9 @@ class TwentyOneGame {
     //STUB
     //What sort of state does the game need?
     //A deck? Two participants?
+    this.deck = new Deck();
+    this.dealer = new Dealer();
+    this.player = new Player();
   }
 
   start() {
@@ -114,6 +197,11 @@ class TwentyOneGame {
     this.dealerTurn();
     this.displayResult();
     this.displayGoodbyeMessage();
+    //console.log(this.deck.cards[0]); // for testing, remove
+    //console.log(this.deck.cards.length); // for testing
+
+    this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
+    
   }
 
   dealCards() {
@@ -134,6 +222,7 @@ class TwentyOneGame {
 
   displayWelcomeMessage() {
     //STUB
+    console.log('Welcome to 21!');
   }
 
   displayGoodbyeMessage() {
