@@ -45,7 +45,7 @@ class Deck {
   }
 
    removeCard(randomIdx) {
-    return this.cards.splice(randomIdx, 1);
+    return this.cards.splice(randomIdx, 1)[0];
   }
 
   deal() {
@@ -61,11 +61,22 @@ class Participant {
     // What sort of state does a participant need?
     //Score? Hand? Amount of money available?
     // What else goes here? All the redundant behaviours from Player and Dealer?
-    this.score = 0;
+
     this.money = 0;
     this.hand = [];
+    this.handPoints = 0;
 
+  }
 
+  calcHandPoints() {
+    let points = 0;
+
+    this.hand.forEach(card => {
+      //console.log(card); // for testing
+      points += card.points;
+    });
+
+    return points;
   }
 
   hit() {
@@ -205,10 +216,11 @@ class TwentyOneGame {
     this.dealerTurn();
     this.displayResult();
     this.displayGoodbyeMessage();
-    //console.log(this.deck.cards[0]); // for testing, remove
+    console.log(this.deck.cards); // for testing, remove
     //console.log(this.deck.cards.length); // for testing
 
     this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
+    console.log('player hand points total is', this.player.calcHandPoints());
 
   }
 
