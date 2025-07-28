@@ -40,6 +40,14 @@ class Deck {
 
   }
 
+  randomIdxGenerator() {
+    return Math.floor(Math.random() * this.cards.length);
+  }
+
+   removeCard(randomIdx) {
+    return this.cards.splice(randomIdx, 1);
+  }
+
   deal() {
     //STUB
     // does the dealer or the deck deal? // I think the dealer should
@@ -57,6 +65,7 @@ class Participant {
     this.money = 0;
     this.hand = [];
 
+
   }
 
   hit() {
@@ -71,13 +80,13 @@ class Participant {
     //STUB
   }
 
-  randomIdxGenerator(deck) {
-    return Math.floor(Math.random() * deck.cards.length);
-  }
+  // randomIdxGenerator(deck) {
+  //   return Math.floor(Math.random() * deck.cards.length);
+  // }
 
-  removeCardFromDeck(deck, randomIdx) {
-    return deck.cards.splice(randomIdx, 1);
-  }
+  // removeCardFromDeck(deck, randomIdx) {
+  //   return deck.cards.splice(randomIdx, 1);
+  // }
 }
 
 class Player extends Participant {
@@ -146,16 +155,15 @@ class Dealer extends Participant {
     let randomIdx;
 
     for (let idx = 0; idx < INITIAL_HAND_SIZE; idx++) {
-      randomIdx = this.randomIdxGenerator(deck);
-      playerHand.push(this.removeCardFromDeck(deck, randomIdx));
+      randomIdx = deck.randomIdxGenerator();
+      playerHand.push(deck.removeCard(randomIdx));
 
     }
 
     for (let idx = 0; idx < INITIAL_HAND_SIZE; idx++) {
-      randomIdx = this.randomIdxGenerator(deck);
-      dealerHand.push(this.removeCardFromDeck(deck, randomIdx));
+      randomIdx = deck.randomIdxGenerator();
+      dealerHand.push(deck.removeCard(randomIdx));
     }
-
 
 
     // randomIdx = Math.floor(Math.random() * deck.cards.length);
@@ -171,7 +179,7 @@ class Dealer extends Participant {
     // dealerHand.push(deck.cards.splice(randomIdx, 1));
       console.log(playerHand, dealerHand);
     
-    // does this need to get extracted to a function?
+    
     //console.log(game);
 
   }
@@ -201,7 +209,7 @@ class TwentyOneGame {
     //console.log(this.deck.cards.length); // for testing
 
     this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
-    
+
   }
 
   dealCards() {
@@ -226,7 +234,7 @@ class TwentyOneGame {
   }
 
   displayGoodbyeMessage() {
-    //STUB
+    console.log('Thanks for playing 21. Goodbye!');
   }
 
   displayResult() {
