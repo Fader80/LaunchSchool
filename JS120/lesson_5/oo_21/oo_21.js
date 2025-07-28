@@ -73,7 +73,7 @@ class Participant {
 
     this.hand.forEach(card => {
       //console.log(card); // for testing
-      points += card.points;
+      points += card[0].points;
     });
 
     return points;
