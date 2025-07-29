@@ -68,12 +68,19 @@ class Participant {
 
   }
 
-  calcHandPoints() {
+  calcHandTotal() {
     let points = 0;
 
     this.hand.forEach(card => {
       //console.log(card); // for testing
-      points += card[0].points;
+      if (card.rank === 'Ace') {
+        if ((points + card.points) > 21) {
+          points += 1;
+          return;
+        }
+      }
+
+      points += card.points;
     });
 
     return points;
@@ -216,11 +223,11 @@ class TwentyOneGame {
     this.dealerTurn();
     this.displayResult();
     this.displayGoodbyeMessage();
-    console.log(this.deck.cards); // for testing, remove
+    //console.log(this.deck.cards); // for testing, remove
     //console.log(this.deck.cards.length); // for testing
 
     this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
-    console.log('player hand points total is', this.player.calcHandPoints());
+    console.log('player hand points total is', this.player.calcHandTotal());
 
   }
 
