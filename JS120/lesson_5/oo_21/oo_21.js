@@ -1,3 +1,5 @@
+const rlsync = require('readline-sync');
+
 const INITIAL_HAND_SIZE = 2;
 
 class Card {
@@ -64,7 +66,7 @@ class Participant {
 
     this.money = 0;
     this.hand = [];
-    this.handPoints = 0;
+    this.handPoints = 0; // do we need this?
 
   }
 
@@ -86,25 +88,28 @@ class Participant {
     return points;
   }
 
-  hit() {
+  hit(cards) {
     //STUB
+    this.hand.push(cards.pop());
   }
 
   stay() {
-    //STUB
+    console.log(``);
   }
 
   isBusted() {
     //STUB
   }
 
-  // randomIdxGenerator(deck) {
-  //   return Math.floor(Math.random() * deck.cards.length);
-  // }
+  displayHand() {
+    console.log(`${this.name}'s hand:`, this.hand);
+  }
 
-  // removeCardFromDeck(deck, randomIdx) {
-  //   return deck.cards.splice(randomIdx, 1);
-  // }
+  displayHandTotal() {
+    console.log(`${this.name}'s points total is: ${this.calcHandTotal()}`);
+  }
+
+
 }
 
 class Player extends Participant {
@@ -113,15 +118,18 @@ class Player extends Participant {
     //What sort of state does a player need?
     //Score? Hand? Amount of money available?
     super();
+    this.name = 'Player';
   }
+
+  
 
   // hit() {
   //   //STUB
   // }
 
-  // stay() {
-  //   //STUB
-  // }
+  stay() {
+    console.log('You\'ve chosen to stay');
+  }
 
   // isBusted() {
   //   //STUB
@@ -141,15 +149,16 @@ class Dealer extends Participant {
     //What sort of state does a dealer need?
     //Score? Hand? Deck of cards? Bow tie?
     super();
+    this.name = 'Dealer';
   }
 
   // hit() {
   //   //STUB
   // }
 
-  // stay() {
-  //   //STUB
-  // }
+  stay() {
+    console.log('Dealer stays');
+  }
 
   // isBusted() {
   //   //STUB
@@ -184,22 +193,14 @@ class Dealer extends Participant {
     }
 
 
-    // randomIdx = Math.floor(Math.random() * deck.cards.length);
-    // playerHand.push(deck.cards.splice(randomIdx, 1));
+    console.log(playerHand, dealerHand);
 
-    // randomIdx = Math.floor(Math.random() * deck.cards.length);
-    // playerHand.push(deck.cards.splice(randomIdx, 1));
-
-    //  randomIdx = Math.floor(Math.random() * deck.cards.length);
-    // dealerHand.push(deck.cards.splice(randomIdx, 1));
-
-    // randomIdx = Math.floor(Math.random() * deck.cards.length);
-    // dealerHand.push(deck.cards.splice(randomIdx, 1));
-      console.log(playerHand, dealerHand);
-    
-    
     //console.log(game);
 
+  }
+
+  initialDealerHandDisplay() {
+    console.log('Dealer\'s Hand:', this.hand[0], {suit: '**', rank: '**', points: '**'});
   }
 
 }
@@ -227,7 +228,11 @@ class TwentyOneGame {
     //console.log(this.deck.cards.length); // for testing
 
     this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
-    console.log('player hand points total is', this.player.calcHandTotal());
+    //console.log('player hand points total is', this.player.calcHandTotal());
+    this.dealer.initialDealerHandDisplay();
+    this.player.displayHand();
+    this.player.displayHandTotal();
+
 
   }
 
@@ -240,7 +245,21 @@ class TwentyOneGame {
   }
 
   playerTurn() {
-    //STUV
+    //STUB
+    let validChoices = ['h', 's'];
+    let answer = rlsync.question('hit or stay?');
+
+    while (!validChoices.includes(answer[0])) {
+      answer = rlsync.question('sorry, that\'s not a valid choice - please choose hit or stay');
+    }
+
+    if (answer[0] === 'h') {
+      this.player.hit(this.deck.cards);
+      console.log(this.player.hand);
+    } else {
+      this.player.stay();
+    }
+
   }
 
   dealerTurn() {
