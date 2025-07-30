@@ -66,7 +66,7 @@ class Participant {
 
     this.money = 0;
     this.hand = [];
-    this.handPoints = 0; // do we need this?
+    this.handTotal = 0; // do we need this?
 
   }
 
@@ -89,16 +89,19 @@ class Participant {
   }
 
   hit(cards) {
-    //STUB
-    this.hand.push(cards.pop());
+     this.hand.push(cards.pop());
   }
 
   stay() {
-    console.log(``);
+    console.log(`${this.name} has decided to stay`);
   }
 
   isBusted() {
-    //STUB
+    return this.handTotal > 21;
+  }
+  
+  updateHandTotal() {
+    this.handTotal = this.calcHandTotal();
   }
 
   displayHand() {
@@ -127,9 +130,9 @@ class Player extends Participant {
   //   //STUB
   // }
 
-  stay() {
-    console.log('You\'ve chosen to stay');
-  }
+  // stay() {
+  //   console.log('You\'ve chosen to stay');
+  // }
 
   // isBusted() {
   //   //STUB
@@ -156,9 +159,9 @@ class Dealer extends Participant {
   //   //STUB
   // }
 
-  stay() {
-    console.log('Dealer stays');
-  }
+  // stay() {
+  //   console.log('Dealer stays');
+  // }
 
   // isBusted() {
   //   //STUB
@@ -224,10 +227,8 @@ class TwentyOneGame {
     this.dealerTurn();
     this.displayResult();
     this.displayGoodbyeMessage();
-    //console.log(this.deck.cards); // for testing, remove
-    //console.log(this.deck.cards.length); // for testing
-
-    this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
+    
+    //this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
     //console.log('player hand points total is', this.player.calcHandTotal());
     this.dealer.initialDealerHandDisplay();
     this.player.displayHand();
@@ -238,6 +239,7 @@ class TwentyOneGame {
 
   dealCards() {
     //STUB
+    this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
   }
 
   showCards() {
@@ -247,18 +249,29 @@ class TwentyOneGame {
   playerTurn() {
     //STUB
     let validChoices = ['h', 's'];
-    let answer = rlsync.question('hit or stay?');
+    let answer;
+
+    while (true) {
+      answer = rlsync.question('hit or stay?\n');
 
     while (!validChoices.includes(answer[0])) {
-      answer = rlsync.question('sorry, that\'s not a valid choice - please choose hit or stay');
+      answer = rlsync.question('sorry, that\'s not a valid choice - please choose hit or stay\n');
     }
 
     if (answer[0] === 'h') {
       this.player.hit(this.deck.cards);
-      console.log(this.player.hand);
+      this.player.updateHandTotal();
+      if (this.player.isBusted()) {
+        console.log(`${this.player.name} busted`);
+        break;
+      }
+      //console.log(this.player.hand);
     } else {
       this.player.stay();
+      break;
     }
+
+  }
 
   }
 
