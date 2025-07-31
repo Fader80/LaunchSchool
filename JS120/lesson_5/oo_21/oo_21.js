@@ -222,7 +222,8 @@ class TwentyOneGame {
     //SPIKE
     this.displayWelcomeMessage();
     this.dealCards();
-    this.showCards();
+    this.showInitialCards();
+    this.showCards();    
     this.playerTurn();
     this.dealerTurn();
     this.displayResult();
@@ -230,8 +231,9 @@ class TwentyOneGame {
     
     //this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
     //console.log('player hand points total is', this.player.calcHandTotal());
-    this.dealer.initialDealerHandDisplay();
-    this.player.displayHand();
+
+    // this.dealer.initialDealerHandDisplay();
+    // this.player.displayHand();
     this.player.displayHandTotal();
 
 
@@ -244,6 +246,11 @@ class TwentyOneGame {
 
   showCards() {
     //STUB
+  }
+
+  showInitialCards() {
+    this.dealer.initialDealerHandDisplay();
+    this.player.displayHand();
   }
 
   playerTurn() {
