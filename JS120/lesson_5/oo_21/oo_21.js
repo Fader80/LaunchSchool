@@ -46,7 +46,7 @@ class Deck {
     return Math.floor(Math.random() * this.cards.length);
   }
 
-   removeCard(randomIdx) {
+  removeCard(randomIdx) {
     return this.cards.splice(randomIdx, 1)[0];
   }
 
@@ -64,7 +64,7 @@ class Participant {
     //Score? Hand? Amount of money available?
     // What else goes here? All the redundant behaviours from Player and Dealer?
 
-    this.money = 0;
+
     this.hand = [];
     this.handTotal = 0; // do we need this?
 
@@ -89,7 +89,7 @@ class Participant {
   }
 
   hit(cards) {
-     this.hand.push(cards.pop());
+    this.hand.push(cards.pop());
   }
 
   stay() {
@@ -99,7 +99,7 @@ class Participant {
   isBusted() {
     return this.handTotal > 21;
   }
-  
+
   updateHandTotal() {
     this.handTotal = this.calcHandTotal();
   }
@@ -122,9 +122,9 @@ class Player extends Participant {
     //Score? Hand? Amount of money available?
     super();
     this.name = 'Player';
+    this.money = 0;
   }
 
-  
 
   // hit() {
   //   //STUB
@@ -180,7 +180,7 @@ class Dealer extends Participant {
   }
 
   deal(deck, playerHand, dealerHand) {
-    //STUB
+
     //Does the dealer or the deck deal? - I think the dealer should
     let randomIdx;
 
@@ -196,14 +196,14 @@ class Dealer extends Participant {
     }
 
 
-    console.log(playerHand, dealerHand);
+    //console.log(playerHand, dealerHand);
 
     //console.log(game);
 
   }
 
-  initialDealerHandDisplay() {
-    console.log('Dealer\'s Hand:', this.hand[0], {suit: '**', rank: '**', points: '**'});
+  displayInitialHand() {
+    console.log('Dealer\'s Hand:', [this.hand[0], {suit: '**', rank: '**', points: '**'}]);
   }
 
 }
@@ -223,34 +223,30 @@ class TwentyOneGame {
     this.displayWelcomeMessage();
     this.dealCards();
     this.showInitialCards();
-    this.showCards();    
     this.playerTurn();
+    this.showCards();
     this.dealerTurn();
+    this.showCards();// I put this in for debugging - remove?
     this.displayResult();
     this.displayGoodbyeMessage();
-    
-    //this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
-    //console.log('player hand points total is', this.player.calcHandTotal());
 
-    // this.dealer.initialDealerHandDisplay();
-    // this.player.displayHand();
     this.player.displayHandTotal();
 
 
   }
 
   dealCards() {
-    //STUB
     this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
   }
 
   showCards() {
-    //STUB
+    this.player.displayHand();
+    this.dealer.displayHand();
   }
 
   showInitialCards() {
-    this.dealer.initialDealerHandDisplay();
     this.player.displayHand();
+    this.dealer.displayInitialHand();
   }
 
   playerTurn() {
@@ -283,11 +279,17 @@ class TwentyOneGame {
   }
 
   dealerTurn() {
-    //STUB
+    while (this.dealer.calcHandTotal() < 17) {
+      this.dealer.hit(this.deck.cards);
+      this.dealer.updateHandTotal();
+      if (this.dealer.isBusted()) {
+        console.log(`${this.dealer.name} busted`);
+        break;
+      }
+    }
   }
 
   displayWelcomeMessage() {
-    //STUB
     console.log('Welcome to 21!');
   }
 
