@@ -19,7 +19,7 @@ class Deck {
   //STUB
   //Whart sort of state does a deck need?
   //52 cards?
-  //obviously, we need some data strucrture to keep track of cards
+  //obviously, we need some data structure to keep track of cards
   //array, object, something else?
     this.reset();
 
@@ -138,9 +138,9 @@ class Player extends Participant {
   //   //STUB
   // }
 
-  score() { // do we need this?
-    //STUB
-  }
+  // score() { // do we need this?
+  //   //STUB
+  // }
 
 }
 
@@ -223,10 +223,12 @@ class TwentyOneGame {
     this.displayWelcomeMessage();
     this.dealCards();
     this.showInitialCards();
-    this.playerTurn();
-    this.showCards();
-    this.dealerTurn();
-    this.showCards();// I put this in for debugging - remove?
+    // this.playerTurn();
+    // this.showCards();
+    // this.dealerTurn();
+    // this.showCards();// I put this in for debugging - remove?
+    this.playOneRound();
+    this.showCards(); // for testing - remove?
     this.displayResult();
     this.displayGoodbyeMessage();
 
@@ -265,7 +267,7 @@ class TwentyOneGame {
       this.player.hit(this.deck.cards);
       this.player.updateHandTotal();
       if (this.player.isBusted()) {
-        console.log(`${this.player.name} busted`);
+        console.log(`${this.player.name} busted, ${this.calcOpposingPlayer(this.player)} won`);
         break;
       }
       //console.log(this.player.hand);
@@ -283,7 +285,7 @@ class TwentyOneGame {
       this.dealer.hit(this.deck.cards);
       this.dealer.updateHandTotal();
       if (this.dealer.isBusted()) {
-        console.log(`${this.dealer.name} busted`);
+        console.log(`${this.dealer.name} busted, ${this.calcOpposingPlayer(this.dealer)} won`);
         break;
       }
     }
@@ -300,7 +302,34 @@ class TwentyOneGame {
   displayResult() {
     //STUB
   }
+
+  calcOpposingPlayer(currPlayer) {
+    return currPlayer.name === 'Player' ? 'Dealer' : 'Player';
+  }
+
+  playOneRound() {
+    this.playerTurn();
+    if (!this.player.isBusted()) {
+      this.dealerTurn();
+      if (!this.dealer.isBusted()) {
+        this.calcRoundOutcome();
+        //console.log('output of calcRoundOutcome:', this.calcRoundOutcome()); // for debugging
+
+      }
+    }
+  }
+
+  calcRoundOutcome() {
+    if (this.player.calcHandTotal() === this.dealer.calcHandTotal()) {
+      return 'draw';
+    } else if (this.player.calcHandTotal() > this.dealer.calcHandTotal()) {
+      return 'Player';
+    } else {
+      return 'Dealer';
+    }
+  }
 }
+
 
 let game = new TwentyOneGame();
 
