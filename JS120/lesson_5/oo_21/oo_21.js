@@ -2,6 +2,8 @@ const rlsync = require('readline-sync');
 
 const INITIAL_HAND_SIZE = 2;
 
+const VALID_CHOICES = ['h', 's'];
+
 class Card {
   constructor(suit, rank, points) {
     //STUB
@@ -216,6 +218,7 @@ class TwentyOneGame {
     this.deck = new Deck();
     this.dealer = new Dealer();
     this.player = new Player();
+    this.bustedPlayer = null;
   }
 
   start() {
@@ -228,6 +231,7 @@ class TwentyOneGame {
     // this.dealerTurn();
     // this.showCards();// I put this in for debugging - remove?
     this.playOneRound();
+    console.log('player money is', this.player.money); // debugging
     this.showCards(); // for testing - remove?
     this.displayResult();
     this.displayGoodbyeMessage();
@@ -253,30 +257,30 @@ class TwentyOneGame {
 
   playerTurn() {
     //STUB
-    let validChoices = ['h', 's'];
+    //let validChoices = ['h', 's'];
     let answer;
 
     while (true) {
-      answer = rlsync.question('hit or stay?\n');
+      answer = rlsync.question('hit or stay?\n').toLowerCase();
 
-    while (!validChoices.includes(answer[0])) {
-      answer = rlsync.question('sorry, that\'s not a valid choice - please choose hit or stay\n');
-    }
+      while (!VALID_CHOICES.includes(answer[0])) {
+        answer = rlsync.question('sorry, that\'s not a valid choice - please choose hit or stay\n');
+      }
 
-    if (answer[0] === 'h') {
-      this.player.hit(this.deck.cards);
-      this.player.updateHandTotal();
-      if (this.player.isBusted()) {
-        console.log(`${this.player.name} busted, ${this.calcOpposingPlayer(this.player)} won`);
+      if (answer[0] === 'h') {
+        this.player.hit(this.deck.cards);
+        this.player.updateHandTotal();
+        if (this.player.isBusted()) {
+          this.bustedPlayer = 'Player';
+          break;
+        }
+      //console.log(this.player.hand);
+      } else {
+        this.player.stay();
         break;
       }
-      //console.log(this.player.hand);
-    } else {
-      this.player.stay();
-      break;
-    }
 
-  }
+    }
 
   }
 
@@ -285,7 +289,10 @@ class TwentyOneGame {
       this.dealer.hit(this.deck.cards);
       this.dealer.updateHandTotal();
       if (this.dealer.isBusted()) {
-        console.log(`${this.dealer.name} busted, ${this.calcOpposingPlayer(this.dealer)} won`);
+        //console.log(`${this.dealer.name} busted, ${this.calcOpposingPlayer(this.dealer)} won`);
+        // this.bustedMessage(this.dealer);
+        // this.processRoundMoney(this.calcOpposingPlayer(this.dealer));
+        this.bustedPlayer = 'Dealer';
         break;
       }
     }
@@ -307,19 +314,38 @@ class TwentyOneGame {
     return currPlayer.name === 'Player' ? 'Dealer' : 'Player';
   }
 
+  // playOneRound() { // older version, get rid
+  //   this.playerTurn();
+  //   if (!this.player.isBusted()) {
+  //     this.dealerTurn();
+  //     if (!this.dealer.isBusted()) {
+  //      // this.calcRoundOutcome();
+  //       //console.log('output of calcRoundOutcome:', this.calcRoundOutcome()); // for debugging
+  //       this.processRoundMoney(this.calcRoundOutcome());
+  //     }
+  //   }
+  // }
+
   playOneRound() {
     this.playerTurn();
-    if (!this.player.isBusted()) {
+    if (this.bustedPlayer !== 'Player') {
       this.dealerTurn();
-      if (!this.dealer.isBusted()) {
-        this.calcRoundOutcome();
-        //console.log('output of calcRoundOutcome:', this.calcRoundOutcome()); // for debugging
+      if (this.bustedPlayer !== 'Dealer') {
+        this.processRoundMoney(this.calcRoundOutcome());
+      } else {
+        //dealer busted clause
+        this.bustedMessage(this.dealer);
+        this.processRoundMoney(this.calcOpposingPlayer(this.dealer));
 
       }
+    } else {
+      //player busted clause
+      this.bustedMessage(this.player);
+      this.processRoundMoney(this.calcOpposingPlayer(this.player));
     }
   }
 
-  calcRoundOutcome() {
+  calcRoundOutcome() { //if nobody busts during a round
     if (this.player.calcHandTotal() === this.dealer.calcHandTotal()) {
       return 'draw';
     } else if (this.player.calcHandTotal() > this.dealer.calcHandTotal()) {
@@ -327,6 +353,24 @@ class TwentyOneGame {
     } else {
       return 'Dealer';
     }
+  }
+
+  bustedMessage(participant) {
+    //STUB
+    console.log(`${participant.name} busted, ${this.calcOpposingPlayer(participant)} won`);
+  }
+
+  processRoundMoney(outcome) {
+    //STUB
+    if (outcome === 'Player') {
+      this.player.money += 1;
+    } else if (outcome === 'Dealer') {
+      this.player.money -= 1;
+    }
+  }
+
+  playMatch() {
+    //STUB
   }
 }
 
