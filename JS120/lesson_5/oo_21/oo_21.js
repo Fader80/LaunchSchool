@@ -331,6 +331,8 @@ class TwentyOneGame {
     if (this.bustedPlayer !== 'Player') {
       this.dealerTurn();
       if (this.bustedPlayer !== 'Dealer') {
+        //no one busted clause
+        this.nonBustedMessage(this.calcRoundOutcome());
         this.processRoundMoney(this.calcRoundOutcome());
       } else {
         //dealer busted clause
@@ -356,8 +358,22 @@ class TwentyOneGame {
   }
 
   bustedMessage(participant) {
-    //STUB
     console.log(`${participant.name} busted, ${this.calcOpposingPlayer(participant)} won`);
+  }
+
+  nonBustedMessage(outcome) {
+    switch (outcome) {
+      case 'draw' : {
+        console.log('Round was a draw. Boring');
+        break;
+      } case 'Player' : {
+        console.log('Player won the round on points!');
+        break;
+      } case 'Dealer' : {
+        console.log('Dealer won the round on points');
+        break;
+      }
+    }
   }
 
   processRoundMoney(outcome) {
