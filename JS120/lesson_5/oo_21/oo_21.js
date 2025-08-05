@@ -1,8 +1,11 @@
 const rlsync = require('readline-sync');
 
-const INITIAL_HAND_SIZE = 2;
+const INIT_HAND_SIZE = 2;
 
-const VALID_CHOICES = ['h', 's'];
+const INIT_PLAYER_MONEY = 5;
+
+
+// const VALID_CHOICES = ['h', 's'];
 
 class Card {
   constructor(suit, rank, points) {
@@ -95,7 +98,7 @@ class Participant {
   }
 
   stay() {
-    console.log(`${this.name} has decided to stay`);
+    console.log(`${this.name} has decided to stay\n`);
   }
 
   isBusted() {
@@ -111,7 +114,7 @@ class Participant {
   }
 
   displayHandTotal() {
-    console.log(`${this.name}'s points total is: ${this.calcHandTotal()}`);
+    console.log(`${this.name}'s points total is: ${this.calcHandTotal()}\n`);
   }
 
 
@@ -124,7 +127,7 @@ class Player extends Participant {
     //Score? Hand? Amount of money available?
     super();
     this.name = 'Player';
-    this.money = 0;
+    this.money = INIT_PLAYER_MONEY;
   }
 
 
@@ -186,13 +189,13 @@ class Dealer extends Participant {
     //Does the dealer or the deck deal? - I think the dealer should
     let randomIdx;
 
-    for (let idx = 0; idx < INITIAL_HAND_SIZE; idx++) {
+    for (let idx = 0; idx < INIT_HAND_SIZE; idx++) {
       randomIdx = deck.randomIdxGenerator();
       playerHand.push(deck.removeCard(randomIdx));
 
     }
 
-    for (let idx = 0; idx < INITIAL_HAND_SIZE; idx++) {
+    for (let idx = 0; idx < INIT_HAND_SIZE; idx++) {
       randomIdx = deck.randomIdxGenerator();
       dealerHand.push(deck.removeCard(randomIdx));
     }
@@ -211,6 +214,14 @@ class Dealer extends Participant {
 }
 
 class TwentyOneGame {
+  //static INITIAL_HAND_SIZE = 2;
+
+  static VALID_ROUND_CHOICES = ['h', 's'];
+
+  static VALID_PLAYAGAIN_CHOICES = ['y', 'n'];
+
+  static ROUND_MONEY = 1;
+
   constructor() {
     //STUB
     //What sort of state does the game need?
@@ -225,18 +236,22 @@ class TwentyOneGame {
     //SPIKE
     this.displayWelcomeMessage();
     this.dealCards();
-    this.showInitialCards();
+    //this.displayPlayerRoundHands();
     // this.playerTurn();
-    // this.showCards();
+    // this.displayDealerRoundHand();
     // this.dealerTurn();
-    // this.showCards();// I put this in for debugging - remove?
-    this.playOneRound();
+    // this.displayDealerRoundHand();// I put this in for debugging - remove?
+    //this.playOneRound();
+    this.playMatch();
     console.log('player money is', this.player.money); // debugging
-    this.showCards(); // for testing - remove?
+    //console.log('dealer points total is', this.dealer.calcHandTotal());//debugging
+    //this.displayDealerRoundHand(); // for testing - remove?
     this.displayResult();
     this.displayGoodbyeMessage();
 
-    this.player.displayHandTotal();
+    // this.player.displayHandTotal();
+    // this.dealer.displayHandTotal();
+    this.displayDealerRoundHand();
 
 
   }
@@ -245,25 +260,28 @@ class TwentyOneGame {
     this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
   }
 
-  showCards() {
-    this.player.displayHand();
+  displayDealerRoundHand() {
+    //this.player.displayHand();
     this.dealer.displayHand();
+    this.dealer.displayHandTotal();
   }
 
-  showInitialCards() {
-    this.player.displayHand();
+  displayPlayerRoundHands() {
     this.dealer.displayInitialHand();
+    this.player.displayHand();
+    this.player.displayHandTotal();
   }
 
   playerTurn() {
-    //STUB
-    //let validChoices = ['h', 's'];
+
     let answer;
 
     while (true) {
+      //console.clear();
+      this.displayPlayerRoundHands();
       answer = rlsync.question('hit or stay?\n').toLowerCase();
 
-      while (!VALID_CHOICES.includes(answer[0])) {
+      while (!TwentyOneGame.VALID_ROUND_CHOICES.includes(answer[0])) {
         answer = rlsync.question('sorry, that\'s not a valid choice - please choose hit or stay\n');
       }
 
@@ -274,7 +292,7 @@ class TwentyOneGame {
           this.bustedPlayer = 'Player';
           break;
         }
-      //console.log(this.player.hand);
+
       } else {
         this.player.stay();
         break;
@@ -285,12 +303,16 @@ class TwentyOneGame {
   }
 
   dealerTurn() {
+    //console.clear();
+    this.displayDealerRoundHand();
     while (this.dealer.calcHandTotal() < 17) {
       this.dealer.hit(this.deck.cards);
       this.dealer.updateHandTotal();
+      //console.clear();
+      this.displayDealerRoundHand();
       if (this.dealer.isBusted()) {
         //console.log(`${this.dealer.name} busted, ${this.calcOpposingPlayer(this.dealer)} won`);
-        // this.bustedMessage(this.dealer);
+        // this.displayBustedOutcome(this.dealer);
         // this.processRoundMoney(this.calcOpposingPlayer(this.dealer));
         this.bustedPlayer = 'Dealer';
         break;
@@ -332,17 +354,17 @@ class TwentyOneGame {
       this.dealerTurn();
       if (this.bustedPlayer !== 'Dealer') {
         //no one busted clause
-        this.nonBustedMessage(this.calcRoundOutcome());
+        this.displayNonBustedOutcome(this.calcRoundOutcome());
         this.processRoundMoney(this.calcRoundOutcome());
       } else {
         //dealer busted clause
-        this.bustedMessage(this.dealer);
+        this.displayBustedOutcome(this.dealer);
         this.processRoundMoney(this.calcOpposingPlayer(this.dealer));
 
       }
     } else {
       //player busted clause
-      this.bustedMessage(this.player);
+      this.displayBustedOutcome(this.player);
       this.processRoundMoney(this.calcOpposingPlayer(this.player));
     }
   }
@@ -357,17 +379,17 @@ class TwentyOneGame {
     }
   }
 
-  bustedMessage(participant) {
+  displayBustedOutcome(participant) {
     console.log(`${participant.name} busted, ${this.calcOpposingPlayer(participant)} won`);
   }
 
-  nonBustedMessage(outcome) {
+  displayNonBustedOutcome(outcome) {
     switch (outcome) {
       case 'draw' : {
         console.log('Round was a draw. Boring');
         break;
       } case 'Player' : {
-        console.log('Player won the round on points!');
+        console.log('Player won the round on points');
         break;
       } case 'Dealer' : {
         console.log('Dealer won the round on points');
@@ -379,17 +401,48 @@ class TwentyOneGame {
   processRoundMoney(outcome) {
     //STUB
     if (outcome === 'Player') {
-      this.player.money += 1;
+      this.player.money += TwentyOneGame.ROUND_MONEY;
     } else if (outcome === 'Dealer') {
-      this.player.money -= 1;
+      this.player.money -= TwentyOneGame.ROUND_MONEY;
     }
   }
 
   playMatch() {
     //STUB
-  }
-}
+    //console.clear();
+    let answer;
+    while (true) {
+      
+      this.playOneRound();
+      answer = rlsync.question('Would you like to play another round y/n?\n').toLowerCase();
 
+      while (!TwentyOneGame.VALID_PLAYAGAIN_CHOICES.includes(answer[0])) {
+        answer = rlsync.question('sorry, that\'s not a valid choice, choose yes or no\n');
+      }
+
+      if (answer === 'n') break;
+
+      }
+    }
+
+     detectMatchWon() {
+    //STUB
+  }
+
+  detectMatchLost() {
+    //STUB
+  }
+
+   detectMatchEnd() {
+    //STUB
+    //this would be used instead of `detectMatchWon` or `detectMatchLost`
+  }
+
+
+
+  }
+
+ 
 
 let game = new TwentyOneGame();
 
