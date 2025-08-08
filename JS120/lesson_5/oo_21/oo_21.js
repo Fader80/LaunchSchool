@@ -235,7 +235,7 @@ class TwentyOneGame {
   start() {
     //SPIKE
     this.displayWelcomeMessage();
-    this.dealCards();
+    //this.dealCards();
     //this.displayPlayerRoundHands();
     // this.playerTurn();
     // this.displayDealerRoundHand();
@@ -349,6 +349,7 @@ class TwentyOneGame {
   // }
 
   playOneRound() {
+    this.dealCards();
     this.playerTurn();
     if (this.bustedPlayer !== 'Player') {
       this.dealerTurn();
