@@ -71,7 +71,7 @@ class Participant {
 
 
     this.hand = [];
-    this.handTotal = 0; // do we need this?
+    this.handTotal = 0;
 
   }
 
@@ -93,8 +93,13 @@ class Participant {
     return points;
   }
 
-  hit(cards) {
-    this.hand.push(cards.pop());
+  // hit(cards) { // old, static version
+  //   this.hand.push(cards.pop());
+  // }
+
+  hit(deck) {
+    let randomIdx = deck.randomIdxGenerator();
+    this.hand.push(deck.removeCard(randomIdx));
   }
 
   stay() {
@@ -115,6 +120,10 @@ class Participant {
 
   displayHandTotal() {
     console.log(`${this.name}'s points total is: ${this.calcHandTotal()}\n`);
+  }
+
+  resetHand() {
+    this.hand = [];
   }
 
 
@@ -251,7 +260,7 @@ class TwentyOneGame {
 
     // this.player.displayHandTotal();
     // this.dealer.displayHandTotal();
-    this.displayDealerRoundHand();
+    //this.displayDealerRoundHand();
 
 
   }
@@ -277,7 +286,7 @@ class TwentyOneGame {
     let answer;
 
     while (true) {
-      //console.clear();
+      console.clear();
       this.displayPlayerRoundHands();
       answer = rlsync.question('hit or stay?\n').toLowerCase();
 
@@ -286,7 +295,7 @@ class TwentyOneGame {
       }
 
       if (answer[0] === 'h') {
-        this.player.hit(this.deck.cards);
+        this.player.hit(this.deck);
         this.player.updateHandTotal();
         if (this.player.isBusted()) {
           this.bustedPlayer = 'Player';
@@ -303,12 +312,12 @@ class TwentyOneGame {
   }
 
   dealerTurn() {
-    //console.clear();
+    console.clear();
     this.displayDealerRoundHand();
     while (this.dealer.calcHandTotal() < 17) {
-      this.dealer.hit(this.deck.cards);
+      this.dealer.hit(this.deck);
       this.dealer.updateHandTotal();
-      //console.clear();
+      console.clear();
       this.displayDealerRoundHand();
       if (this.dealer.isBusted()) {
         //console.log(`${this.dealer.name} busted, ${this.calcOpposingPlayer(this.dealer)} won`);
@@ -351,6 +360,7 @@ class TwentyOneGame {
   playOneRound() {
     this.dealCards();
     this.playerTurn();
+
     if (this.bustedPlayer !== 'Player') {
       this.dealerTurn();
       if (this.bustedPlayer !== 'Dealer') {
@@ -368,6 +378,15 @@ class TwentyOneGame {
       this.displayBustedOutcome(this.player);
       this.processRoundMoney(this.calcOpposingPlayer(this.player));
     }
+    // console.log('end of playOneRound, player\'s hand:\n', this.player.displayHand()); //debugging
+    // console.log('end of playOneRound, player hand total is', this.player.calcHandTotal()); //debugging
+    // console.log('end of playOneRound, dealer\'s hand:\n', this.dealer.displayHand());//debugging
+    // console.log('end of playOneRound, dealer hand total is', this.dealer.calcHandTotal()); //debugging
+    
+    this.displayRoundMoney();
+    this.clearBothHands();
+    this.bustedPlayer = null;
+    this.deck = new Deck();
   }
 
   calcRoundOutcome() { //if nobody busts during a round
@@ -381,19 +400,22 @@ class TwentyOneGame {
   }
 
   displayBustedOutcome(participant) {
-    console.log(`${participant.name} busted, ${this.calcOpposingPlayer(participant)} won`);
+    console.log(`${participant.name} busted, ${this.calcOpposingPlayer(participant)} won\n`);
+    // console.log('busted calc hand total is', participant.calcHandTotal()); // debugging
+    // console.log('busted hand total property is', participant.handTotal); // debugging
+
   }
 
   displayNonBustedOutcome(outcome) {
     switch (outcome) {
       case 'draw' : {
-        console.log('Round was a draw. Boring');
+        console.log('Round was a draw. Boring\n');
         break;
       } case 'Player' : {
-        console.log('Player won the round on points');
+        console.log('Player won the round on points\n');
         break;
       } case 'Dealer' : {
-        console.log('Dealer won the round on points');
+        console.log('Dealer won the round on points\n');
         break;
       }
     }
@@ -410,7 +432,7 @@ class TwentyOneGame {
 
   playMatch() {
     //STUB
-    //console.clear();
+    console.clear();
     let answer;
     while (true) {
       
@@ -439,7 +461,14 @@ class TwentyOneGame {
     //this would be used instead of `detectMatchWon` or `detectMatchLost`
   }
 
+  clearBothHands() {
+    this.player.resetHand();
+    this.dealer.resetHand();
+  }
 
+  displayRoundMoney() {
+    console.log(`Player has $${this.player.money} in game money\n`);
+  }
 
   }
 
