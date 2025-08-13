@@ -193,20 +193,23 @@ class Dealer extends Participant {
     //STUB
   }
 
-  deal(deck, playerHand, dealerHand) {
+  deal(deck, player) {
 
     //Does the dealer or the deck deal? - I think the dealer should
-    let randomIdx;
+    //let randomIdx;
 
     for (let idx = 0; idx < INIT_HAND_SIZE; idx++) {
-      randomIdx = deck.randomIdxGenerator();
-      playerHand.push(deck.removeCard(randomIdx));
+      // randomIdx = deck.randomIdxGenerator();
+      // playerHand.push(deck.removeCard(randomIdx));
+      player.hit(deck);
+      
 
     }
 
     for (let idx = 0; idx < INIT_HAND_SIZE; idx++) {
-      randomIdx = deck.randomIdxGenerator();
-      dealerHand.push(deck.removeCard(randomIdx));
+      // randomIdx = deck.randomIdxGenerator();
+      // dealerHand.push(deck.removeCard(randomIdx));
+      this.hit(deck);
     }
 
 
@@ -231,6 +234,10 @@ class TwentyOneGame {
 
   static ROUND_MONEY = 1;
 
+  static WINNING_SUM = 10
+
+  
+
   constructor() {
     //STUB
     //What sort of state does the game need?
@@ -239,6 +246,7 @@ class TwentyOneGame {
     this.dealer = new Dealer();
     this.player = new Player();
     this.bustedPlayer = null;
+    this.matchOutcome = null;
   }
 
   start() {
@@ -251,8 +259,9 @@ class TwentyOneGame {
     // this.dealerTurn();
     // this.displayDealerRoundHand();// I put this in for debugging - remove?
     //this.playOneRound();
+    //while (!this.matchOutcome) // don't think this while loop is needed
     this.playMatch();
-    console.log('player money is', this.player.money); // debugging
+    //console.log('player money is', this.player.money); // debugging
     //console.log('dealer points total is', this.dealer.calcHandTotal());//debugging
     //this.displayDealerRoundHand(); // for testing - remove?
     this.displayResult();
@@ -265,9 +274,15 @@ class TwentyOneGame {
 
   }
 
-  dealCards() {
-    this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
+  // dealCards() {
+  //   this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
+  // }
+
+   dealCards() {
+    this.dealer.deal(this.deck, this.player);
   }
+
+  
 
   displayDealerRoundHand() {
     //this.player.displayHand();
@@ -338,7 +353,11 @@ class TwentyOneGame {
   }
 
   displayResult() {
-    //STUB
+    if (this.matchOutcome === 'win') {
+      console.log('Player won the match!\n');
+    } else if (this.matchOutcome === 'loss') {
+      console.log('Player lost the match :(\n');
+    }
   }
 
   calcOpposingPlayer(currPlayer) {
@@ -384,9 +403,9 @@ class TwentyOneGame {
     // console.log('end of playOneRound, dealer hand total is', this.dealer.calcHandTotal()); //debugging
     
     this.displayRoundMoney();
-    this.clearBothHands();
-    this.bustedPlayer = null;
-    this.deck = new Deck();
+    // this.clearBothHands();
+    // this.bustedPlayer = null;
+    // this.deck = new Deck();
   }
 
   calcRoundOutcome() { //if nobody busts during a round
@@ -433,10 +452,17 @@ class TwentyOneGame {
   playMatch() {
     //STUB
     console.clear();
+
     let answer;
+
     while (true) {
-      
       this.playOneRound();
+      this.detectMatchOutcome();
+
+      if (this.matchOutcome) break;
+
+      this.postRoundReset();
+
       answer = rlsync.question('Would you like to play another round y/n?\n').toLowerCase();
 
       while (!TwentyOneGame.VALID_PLAYAGAIN_CHOICES.includes(answer[0])) {
@@ -446,6 +472,9 @@ class TwentyOneGame {
       if (answer === 'n') break;
 
       }
+
+      
+      
     }
 
      detectMatchWon() {
@@ -456,9 +485,14 @@ class TwentyOneGame {
     //STUB
   }
 
-   detectMatchEnd() {
+   detectMatchOutcome() {
     //STUB
     //this would be used instead of `detectMatchWon` or `detectMatchLost`
+    if (this.player.money === 0) {
+      this.matchOutcome = 'loss';
+    } else if (this.player.money === 10) {
+      this.matchOutcome = 'win';
+    }
   }
 
   clearBothHands() {
@@ -468,6 +502,12 @@ class TwentyOneGame {
 
   displayRoundMoney() {
     console.log(`Player has $${this.player.money} in game money\n`);
+  }
+
+  postRoundReset() {
+    this.clearBothHands();
+    this.bustedPlayer = null;
+    this.deck = new Deck();
   }
 
   }
