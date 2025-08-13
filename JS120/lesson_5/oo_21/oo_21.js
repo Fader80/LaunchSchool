@@ -5,13 +5,9 @@ const INIT_HAND_SIZE = 2;
 const INIT_PLAYER_MONEY = 5;
 
 
-// const VALID_CHOICES = ['h', 's'];
-
 class Card {
   constructor(suit, rank, points) {
-    //STUB
-    //What sort of state does a card need?
-    //Rank? Suit? Points?
+
     this.suit = suit;
     this.rank = rank;
     this.points = points;
@@ -21,11 +17,7 @@ class Card {
 
 class Deck {
   constructor() {
-  //STUB
-  //Whart sort of state does a deck need?
-  //52 cards?
-  //obviously, we need some data structure to keep track of cards
-  //array, object, something else?
+
     this.reset();
 
   }
@@ -55,20 +47,11 @@ class Deck {
     return this.cards.splice(randomIdx, 1)[0];
   }
 
-  deal() {
-    //STUB
-    // does the dealer or the deck deal? // I think the dealer should
-  }
 
 }
 
 class Participant {
   constructor() {
-    //STUB
-    // What sort of state does a participant need?
-    //Score? Hand? Amount of money available?
-    // What else goes here? All the redundant behaviours from Player and Dealer?
-
 
     this.hand = [];
     this.handTotal = 0;
@@ -79,7 +62,7 @@ class Participant {
     let points = 0;
 
     this.hand.forEach(card => {
-      //console.log(card); // for testing
+
       if (card.rank === 'Ace') {
         if ((points + card.points) > 21) {
           points += 1;
@@ -93,9 +76,6 @@ class Participant {
     return points;
   }
 
-  // hit(cards) { // old, static version
-  //   this.hand.push(cards.pop());
-  // }
 
   hit(deck) {
     let randomIdx = deck.randomIdxGenerator();
@@ -131,91 +111,33 @@ class Participant {
 
 class Player extends Participant {
   constructor() {
-    //STUB
-    //What sort of state does a player need?
-    //Score? Hand? Amount of money available?
     super();
     this.name = 'Player';
     this.money = INIT_PLAYER_MONEY;
   }
 
 
-  // hit() {
-  //   //STUB
-  // }
-
-  // stay() {
-  //   console.log('You\'ve chosen to stay');
-  // }
-
-  // isBusted() {
-  //   //STUB
-  // }
-
-  // score() { // do we need this?
-  //   //STUB
-  // }
-
 }
 
 class Dealer extends Participant {
-  // Very similar to a Player; do we need this?
+
 
   constructor() {
-    //STUB
-    //What sort of state does a dealer need?
-    //Score? Hand? Deck of cards? Bow tie?
     super();
     this.name = 'Dealer';
   }
 
-  // hit() {
-  //   //STUB
-  // }
-
-  // stay() {
-  //   console.log('Dealer stays');
-  // }
-
-  // isBusted() {
-  //   //STUB
-  // }
-
-  score() { // do we need this?
-    //STUB
-  }
-
-  hide() {
-    //STUB
-  }
-
-  reveal() {
-    //STUB
-  }
 
   deal(deck, player) {
 
-    //Does the dealer or the deck deal? - I think the dealer should
-    //let randomIdx;
 
     for (let idx = 0; idx < INIT_HAND_SIZE; idx++) {
-      // randomIdx = deck.randomIdxGenerator();
-      // playerHand.push(deck.removeCard(randomIdx));
       player.hit(deck);
-      
-
     }
 
     for (let idx = 0; idx < INIT_HAND_SIZE; idx++) {
-      // randomIdx = deck.randomIdxGenerator();
-      // dealerHand.push(deck.removeCard(randomIdx));
       this.hit(deck);
     }
-
-
-    //console.log(playerHand, dealerHand);
-
-    //console.log(game);
 
   }
 
@@ -226,7 +148,7 @@ class Dealer extends Participant {
 }
 
 class TwentyOneGame {
-  //static INITIAL_HAND_SIZE = 2;
+
 
   static VALID_ROUND_CHOICES = ['h', 's'];
 
@@ -234,14 +156,14 @@ class TwentyOneGame {
 
   static ROUND_MONEY = 1;
 
-  static WINNING_SUM = 10
+  static WINNING_SUM = 10;
 
-  
+  static LOSING_SUM = 0;
+
 
   constructor() {
-    //STUB
-    //What sort of state does the game need?
-    //A deck? Two participants?
+
+
     this.deck = new Deck();
     this.dealer = new Dealer();
     this.player = new Player();
@@ -250,42 +172,24 @@ class TwentyOneGame {
   }
 
   start() {
-    //SPIKE
+
     this.displayWelcomeMessage();
-    //this.dealCards();
-    //this.displayPlayerRoundHands();
-    // this.playerTurn();
-    // this.displayDealerRoundHand();
-    // this.dealerTurn();
-    // this.displayDealerRoundHand();// I put this in for debugging - remove?
-    //this.playOneRound();
-    //while (!this.matchOutcome) // don't think this while loop is needed
+
     this.playMatch();
-    //console.log('player money is', this.player.money); // debugging
-    //console.log('dealer points total is', this.dealer.calcHandTotal());//debugging
-    //this.displayDealerRoundHand(); // for testing - remove?
+
     this.displayResult();
     this.displayGoodbyeMessage();
 
-    // this.player.displayHandTotal();
-    // this.dealer.displayHandTotal();
-    //this.displayDealerRoundHand();
-
 
   }
 
-  // dealCards() {
-  //   this.dealer.deal(this.deck, this.player.hand, this.dealer.hand);
-  // }
 
-   dealCards() {
+  dealCards() {
     this.dealer.deal(this.deck, this.player);
   }
 
-  
 
   displayDealerRoundHand() {
-    //this.player.displayHand();
     this.dealer.displayHand();
     this.dealer.displayHandTotal();
   }
@@ -335,9 +239,6 @@ class TwentyOneGame {
       console.clear();
       this.displayDealerRoundHand();
       if (this.dealer.isBusted()) {
-        //console.log(`${this.dealer.name} busted, ${this.calcOpposingPlayer(this.dealer)} won`);
-        // this.displayBustedOutcome(this.dealer);
-        // this.processRoundMoney(this.calcOpposingPlayer(this.dealer));
         this.bustedPlayer = 'Dealer';
         break;
       }
@@ -354,7 +255,7 @@ class TwentyOneGame {
 
   displayResult() {
     if (this.matchOutcome === 'win') {
-      console.log('Player won the match!\n');
+      console.log('***Player won the match!***\n');
     } else if (this.matchOutcome === 'loss') {
       console.log('Player lost the match :(\n');
     }
@@ -364,17 +265,6 @@ class TwentyOneGame {
     return currPlayer.name === 'Player' ? 'Dealer' : 'Player';
   }
 
-  // playOneRound() { // older version, get rid
-  //   this.playerTurn();
-  //   if (!this.player.isBusted()) {
-  //     this.dealerTurn();
-  //     if (!this.dealer.isBusted()) {
-  //      // this.calcRoundOutcome();
-  //       //console.log('output of calcRoundOutcome:', this.calcRoundOutcome()); // for debugging
-  //       this.processRoundMoney(this.calcRoundOutcome());
-  //     }
-  //   }
-  // }
 
   playOneRound() {
     this.dealCards();
@@ -397,15 +287,10 @@ class TwentyOneGame {
       this.displayBustedOutcome(this.player);
       this.processRoundMoney(this.calcOpposingPlayer(this.player));
     }
-    // console.log('end of playOneRound, player\'s hand:\n', this.player.displayHand()); //debugging
-    // console.log('end of playOneRound, player hand total is', this.player.calcHandTotal()); //debugging
-    // console.log('end of playOneRound, dealer\'s hand:\n', this.dealer.displayHand());//debugging
-    // console.log('end of playOneRound, dealer hand total is', this.dealer.calcHandTotal()); //debugging
-    
+
+
     this.displayRoundMoney();
-    // this.clearBothHands();
-    // this.bustedPlayer = null;
-    // this.deck = new Deck();
+
   }
 
   calcRoundOutcome() { //if nobody busts during a round
@@ -420,8 +305,6 @@ class TwentyOneGame {
 
   displayBustedOutcome(participant) {
     console.log(`${participant.name} busted, ${this.calcOpposingPlayer(participant)} won\n`);
-    // console.log('busted calc hand total is', participant.calcHandTotal()); // debugging
-    // console.log('busted hand total property is', participant.handTotal); // debugging
 
   }
 
@@ -441,7 +324,7 @@ class TwentyOneGame {
   }
 
   processRoundMoney(outcome) {
-    //STUB
+
     if (outcome === 'Player') {
       this.player.money += TwentyOneGame.ROUND_MONEY;
     } else if (outcome === 'Dealer') {
@@ -450,7 +333,7 @@ class TwentyOneGame {
   }
 
   playMatch() {
-    //STUB
+
     console.clear();
 
     let answer;
@@ -471,26 +354,17 @@ class TwentyOneGame {
 
       if (answer === 'n') break;
 
-      }
-
-      
-      
     }
 
-     detectMatchWon() {
-    //STUB
+
   }
 
-  detectMatchLost() {
-    //STUB
-  }
 
-   detectMatchOutcome() {
-    //STUB
-    //this would be used instead of `detectMatchWon` or `detectMatchLost`
-    if (this.player.money === 0) {
+  detectMatchOutcome() {
+
+    if (this.player.money === TwentyOneGame.LOSING_SUM) {
       this.matchOutcome = 'loss';
-    } else if (this.player.money === 10) {
+    } else if (this.player.money === TwentyOneGame.WINNING_SUM) {
       this.matchOutcome = 'win';
     }
   }
@@ -510,9 +384,8 @@ class TwentyOneGame {
     this.deck = new Deck();
   }
 
-  }
+}
 
- 
 
 let game = new TwentyOneGame();
 
