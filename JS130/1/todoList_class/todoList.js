@@ -74,38 +74,66 @@ class TodoList {
   }
 
   markDoneAt(index) {
-    this._validateIndex(index);
-    //needs to be fleshed out
+    this.itemAt(index).markDone();
 
   }
 
   markUndoneAt(index) {
-    //STUB
+    this.itemAt(index).markUndone();
+  }
+
+  isDone() {
+    return this.todos.every(todo => todo.isDone());
+  }
+
+  shift() {
+    return this.todos.shift();
+  }
+
+  pop() {
+    return this.todos.pop();
+  }
+
+  removeAt(index) {
+    this._validateIndex(index);
+    return this.todos.splice(index, 1);
+  }
+
+  toString() {
+    let str = '---- Today\'s Todos ---- \n';
+    this.todos.forEach(todo => str += `${todo.toString()} \n`);
+    return str;
+  }
+
+  forEach(callbackFn) {
+    for (let idx = 0; idx < this.size(); idx++) {
+      let currElem = this.todos[idx];
+      callbackFn(currElem);
+    }
   }
 
 }
 
-let list = new TodoList("Today's Todos");
+//let list = new TodoList("Today's Todos");
 //console.log(list);
 
+let emptyList = new TodoList("Empty List");
 
 let todo1 = new Todo("Buy milk");
 let todo2 = new Todo("Clean room");
 let todo3 = new Todo("Go to the gym");
 let todo4 = new Todo("Go shopping");
+let todo5 = new Todo("Feed the cats");
+let todo6 = new Todo("Study for Launch School");
+let list = new TodoList("Today's Todos");
 
 list.add(todo1);
 list.add(todo2);
 list.add(todo3);
 list.add(todo4);
+list.add(todo5);
+list.add(todo6);
 
+list.forEach(todo => console.log(todo.toString()));
 
-// Omitted code
-
-// Omitted code
-
-console.log(list.itemAt(1)); // delete this line after testing it
-
-
-let emptyList = new TodoList("Empty List");
 
