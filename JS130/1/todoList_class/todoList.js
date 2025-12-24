@@ -112,6 +112,16 @@ class TodoList {
     }
   }
 
+  filter(callbackFn) {
+
+    let filtArr = [];
+    for (let idx = 0; idx < this.size(); idx++) {
+      let currElem = this.todos[idx];
+      if (callbackFn(currElem)) filtArr.push(currElem);
+    }
+    return filtArr;
+  }
+
 }
 
 //let list = new TodoList("Today's Todos");
@@ -133,7 +143,10 @@ list.add(todo3);
 list.add(todo4);
 list.add(todo5);
 list.add(todo6);
+todo1.markDone();
+todo5.markDone();
 
-list.forEach(todo => console.log(todo.toString()));
+let doneTodos = list.filter(todo => todo.isDone());
+console.log(doneTodos);
 
-
+//try and use the forEach method from the TodoList class in the filter method
