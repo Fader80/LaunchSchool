@@ -112,13 +112,23 @@ class TodoList {
     }
   }
 
-  filter(callbackFn) {
+  // filter(callbackFn) { // my version, deprecated
 
+  //   let filtArr = [];
+  //   for (let idx = 0; idx < this.size(); idx++) {
+  //     let currElem = this.todos[idx];
+  //     if (callbackFn(currElem)) filtArr.push(currElem);
+  //   }
+  //   return filtArr;
+  // }
+
+  filter(callbackFn) {
     let filtArr = [];
-    for (let idx = 0; idx < this.size(); idx++) {
-      let currElem = this.todos[idx];
-      if (callbackFn(currElem)) filtArr.push(currElem);
-    }
+    this.forEach(todo => {
+      if (callbackFn(todo)) {
+        filtArr.push(todo);
+      }
+    });
     return filtArr;
   }
 
@@ -149,4 +159,5 @@ todo5.markDone();
 let doneTodos = list.filter(todo => todo.isDone());
 console.log(doneTodos);
 
-//try and use the forEach method from the TodoList class in the filter method
+//need to amend `filter` so it returns a new `TodoList` object
+//how...create a new list inside the method?
