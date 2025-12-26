@@ -123,13 +123,15 @@ class TodoList {
   // }
 
   filter(callbackFn) {
-    let filtArr = [];
+    let filteredList = new this.constructor(this.title);
+
     this.forEach(todo => {
       if (callbackFn(todo)) {
-        filtArr.push(todo);
+        filteredList.add(todo);
       }
     });
-    return filtArr;
+
+    return filteredList;
   }
 
 }
@@ -157,7 +159,9 @@ todo1.markDone();
 todo5.markDone();
 
 let doneTodos = list.filter(todo => todo.isDone());
-console.log(doneTodos);
+//console.log(doneTodos);
 
 //need to amend `filter` so it returns a new `TodoList` object
 //how...create a new list inside the method?
+
+console.log(list.filter(todo => todo.isDone()).first());
