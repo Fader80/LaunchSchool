@@ -112,7 +112,7 @@ class TodoList {
     }
   }
 
-  // filter(callbackFn) { // my version, deprecated
+  // filter(callbackFn) { //my original own version, deprecated
 
   //   let filtArr = [];
   //   for (let idx = 0; idx < this.size(); idx++) {
