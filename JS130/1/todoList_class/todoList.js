@@ -134,10 +134,54 @@ class TodoList {
     return filteredList;
   }
 
+  findByTitle(title) {
+
+    let filteredList = this.filter(todoItem => {
+      return todoItem.getTitle() === title;
+    });
+
+    return filteredList.first();
+  }
+
+  allDone() {
+    let filteredList = this.filter(todoItem => {
+      return todoItem.isDone();
+    });
+
+    return filteredList;
+  }
+
+  allNotDone() {
+    let filteredList = this.filter(todoItem => {
+      return !(todoItem.isDone());
+    });
+
+    return filteredList;
+  }
+
+  markDone(title) {
+    let firstTodo = this.findByTitle(title);
+    if (firstTodo) firstTodo.markDone();
+  }
+
+  markAllDone() {
+    this.forEach(todo => {
+      todo.markDone();
+    });
+  }
+
+  markAllUndone() {
+    this.forEach(todo => {
+      todo.markUndone();
+    });
+  }
+
+  toArray() {
+    return this.todos.slice();
+  }
+
 }
 
-//let list = new TodoList("Today's Todos");
-//console.log(list);
 
 let emptyList = new TodoList("Empty List");
 
@@ -158,10 +202,11 @@ list.add(todo6);
 todo1.markDone();
 todo5.markDone();
 
-let doneTodos = list.filter(todo => todo.isDone());
-//console.log(doneTodos);
+//let doneTodos = list.filter(todo => todo.isDone());
+list.markAllUndone();
+// console.log(list);
+// let todosCopy = list.toArray();
+// console.log(todosCopy);
 
-//need to amend `filter` so it returns a new `TodoList` object
-//how...create a new list inside the method?
-
-console.log(list.filter(todo => todo.isDone()).first());
+let test = list.findByTitle('Clean room');
+console.log(test);
