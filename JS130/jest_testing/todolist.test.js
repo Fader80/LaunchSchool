@@ -44,7 +44,7 @@ describe('TodoList', () => {
   })
 
   test('list.pop should return todo3, and list.todos should have the last element missing', () => {
-    expect(list.pop()).toBe(todo3);
+    expect(list.pop()).toEqual(todo3); // this was changed from toBe
     expect(list.todos).toEqual([todo1, todo2]);
   })
 
@@ -56,8 +56,19 @@ describe('TodoList', () => {
     expect(() => list.add('non-object')).toThrow(TypeError);
   })
 
-  test('Reference error occurs if out of bounds index is passed to list.itemAt', () => {
+  test('list.itemAt should return todo at specified index, also Reference error occurs if out of bounds index is passed', () => {
+    expect(list.itemAt(0)).toEqual(todo1);
     expect(() => list.itemAt(3)).toThrow(ReferenceError);
+  })
+
+  test(' list.markDoneAt should make `done` property `true` for given element, and  Reference error occurs if out of bounds index is passed', () => {
+    //need to supply the first test
+
+    expect(() => list.markDoneAt(3)).toThrow(ReferenceError);
+  })
+
+  test('list.markUndoneAt should make `done` property `false` for the given element of list.todos', () => {
+
   })
 
 
