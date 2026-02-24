@@ -61,16 +61,90 @@ describe('TodoList', () => {
     expect(() => list.itemAt(3)).toThrow(ReferenceError);
   })
 
-  test(' list.markDoneAt should make `done` property `true` for given element, and  Reference error occurs if out of bounds index is passed', () => {
-    //need to supply the first test
-
+  test(' list.markDoneAt should make `done` property `true` for given element, and Reference error occurs if out of bounds index is passed', () => {
+    
+    list.markDoneAt(1);
+    
+    expect(list.todos[0].done).toBe(false);
+    expect(list.todos[1].done).toBe(true);
+    expect(list.todos[2].done).toBe(false);
     expect(() => list.markDoneAt(3)).toThrow(ReferenceError);
   })
 
-  test('list.markUndoneAt should make `done` property `false` for the given element of list.todos', () => {
+  test('list.markUndoneAt should make `done` property `false` for the given element of list.todos, and Reference Error occurs if out of bounds index passed', () => {
+    list.todos.forEach(todo => todo.done = true);
+    
+    list.markUndoneAt(1);
+    
+    expect(todo1.done).toBe(true);
+    expect(todo2.done).toBe(false);
+    expect(todo3.done).toBe(true);
+    expect(() => list.markUndoneAt(3)).toThrow(ReferenceError);
 
   })
 
+  test('list.markAllDone should change the `done` property of all todos to `true`', () => {
+    list.markAllDone();
+    expect(todo1.done).toBe(true);
+    expect(todo2.done).toBe(true);
+    expect(todo3.done).toBe(true);
+  })
+
+  test('list.removeAt removes the todo at specified index, and throws Error if out of bounds index passed', () => {
+    list.removeAt(1);
+    expect(list.todos).toEqual([todo1, todo3]);
+    expect(() => list.removeAt(3)).toThrow(ReferenceError);
+  })
+
+  test('toString returns string representation of the list', () => {
+    let string = `---- Today's Todos ----
+[ ] Buy milk
+[ ] Clean room
+[ ] Go to the gym`;
+
+     expect(list.toString()).toBe(string);
+  })
+
+  test('toString returns string representation of list when a todo is done', () => {
+    
+    //todo1.done = true;
+    list.markDoneAt(0);
+
+    let string = `---- Today's Todos ----
+[X] Buy milk
+[ ] Clean room
+[ ] Go to the gym`;
+    
+    
+    expect(list.toString()).toBe(string);
+  })
+
+  test('toString returns string representation of list when all todos are done', () => {
+    
+    list.markAllDone();
+    let string = `---- Today's Todos ----
+[X] Buy milk
+[X] Clean room
+[X] Go to the gym`;
+
+  expect(list.toString()).toBe(string);
+  })
+
+  test('forEach should iterate over each of the todos of list', () => {
+    let counter = 0;
+    list.forEach(todo => counter++);
+
+    expect(counter).toBe(3);
+
+  })
+
+   test('filter should select only todos that match the criterion', () => {
+    list.markDoneAt(1);
+    let filtList = list.filter(todo => todo.isDone());
+    console.log('filtList is', filtList.todos);
+
+    expect(filtList.todos).toEqual([todo2]);
+  })
 
   
 });
