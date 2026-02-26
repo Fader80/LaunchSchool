@@ -141,9 +141,10 @@ describe('TodoList', () => {
    test('filter should select only todos that match the criterion', () => {
     list.markDoneAt(1);
     let filtList = list.filter(todo => todo.isDone());
-    console.log('filtList is', filtList.todos);
-
-    expect(filtList.todos).toEqual([todo2]);
+    
+    
+    expect(filtList).toBeInstanceOf(TodoList);
+    expect(filtList.toArray()).toEqual([todo2]);
   })
 
   
