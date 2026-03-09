@@ -1,7 +1,7 @@
 
 const Triangle = require("./triangle");
 
-let triangle1 = new Triangle(2, 3, 5);
+let triangle1 = new Triangle(5, 5, 5);
 
 //console.log(triangle1);
 
@@ -13,6 +13,8 @@ function triangles(triangleArg) {
   for (let side in triangleArg) {
     sidesArr.push(triangleArg[side]);
   }
+
+  if (!triangleValidityHelper(sidesArr)) return 'invalid triangle';
 
   let matchedSides = 0;
 
@@ -34,9 +36,7 @@ function triangles(triangleArg) {
 
 }
 
-triangles(triangle1);
-
-
+//console.log(triangles(triangle1)); debugging
 
 
 function triangleValidityHelper(arr) { // helper function
