@@ -12,7 +12,7 @@ class Triangle {
 
   validityHelper() {
     if (this.sidesArr.some(elem => typeof elem !== 'number')) return false; // my own edge case
-    if (this.sidesArr.some(num => num < 1)) return false;
+    if (this.sidesArr.some(num => num <= 0)) return false;
 
     for (let idx = 0; idx < this.sidesArr.length; idx++) {
       let currElem = this.sidesArr[idx];
