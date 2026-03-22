@@ -11,7 +11,7 @@ class Dna {
  }
   hammingDistance(strand2) {
 
-    if (typeof strand1 !== 'string') {
+    if (typeof strand2 !== 'string') {
       throw new TypeError('input must be a string');
     }
 
