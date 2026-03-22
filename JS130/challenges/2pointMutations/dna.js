@@ -44,6 +44,6 @@ class Dna {
   let myDNA = new Dna('GAGCCTACTAACGGGAT');
 
 
-console.log(myDNA.hammingDistance('CATCGTAATGACGGCCT'));
+//console.log(myDNA.hammingDistance('CATCGTAATGACGGCCT'));
 
 module.exports = Dna;

@@ -3,7 +3,6 @@ const Dna = require("./dna");
 
 
 
-
 describe('tests to see that Dna class is functioning', () => {
 
 
@@ -60,6 +59,21 @@ describe('tests to see that Dna class is functioning', () => {
   test('works if both strands are empty', () => {
     let myDna = new Dna('');
     expect(myDna.hammingDistance('')).toBe(0);
+  })
+
+  test('works if strand from constructor is longer than strand from method', () => {
+    let myDna = new Dna('CCGATCGTTCC');
+    expect(myDna.hammingDistance('CCGAT')).toBe(0);
+    expect(myDna.hammingDistance('CCGCTC')).toBe(1);
+    expect(myDna.hammingDistance('CAGCTCGT')).toBe(2);
+  })
+
+  test('works if strand from the constructor is shorter than strand from method', () => {
+    let myDna = new Dna('CCGATCA');
+    expect(myDna.hammingDistance('CCGATCACGTTCG')).toBe(0);
+    expect(myDna.hammingDistance('CTGATCACGTTCGATG')).toBe(1);
+    expect(myDna.hammingDistance('GTGATCACGTTCGATGGC')).toBe(2);
+
   })
   
 }) 
