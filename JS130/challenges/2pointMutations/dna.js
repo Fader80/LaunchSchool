@@ -1,6 +1,6 @@
 class Dna {
   constructor(strand1) {
-    this.strand1 = strand1;
+    
     if (typeof strand1 !== 'string') {
       throw new TypeError('input must be a string');
     }
@@ -8,6 +8,7 @@ class Dna {
     if (/[^ ACGT]/.test(strand1)) {
     throw new TypeError('invalid character/s in supplied string - must be  A,C,G,T or space');
   }
+  this.strand1 = strand1;
  }
   hammingDistance(strand2) {
 
