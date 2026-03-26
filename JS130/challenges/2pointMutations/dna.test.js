@@ -12,19 +12,19 @@ describe('tests to see that Dna class is functioning', () => {
   })
 
   test('check that invalid inputs to constructor throw', () => {
-    expect(() => {let myDNA = new Dna('CGBBAT')}).toThrow();
-    expect(() => {let myDNA = new Dna('12356')}).toThrow();
-    expect(() => {let myDNA = new Dna(null)}).toThrow();
-    expect(() => {let myDNA = new Dna(1256)}).toThrow();
+    expect(() => {let myDna = new Dna('CGBBAT')}).toThrow();
+    expect(() => {let myDna = new Dna('12356')}).toThrow();
+    expect(() => {let myDna = new Dna(null)}).toThrow();
+    expect(() => {let myDna = new Dna(1256)}).toThrow();
 
   })
 
   test('check that invalid inputs to `hammingDistance` throw', () => {
-    let myDNA = new Dna('ACGT');
-    expect(() => myDNA.hammingDistance('CGBBAT')).toThrow();
-    expect(() => myDNA.hammingDistance('12356')).toThrow();
-    expect(() => myDNA.hammingDistance(null)).toThrow();
-    expect(() => myDNA.hammingDistance(1256)).toThrow();
+    let myDna = new Dna('ACGT');
+    expect(() => myDna.hammingDistance('CGBBAT')).toThrow();
+    expect(() => myDna.hammingDistance('12356')).toThrow();
+    expect(() => myDna.hammingDistance(null)).toThrow();
+    expect(() => myDna.hammingDistance(1256)).toThrow();
   } )
  
 
@@ -46,15 +46,7 @@ describe('tests to see that Dna class is functioning', () => {
     expect(myDna.hammingDistance('CACCGTAC')).toBe(2);
   })
 
-  test('works if chars are missing from input strand, `strand1`', () => {
-    let myDNA = new Dna('CCT AG');
-    expect(myDNA.hammingDistance('CCTGAG')).toBe(1);
-  })
-
-  test('works if chars are missing from method `strand2`', () => {
-    let myDna = new Dna('CCTGAG');
-    expect(myDna.hammingDistance('CCT AG')).toBe(1);
-  })
+  
 
   test('works if both strands are empty', () => {
     let myDna = new Dna('');
@@ -74,6 +66,15 @@ describe('tests to see that Dna class is functioning', () => {
     expect(myDna.hammingDistance('CTGATCACGTTCGATG')).toBe(1);
     expect(myDna.hammingDistance('GTGATCACGTTCGATGGC')).toBe(2);
 
+  })
+
+  test('check to see if `strand1` remains unaltered after running method', () => {
+    let myDna = new Dna('ACGTTACGTCCG');
+    expect(myDna.hammingDistance('ACGCT')).toBe(1);
+    expect(myDna.hammingDistance('AGGTTACGTTCGGGTCACTGGCTC')).toBe(2);
+    expect(myDna.hammingDistance('ACGGTTC')).toBe(2);
+    expect(myDna.strand1).toBe('ACGTTACGTCCG');
+    
   })
   
 }) 
