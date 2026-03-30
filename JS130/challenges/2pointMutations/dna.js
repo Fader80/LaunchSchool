@@ -39,7 +39,7 @@ class Dna {
   for (let idx = 0; idx < strand1Sub.length; idx++) {
     let currElem1 = strand1Sub[idx];
     let currElem2 = strand2[idx];
-    if (currElem1 !== currElem2) distance++
+    if (currElem1 !== currElem2) distance++;
   }
   
   return distance;
