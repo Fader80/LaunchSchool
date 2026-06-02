@@ -25,7 +25,7 @@ let numeralStringArr = [];
 
 for (let idx = numberChunkArr.length - 1; idx >= 0; idx--) {
     
-  let [currChunkName, currChunkNum, currChunkReps] = [...numberChunkArr[idx]];
+  let [currChunkName, currChunkReps] = [...numberChunkArr[idx]];
   if (currChunkReps === 4) {
     let prevChunk = numberChunkArr[idx - 1];
     let prevPrevChunk = numberChunkArr[idx - 2];
@@ -48,9 +48,5 @@ for (let idx = numberChunkArr.length - 1; idx >= 0; idx--) {
 
   }
 }
-
- let number = new RomanNumeral(3000);
-
-console.log(number.toRoman());
 
 module.exports = RomanNumeral;
