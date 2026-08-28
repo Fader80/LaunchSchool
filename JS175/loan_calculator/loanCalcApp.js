@@ -6,8 +6,27 @@ const PORT = 3000;
 const APR = 5;
 
 
+const HTML_START = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Loan Calculator</title>
+  </head>
+  <body>
+    <article>
+      <h1>Loan Calculator</h1>
+      <table>
+        <tbody>`;
 
-//let monthlyPayment = loanAmount * (monthlyInterestRate / (1 - Math.pow((1 + monthlyInterestRate), (-loanDurationYears))));
+const HTML_END = `
+        </tbody>
+      </table>
+    </article>
+  </body>
+</html>`;
+
+
 
 function getParams(path) {
   const myURL = new URL(path, `http://localhost:${PORT}`);
@@ -35,11 +54,14 @@ function parseParams(params) {
 
   monthlyPayment = monthlyPayment.toFixed(2);
 
-  return {
-    loanAmount: loanAmount,
-    loanDurationYears: loanDurationYears,
-    monthlyPayment: monthlyPayment
-  };
+
+
+    let content = `<tr><th>Amount:</th><td>$${loanAmount}</td></tr>
+                 <tr><th>Duration:</th><td>${loanDurationYears} years</td></tr>
+                 <tr><th>APR:</th><td>${APR}%</td></tr>
+                 <tr><th>Monthly payment:</th><td>$${monthlyPayment}</td></tr>`;
+
+  return `${HTML_START}${content}${HTML_END}`;
 
 }
 
@@ -54,16 +76,20 @@ const SERVER = HTTP.createServer((req, res) => {
     res.end();
     
    } else {    
-    //let content = rollDice(getParams(path));
+    
     let content = parseParams(getParams(path));
 
     res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain'); 
-    res.write(`Amount: $${content.loanAmount}\n`);    
-    res.write(`Duration: ${content.loanDurationYears} years\n`);    
-    res.write(`APR: ${APR}%\n`);    
-    res.write(`Monthly payment: $${content.monthlyPayment}\n`);    
-    //res.write(`${method} ${path}\n`);
+    res.setHeader('Content-Type', 'text/html'); 
+    // res.write(`Amount: $${results.loanAmount}\n`);    
+    // res.write(`Duration: ${results.loanDurationYears} years\n`);    
+    // res.write(`APR: ${APR}%\n`);    
+    // res.write(`Monthly payment: $${results.monthlyPayment}\n`);
+    res.write(`${content}\n`);
+
+
+    
+    
     res.end();
    }
 });
@@ -73,7 +99,6 @@ SERVER.listen(PORT, () => {
 })
 
 
-//need to calculate the loan duration in months - and plug that in on line 24
 
 
 //http://localhost:3000/?amount=5000&duration=10
