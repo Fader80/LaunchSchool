@@ -131,15 +131,9 @@ const SERVER = HTTP.createServer((req, res) => {
     let content = parseParams(getParams(path));
 
     res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html'); 
-    // res.write(`Amount: $${results.loanAmount}\n`);    
-    // res.write(`Duration: ${results.loanDurationYears} years\n`);    
-    // res.write(`APR: ${APR}%\n`);    
-    // res.write(`Monthly payment: $${results.monthlyPayment}\n`);
+    res.setHeader('Content-Type', 'text/html');   
     res.write(`${content}\n`);
-
-
-    
+   
     
     res.end();
    }
@@ -154,4 +148,3 @@ SERVER.listen(PORT, () => {
 
 //http://localhost:3000/?amount=5000&duration=10
 
-//why is monthly payment showing up as NaN?
