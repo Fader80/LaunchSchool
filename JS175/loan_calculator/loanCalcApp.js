@@ -12,6 +12,33 @@ const HTML_START = `
   <head>
     <meta charset="utf-8">
     <title>Loan Calculator</title>
+    <style type="text/css">
+      body {
+        background: rgba(250, 250, 250);
+        font-family: sans-serif;
+        color: rgb(50, 50, 50);
+      }
+
+      article {
+        width: 100%;
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        text-align: center;
+      }
+
+      table {
+        font-size: 2rem;
+      }
+
+      th {
+        text-align: right;
+      }
+    </style>
   </head>
   <body>
     <article>
@@ -42,8 +69,8 @@ function calcMonthlyInterestFromAPR(APR) {
 
 
 function parseParams(params) {
-  let loanAmount = params.get('amount');
-  let loanDurationYears = params.get('duration');
+  let loanAmount = Number(params.get('amount')) || 1600;
+  let loanDurationYears = Number(params.get('duration')) ||5;
   
   let loanMonths = loanDurationYears * 12;
 
@@ -56,10 +83,34 @@ function parseParams(params) {
 
 
 
-    let content = `<tr><th>Amount:</th><td>$${loanAmount}</td></tr>
-                 <tr><th>Duration:</th><td>${loanDurationYears} years</td></tr>
-                 <tr><th>APR:</th><td>${APR}%</td></tr>
-                 <tr><th>Monthly payment:</th><td>$${monthlyPayment}</td></tr>`;
+    let content = `<tr>
+    <th>Amount:</th>
+    <td>
+      <a href='/?amount=${loanAmount - 100}&duration=${loanDurationYears}'>- $100</a>
+    </td>
+    <td>$${loanAmount}</td>
+    <td>
+      <a href='/?amount=${loanAmount + 100}&duration=${loanDurationYears}'>+ $100</a>
+    </td>
+  </tr>
+  <tr>
+    <th>Duration:</th>
+    <td>
+      <a href='/?amount=${loanAmount}&duration=${loanDurationYears -1}'>- 1 year</a>
+    </td>
+    <td>${loanDurationYears} years</td>
+    <td>
+      <a href='/?amount=${loanAmount}&duration=${loanDurationYears +1}'>+ 1 year</a>
+    </td>
+  </tr>
+  <tr>
+    <th>APR:</th>
+    <td colspan='3'>${APR}%</td>
+  </tr>
+  <tr>
+    <th>Monthly payment:</th>
+    <td colspan='3'>$${monthlyPayment}</td>
+  </tr>`;
 
   return `${HTML_START}${content}${HTML_END}`;
 
@@ -102,3 +153,5 @@ SERVER.listen(PORT, () => {
 
 
 //http://localhost:3000/?amount=5000&duration=10
+
+//why is monthly payment showing up as NaN?
