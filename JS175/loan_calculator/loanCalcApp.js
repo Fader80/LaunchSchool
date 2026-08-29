@@ -119,7 +119,7 @@ function parseParams(params) {
 
 
 const SERVER = HTTP.createServer((req, res) => {
-  let method = req.method;
+  //let method = req.method;
   let path = req.url;
 
    if (path === '/favicon.ico') {
