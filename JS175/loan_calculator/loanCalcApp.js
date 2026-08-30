@@ -3,10 +3,10 @@
 const HTTP = require('http');
 const URL = require('url').URL;
 const PORT = 3000;
-const APR = 5;
+const HANDLEBARS = require('handlebars');
 
 
-const HTML_START = `
+const SOURCE = `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44,15 +44,49 @@ const HTML_START = `
     <article>
       <h1>Loan Calculator</h1>
       <table>
-        <tbody>`;
-
-const HTML_END = `
+        <tbody>
+        <tr>
+    <th>Amount:</th>
+    <td>
+      <a href='/?amount={{amountDecrement}}&duration={{loanDurationYears}}'>- $100</a>
+    </td>
+    <td>$ {{loanAmount}}</td>
+    <td>
+      <a href='/?amount={{amountIncrement}}&duration={{loanDurationYears}}'>+ $100</a>
+    </td>
+  </tr>
+  <tr>
+    <th>Duration:</th>
+    <td>
+      <a href='/?amount={{loanAmount}}&duration={{durationDecrement}}'>- 1 year</a>
+    </td>
+    <td>{{loanDurationYears}} years</td>
+    <td>
+      <a href='/?amount={{loanAmount}}&duration={{durationIncrement}}'>+ 1 year</a>
+    </td>
+  </tr>
+  <tr>
+    <th>APR:</th>
+    <td colspan='3'>{{apr}}%</td>
+  </tr>
+  <tr>
+    <th>Monthly payment:</th>
+    <td colspan='3'>$ {{monthlyPayment}}</td>
+  </tr>
         </tbody>
       </table>
     </article>
   </body>
-</html>`;
+</html>`
+;
 
+
+const LOAN_OFFER_TEMPLATE = HANDLEBARS.compile(SOURCE);
+
+function render(template, data) {
+  let html = template(data);
+  return html;
+}
 
 
 function getParams(path) {
@@ -67,54 +101,36 @@ function calcMonthlyInterestFromAPR(APR) {
   return monthyPeriodic;
 }
 
-
-function parseParams(params) {
-  let loanAmount = Number(params.get('amount')) || 1600;
-  let loanDurationYears = Number(params.get('duration')) ||5;
-  
+function calcLoanPayment(loanAmount, loanDurationYears, apr) {
+  let monthlyInterestRate = calcMonthlyInterestFromAPR(apr);
   let loanMonths = loanDurationYears * 12;
-
-  let monthlyInterestRate = calcMonthlyInterestFromAPR(APR);
-
   let monthlyPayment = loanAmount * 
   (monthlyInterestRate / (1 - Math.pow((1 + monthlyInterestRate), (-loanMonths))));
 
   monthlyPayment = monthlyPayment.toFixed(2);
 
-
-
-    let content = `<tr>
-    <th>Amount:</th>
-    <td>
-      <a href='/?amount=${loanAmount - 100}&duration=${loanDurationYears}'>- $100</a>
-    </td>
-    <td>$${loanAmount}</td>
-    <td>
-      <a href='/?amount=${loanAmount + 100}&duration=${loanDurationYears}'>+ $100</a>
-    </td>
-  </tr>
-  <tr>
-    <th>Duration:</th>
-    <td>
-      <a href='/?amount=${loanAmount}&duration=${loanDurationYears -1}'>- 1 year</a>
-    </td>
-    <td>${loanDurationYears} years</td>
-    <td>
-      <a href='/?amount=${loanAmount}&duration=${loanDurationYears +1}'>+ 1 year</a>
-    </td>
-  </tr>
-  <tr>
-    <th>APR:</th>
-    <td colspan='3'>${APR}%</td>
-  </tr>
-  <tr>
-    <th>Monthly payment:</th>
-    <td colspan='3'>$${monthlyPayment}</td>
-  </tr>`;
-
-  return `${HTML_START}${content}${HTML_END}`;
+  return monthlyPayment;
 
 }
+
+
+function parseParams(params) {
+  const APR = 5;
+  let data = {};
+
+  data.loanAmount = Number(params.get('amount')) || 1600;
+  data.amountIncrement = data.loanAmount + 100;
+  data.amountDecrement = data.loanAmount - 100;
+  data.loanDurationYears = Number(params.get('duration')) ||5;
+  data.durationIncrement = data.loanDurationYears + 1;
+  data.durationDecrement = data.loanDurationYears - 1;
+  data.apr = APR;
+  data.monthlyPayment = calcLoanPayment(data.loanAmount, data.loanDurationYears, APR);
+
+  return data;
+
+}
+
 
 
 
@@ -126,9 +142,9 @@ const SERVER = HTTP.createServer((req, res) => {
     res.statusCode = 404;
     res.end();
     
-   } else {    
-    
-    let content = parseParams(getParams(path));
+   } else {        
+    let data = parseParams(getParams(path));
+    let content = render(LOAN_OFFER_TEMPLATE, data);
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');   
