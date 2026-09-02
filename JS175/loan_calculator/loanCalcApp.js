@@ -46,21 +46,21 @@ const LOAN_OFFER_SOURCE = `
         <tr>
     <th>Amount:</th>
     <td>
-      <a href='/?amount={{amountDecrement}}&duration={{loanDurationYears}}'>- $100</a>
+      <a href='/loan-offer?amount={{amountDecrement}}&duration={{loanDurationYears}}'>- $100</a>
     </td>
     <td>$ {{loanAmount}}</td>
     <td>
-      <a href='/?amount={{amountIncrement}}&duration={{loanDurationYears}}'>+ $100</a>
+      <a href='/loan-offer?amount={{amountIncrement}}&duration={{loanDurationYears}}'>+ $100</a>
     </td>
   </tr>
   <tr>
     <th>Duration:</th>
     <td>
-      <a href='/?amount={{loanAmount}}&duration={{durationDecrement}}'>- 1 year</a>
+      <a href='/loan-offer?amount={{loanAmount}}&duration={{durationDecrement}}'>- 1 year</a>
     </td>
     <td>{{loanDurationYears}} years</td>
     <td>
-      <a href='/?amount={{loanAmount}}&duration={{durationIncrement}}'>+ 1 year</a>
+      <a href='/loan-offer?amount={{loanAmount}}&duration={{durationIncrement}}'>+ 1 year</a>
     </td>
   </tr>
   <tr>
@@ -185,7 +185,7 @@ function calcLoanPayment(loanAmount, loanDurationYears, apr) {
 
 
 function parseParams(params) {
-  const APR = 5;
+  //const APR = 5;
   let data = {};
 
   data.loanAmount = Number(params.get('amount')) || 1600;
