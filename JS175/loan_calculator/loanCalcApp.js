@@ -1,12 +1,10 @@
-
-
 const HTTP = require('http');
 const URL = require('url').URL;
 const PORT = 3000;
 const HANDLEBARS = require('handlebars');
+const APR = 5;
 
-
-const SOURCE = `
+const LOAN_OFFER_SOURCE = `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -80,8 +78,75 @@ const SOURCE = `
 </html>`
 ;
 
+const LOAN_FORM_SOURCE = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Loan Calculator</title>
+    <style type="text/css">
+      body {
+        background: rgba(250, 250, 250);
+        font-family: sans-serif;
+        color: rgb(50, 50, 50);
+      }
 
-const LOAN_OFFER_TEMPLATE = HANDLEBARS.compile(SOURCE);
+      article {
+        width: 100%;
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        text-align: center;
+      }
+
+      form,
+      input {
+        font-size: 1.5rem;
+      }
+      form p {
+        text-align: center;
+      }
+      label,
+      input {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      input[type="submit"] {
+        width: auto;
+        margin: 1rem auto;
+        cursor: pointer;
+        color: #fff;
+        background-color: #01d28e;
+        border: none;
+        border-radius: 0.3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <article>
+      <h1>Loan Calculator</h1>
+      <form action="/loan-offer" method="get">
+        <p>All loans are offered at an APR of {{apr}}%.</p>
+        <label for="amount">How much do you want to borrow (in dollars)?</label>
+        <input type="number" name="amount" id="amount" value="">
+        <label for="duration">How much time do you want to pay back your loan?</label>
+        <input type="number" name="duration" id="duration" value="">
+        <input type="submit" name="" value="Get loan offer!">
+      </form>
+    </article>
+  </body>
+</html>
+`;
+
+
+const LOAN_OFFER_TEMPLATE = HANDLEBARS.compile(LOAN_OFFER_SOURCE);
+const LOAN_FORM_TEMPLATE = HANDLEBARS.compile(LOAN_FORM_SOURCE);
+
 
 function render(template, data) {
   let html = template(data);
@@ -92,6 +157,11 @@ function render(template, data) {
 function getParams(path) {
   const myURL = new URL(path, `http://localhost:${PORT}`);
   return myURL.searchParams;
+}
+
+function getPathName(path) {
+  const myURL = new URL(path, `http://localhost:${PORT}`);
+  return myURL.pathname;
 }
 
 
@@ -137,21 +207,26 @@ function parseParams(params) {
 const SERVER = HTTP.createServer((req, res) => {
   //let method = req.method;
   let path = req.url;
+  let pathname = getPathName(path);
 
-   if (path === '/favicon.ico') {
-    res.statusCode = 404;
-    res.end();
-    
-   } else {        
+   if (pathname === '/') {
+    let content = render(LOAN_FORM_TEMPLATE, {apr: APR});
+
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html');
+    res.write(`${content}\n`);
+    res.end();    
+   } else if (pathname === '/loan-offer') {        
     let data = parseParams(getParams(path));
     let content = render(LOAN_OFFER_TEMPLATE, data);
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/html');   
     res.write(`${content}\n`);
-   
-    
     res.end();
+   } else {
+     res.statusCode = 404;
+     res.end();
    }
 });
 
