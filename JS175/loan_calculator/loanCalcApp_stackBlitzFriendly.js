@@ -1,5 +1,6 @@
 const HTTP = require('http');
 const URL = require('url').URL;
+const QUERYSTRING = require('querystring');
 const PATH = require('path');
 const FS = require('fs');
 const PORT = 3000;
@@ -71,7 +72,7 @@ const LOAN_FORM_SOURCE = `<!DOCTYPE html>
   <body>
     <article>
       <h1>Loan Calculator</h1>
-      <form action="/loan-offer" method="get">
+      <form action="/loan-offer" method="post">
         <p>All loans are offered at an APR of {{apr}}%.</p>
         <label for="amount">How much do you want to borrow (in dollars)?</label>
         <input type="number" name="amount" id="amount" value="">
@@ -92,9 +93,28 @@ function render(template, data) {
   return html;
 }
 
+function parseFormData(request, callback) {
+  let body = '';
+  request.on('data', chunk => {
+    body += chunk.toString();    
+  });
+  request.on('end', () => {
+    let data = QUERYSTRING.parse(body);
+    data.amount = Number(data.amount);
+    data.duration = Number(data.duration);
+    callback(data);
+  });
+
+}
+
 function getParams(path) {
   const myURL = new URL(path, `http://localhost:${PORT}`);
-  return myURL.searchParams;
+  let searchParams = myURL.searchParams;
+  let data = {};
+  data.amount = Number(searchParams.get('amount'));
+  data.duration = Number(searchParams.get('duration'));
+
+  return data;
 }
 
 function getPathName(path) {
@@ -121,14 +141,12 @@ function calcLoanPayment(loanAmount, loanDurationYears, apr) {
   return monthlyPayment;
 }
 
-function parseParams(params) {
-  //const APR = 5;
-  let data = {};
-
-  data.loanAmount = Number(params.get('amount')) || 1600;
+function createLoanOffer(data) {  
+  
+  //data.loanAmount = Number(params.get('amount'));
   data.amountIncrement = data.loanAmount + 100;
   data.amountDecrement = data.loanAmount - 100;
-  data.loanDurationYears = Number(params.get('duration')) || 5;
+  //data.loanDurationYears = Number(params.get('duration'));
   data.durationIncrement = data.loanDurationYears + 1;
   data.durationDecrement = data.loanDurationYears - 1;
   data.apr = APR;
@@ -162,14 +180,15 @@ const SERVER = HTTP.createServer((req, res) => {
     });
   } else {
     // 2. If it's not a static asset, handle your Handlebars template routes safely
-    if (pathname === '/') {
+    let method = req.method;
+    if (method === 'GET' && pathname === '/') {
       let content = render(LOAN_FORM_TEMPLATE, { apr: APR });
 
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/html');
       res.write(`${content}\n`);
       res.end();
-    } else if (pathname === '/loan-offer') {
+    } else if (method === 'GET' && pathname === '/loan-offer') {
       let data = parseParams(getParams(path));
       let content = render(LOAN_OFFER_TEMPLATE, data);
 
@@ -177,6 +196,16 @@ const SERVER = HTTP.createServer((req, res) => {
       res.setHeader('Content-Type', 'text/html');
       res.write(`${content}\n`);
       res.end();
+    } else if (method === 'POST' && pathname === '/loan-offer') {
+      parseFormData(req, parsedData => {
+        let data = createLoanOffer(parsedData);
+        let content = render(LOAN_OFFER_TEMPLATE, data);
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'text/html');
+        res.write(`${content}\n`);
+        res.end();
+      });
     } else {
       res.statusCode = 404;
       res.end();
