@@ -31,21 +31,21 @@ const LOAN_OFFER_SOURCE = `
         <tr>
     <th>Amount:</th>
     <td>
-      <a href='/loan-offer?amount={{amountDecrement}}&duration={{loanDurationYears}}'>- $100</a>
+      <a href='/loan-offer?amount={{amountDecrement}}&duration={{duration}}'>- $100</a>
     </td>
-    <td>$ {{loanAmount}}</td>
+    <td>$ {{amount}}</td>
     <td>
-      <a href='/loan-offer?amount={{amountIncrement}}&duration={{loanDurationYears}}'>+ $100</a>
+      <a href='/loan-offer?amount={{amountIncrement}}&duration={{duration}}'>+ $100</a>
     </td>
   </tr>
   <tr>
     <th>Duration:</th>
     <td>
-      <a href='/loan-offer?amount={{loanAmount}}&duration={{durationDecrement}}'>- 1 year</a>
+      <a href='/loan-offer?amount={{amount}}&duration={{durationDecrement}}'>- 1 year</a>
     </td>
-    <td>{{loanDurationYears}} years</td>
+    <td>{{duration}} years</td>
     <td>
-      <a href='/loan-offer?amount={{loanAmount}}&duration={{durationIncrement}}'>+ 1 year</a>
+      <a href='/loan-offer?amount={{amount}}&duration={{durationIncrement}}'>+ 1 year</a>
     </td>
   </tr>
   <tr>
@@ -144,19 +144,25 @@ function calcLoanPayment(loanAmount, loanDurationYears, apr) {
 function createLoanOffer(data) {  
   
   //data.loanAmount = Number(params.get('amount'));
-  data.amountIncrement = data.loanAmount + 100;
-  data.amountDecrement = data.loanAmount - 100;
+  data.amountIncrement = data.amount + 100;
+  data.amountDecrement = data.amount - 100;
   //data.loanDurationYears = Number(params.get('duration'));
-  data.durationIncrement = data.loanDurationYears + 1;
-  data.durationDecrement = data.loanDurationYears - 1;
+  data.durationIncrement = data.duration + 1;
+  data.durationDecrement = data.duration - 1;
   data.apr = APR;
   data.monthlyPayment = calcLoanPayment(
-    data.loanAmount,
-    data.loanDurationYears,
+    data.amount,
+    data.duration,
     APR
   );
 
   return data;
+}
+
+function getIndex(res) {
+  let content = render(LOAN_FORM_TEMPLATE, {apr: APR});
+
+  res.statusCode = 200;
 }
 
 const SERVER = HTTP.createServer((req, res) => {
@@ -189,7 +195,7 @@ const SERVER = HTTP.createServer((req, res) => {
       res.write(`${content}\n`);
       res.end();
     } else if (method === 'GET' && pathname === '/loan-offer') {
-      let data = parseParams(getParams(path));
+      let data = createLoanOffer(getParams(path));
       let content = render(LOAN_OFFER_TEMPLATE, data);
 
       res.statusCode = 200;
