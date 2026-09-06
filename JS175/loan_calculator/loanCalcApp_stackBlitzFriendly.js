@@ -1,19 +1,13 @@
 const HTTP = require('http');
 const URL = require('url').URL;
 const QUERYSTRING = require('querystring');
-const PATH = require('path');
-const FS = require('fs');
+const ROUTER = require('router');
+const FINALHANDLER = require('finalhandler');
+const SERVESTATIC = require('serve-static');
 const PORT = 3000;
 const HANDLEBARS = require('handlebars');
 const APR = 5;
 
-const MIME_TYPES = {
-  '.css': 'text/css',
-  '.js': 'application/javascript',
-  '.jpg': 'image/jpeg',
-  '.png': 'image/png',
-  '.ico': 'image/x-icon',
-};
 
 const LOAN_OFFER_SOURCE = `
 <!DOCTYPE html>
@@ -141,44 +135,42 @@ function calcLoanPayment(loanAmount, loanDurationYears, apr) {
   return monthlyPayment;
 }
 
-function createLoanOffer(data) {  
+function createLoanOffer(data) {    
   
-  //data.loanAmount = Number(params.get('amount'));
   data.amountIncrement = data.amount + 100;
   data.amountDecrement = data.amount - 100;
-  //data.loanDurationYears = Number(params.get('duration'));
+
   data.durationIncrement = data.duration + 1;
   data.durationDecrement = data.duration - 1;
   data.apr = APR;
-  data.monthlyPayment = calcLoanPayment(
-    data.amount,
-    data.duration,
-    APR
-  );
+  data.monthlyPayment = calcLoanPayment(data.amount, data.duration, APR);
 
   return data;
 }
 
-function getIndex(res) {
+let router = ROUTER();
+router.use(SERVESTATIC('public'));
+
+router.get('/', function (req, res) {
   let content = render(LOAN_FORM_TEMPLATE, {apr: APR});
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html');
   res.write(`${content}\n`);
   res.end();
-}
+});
 
-function getLoanOffer(res, path) {
-  let data = createLoanOffer(getParams(path));
+router.get('/loan-offer', function(req, res) {
+  let data = createLoanOffer(getParams(req.url));
   let content = render(LOAN_OFFER_TEMPLATE, data);
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html');
   res.write(`${content}\n`);
   res.end();
-}
+});
 
-function postLoanOffer(req, res) {
+router.post('/loan-offer', function(req, res) {
   parseFormData(req, parsedData => {
     let data = createLoanOffer(parsedData);
     let content = render(LOAN_OFFER_TEMPLATE, data);
@@ -188,41 +180,17 @@ function postLoanOffer(req, res) {
     res.write(`${content}\n`);
     res.end();
   })
-}
+});
+
+router.get('*', function(req, res) {
+  res.statusCode = 404;
+  res.end();
+})
+
+
 
 const SERVER = HTTP.createServer((req, res) => {
-  let path = req.url;
-  let pathname = getPathName(path);
-  let fileExtension = PATH.extname(pathname);
-  let filePath = `./public${pathname}`;
-
-  // 1. First check if a static file actually exists at this path (and isn't just a folder like '/')
-  if (fileExtension && FS.existsSync(filePath)) {
-    FS.readFile(filePath, (err, data) => {
-      if (err) {
-        res.statusCode = 500;
-        res.end();
-      } else {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', `${MIME_TYPES[fileExtension] || 'text/plain'}`);
-        res.write(data);
-        res.end();
-      }
-    });
-  } else {
-    // 2. If it's not a static asset, handle your Handlebars template routes safely
-    let method = req.method;
-    if (method === 'GET' && pathname === '/') { //start
-      getIndex(res);
-    } else if (method === 'GET' && pathname === '/loan-offer') {
-      getLoanOffer(res, path);
-    } else if (method === 'POST' && pathname === '/loan-offer') {
-      postLoanOffer(req, res);
-    } else { //end
-      res.statusCode = 404;
-      res.end();
-    }
-  }
+  router(req, res, FINALHANDLER(req, res));
 });
 
 
@@ -230,4 +198,4 @@ SERVER.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}...`);
 });
 
-//http://localhost:3000/?amount=5000&duration=10
+
