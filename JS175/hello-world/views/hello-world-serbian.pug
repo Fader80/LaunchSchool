@@ -1,14 +1,14 @@
-doctype html
+extends layout
 
-html
-  head
-    title Ово је наслов странице
-    meta(charset="UTF-8")
-    link(rel="stylesheet" href="/stylesheets/application.css")
+block software_engineer
+  p Ускоро ћу бити софтверски инжењер!
+  img(src="/images/earth.jpg"
+      alt="Планета Земља"
+      title="Планета Земља")
 
-  body
-    header
-      h1 Здраво свете!
-    main
-      p Ускоро ћу бити софтверски инжењер!
-      img(src="/images/earth.jpg" alt="Планета Земља" title="Планета Земља")
+block greeting
+  h1 Здраво свете!
+
+
+block page_title
+  title Ово је наслов странице
